@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LSL",
+    "LPL",
+    " T "
+  ],
+  "key": {
+    "L": {
+      "tag": "minecraft:planks"
+    },
+    "S": {
+      "tag": "minecraft:signs"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "T": {
+      "tag": "minecraft:sticks"
+    }
+  },
+  "result": {
+    "item": "cozy_contracts:community_board"
+  }
+}

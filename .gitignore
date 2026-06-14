@@ -1,0 +1,25 @@
+# Gradle and build outputs
+.gradle/
+build/
+out/
+
+# Minecraft development runs
+run/
+run-data/
+crash-reports/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Logs and JVM diagnostics
+*.log
+hs_err_pid*
+replay_pid*
+*.hprof
+
+# Operating system files
+.DS_Store
+Thumbs.db
