@@ -1,0 +1,15 @@
+{
+  "title": "Sweet Treats",
+  "requester": "Baker",
+  "category": "kitchen",
+  "difficulty": "EASY",
+  "weight": 25,
+  "reward_tokens": 6,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:cookie",
+    "count": 12,
+    "display_name": "Cookies"
+  },
+  "required_mods": []
+}

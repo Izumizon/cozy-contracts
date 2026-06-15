@@ -1,0 +1,15 @@
+{
+  "title": "Baker's Morning Rush",
+  "requester": "Baker",
+  "category": "kitchen",
+  "difficulty": "EASY",
+  "weight": 35,
+  "reward_tokens": 5,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:bread",
+    "count": 8,
+    "display_name": "Bread"
+  },
+  "required_mods": []
+}

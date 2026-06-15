@@ -61,24 +61,11 @@ public final class ContractSubmissionService {
             return false;
         }
 
-        if (!requirement.matches(heldStack)) {
+        if (!requirement.matches(heldStack) || heldStack.getCount() < requirement.getCount()) {
             player.sendSystemMessage(Component.literal(
                     contract.getTitle()
                             + " needs "
-                            + requirement.getCount()
-                            + " "
-                            + requirement.getDisplayName()
-                            + "."));
-            return false;
-        }
-
-        if (heldStack.getCount() < requirement.getCount()) {
-            player.sendSystemMessage(Component.literal(
-                    contract.getTitle()
-                            + " needs "
-                            + requirement.getCount()
-                            + " "
-                            + requirement.getDisplayName()
+                            + requirement.getPreviewText()
                             + "."));
             return false;
         }
@@ -89,7 +76,11 @@ public final class ContractSubmissionService {
         player.sendSystemMessage(Component.literal(
                 "Completed "
                         + contract.getTitle()
-                        + "! You received "
+                        + "! "
+                        + contract.getRequester()
+                        + " thanks you."));
+        player.sendSystemMessage(Component.literal(
+                "You received "
                         + contract.getRewardTokens()
                         + " Favour Tokens."));
         return true;

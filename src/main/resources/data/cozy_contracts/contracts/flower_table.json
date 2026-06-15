@@ -1,0 +1,15 @@
+{
+  "title": "Flower Table",
+  "requester": "Decorator",
+  "category": "decorator",
+  "difficulty": "EASY",
+  "weight": 25,
+  "reward_tokens": 4,
+  "requirement": {
+    "type": "tag",
+    "id": "minecraft:small_flowers",
+    "count": 8,
+    "display_name": "Small Flowers"
+  },
+  "required_mods": []
+}

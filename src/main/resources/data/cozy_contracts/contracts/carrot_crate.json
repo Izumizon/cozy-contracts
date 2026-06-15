@@ -1,0 +1,15 @@
+{
+  "title": "Carrot Crate",
+  "requester": "Farmer",
+  "category": "farmer",
+  "difficulty": "EASY",
+  "weight": 25,
+  "reward_tokens": 5,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:carrot",
+    "count": 16,
+    "display_name": "Carrots"
+  },
+  "required_mods": []
+}

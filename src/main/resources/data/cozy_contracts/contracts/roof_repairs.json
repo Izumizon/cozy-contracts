@@ -1,0 +1,15 @@
+{
+  "title": "Roof Repairs",
+  "requester": "Mason",
+  "category": "builder",
+  "difficulty": "MEDIUM",
+  "weight": 15,
+  "reward_tokens": 7,
+  "requirement": {
+    "type": "tag",
+    "id": "minecraft:logs",
+    "count": 32,
+    "display_name": "Logs"
+  },
+  "required_mods": []
+}

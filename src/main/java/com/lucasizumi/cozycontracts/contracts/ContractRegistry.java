@@ -1,44 +1,81 @@
 package com.lucasizumi.cozycontracts.contracts;
 
+import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
+import org.slf4j.Logger;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public final class ContractRegistry {
+    private static final Logger LOGGER = LogUtils.getLogger();
+
     /*
-     * Currently backed by TemporaryContracts. Future datapack/JSON loading should
-     * populate this central registry instead of changing its callers.
+     * TemporaryContracts is the fallback source. Datapack/JSON reloads replace this
+     * immutable snapshot without requiring callers to know the backing source.
      */
-    private static final Map<ResourceLocation, Contract> CONTRACTS_BY_ID = buildContractsById();
-    private static final List<Contract> ALL_CONTRACTS =
-            List.copyOf(CONTRACTS_BY_ID.values());
+    private static volatile RegistrySnapshot snapshot =
+            createSnapshot(TemporaryContracts.getAllContracts(), false);
 
     private ContractRegistry() {
     }
 
     public static List<Contract> getAllContracts() {
-        return ALL_CONTRACTS;
+        return snapshot.contracts();
     }
 
     public static Optional<Contract> getById(ResourceLocation id) {
-        return Optional.ofNullable(CONTRACTS_BY_ID.get(id));
+        return Optional.ofNullable(snapshot.contractsById().get(id));
     }
 
     public static Map<ResourceLocation, Contract> getAllById() {
-        return CONTRACTS_BY_ID;
+        return snapshot.contractsById();
     }
 
-    private static Map<ResourceLocation, Contract> buildContractsById() {
-        Map<ResourceLocation, Contract> contracts = new LinkedHashMap<>();
+    public static boolean isUsingJsonContracts() {
+        return snapshot.jsonLoaded();
+    }
 
-        for (Contract contract : TemporaryContracts.getAllContracts()) {
-            // Keep the first definition so an accidental duplicate cannot replace it.
-            contracts.putIfAbsent(contract.getId(), contract);
+    public static void replaceLoadedContracts(Collection<Contract> contracts) {
+        if (contracts.isEmpty()) {
+            snapshot = createSnapshot(TemporaryContracts.getAllContracts(), false);
+            LOGGER.warn(
+                    "No JSON contracts loaded; using {} temporary fallback contracts",
+                    snapshot.contracts().size());
+            return;
         }
 
-        return Map.copyOf(contracts);
+        snapshot = createSnapshot(contracts, true);
+        LOGGER.info(
+                "Contract registry now uses {} JSON-loaded contracts",
+                snapshot.contracts().size());
+    }
+
+    private static RegistrySnapshot createSnapshot(
+            Collection<Contract> contracts,
+            boolean jsonLoaded) {
+        Map<ResourceLocation, Contract> contractsById = new LinkedHashMap<>();
+
+        for (Contract contract : contracts) {
+            if (contractsById.putIfAbsent(contract.getId(), contract) != null) {
+                LOGGER.warn(
+                        "Ignoring duplicate contract ID {}; keeping the first definition",
+                        contract.getId());
+            }
+        }
+
+        return new RegistrySnapshot(
+                List.copyOf(contractsById.values()),
+                Map.copyOf(contractsById),
+                jsonLoaded);
+    }
+
+    private record RegistrySnapshot(
+            List<Contract> contracts,
+            Map<ResourceLocation, Contract> contractsById,
+            boolean jsonLoaded) {
     }
 }

@@ -1,0 +1,15 @@
+{
+  "title": "Glass for Windows",
+  "requester": "Mason",
+  "category": "builder",
+  "difficulty": "MEDIUM",
+  "weight": 10,
+  "reward_tokens": 8,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:glass",
+    "count": 16,
+    "display_name": "Glass"
+  },
+  "required_mods": []
+}

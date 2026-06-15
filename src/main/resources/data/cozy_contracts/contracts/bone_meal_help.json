@@ -1,0 +1,15 @@
+{
+  "title": "Bone Meal Help",
+  "requester": "Farmer",
+  "category": "hunter",
+  "difficulty": "EASY",
+  "weight": 10,
+  "reward_tokens": 5,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:bone",
+    "count": 8,
+    "display_name": "Bones"
+  },
+  "required_mods": []
+}

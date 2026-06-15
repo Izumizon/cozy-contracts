@@ -2,6 +2,7 @@ package com.lucasizumi.cozycontracts;
 
 import com.lucasizumi.cozycontracts.block.CommunityBoardBlock;
 import com.lucasizumi.cozycontracts.command.CozyContractsCommands;
+import com.lucasizumi.cozycontracts.contracts.loading.JsonContractReloadListener;
 import com.lucasizumi.cozycontracts.registry.ModBlockEntities;
 import com.lucasizumi.cozycontracts.registry.ModBlocks;
 import com.lucasizumi.cozycontracts.registry.ModCreativeModeTabs;
@@ -25,5 +26,6 @@ public class CozyContracts {
 
         MinecraftForge.EVENT_BUS.addListener(CommunityBoardBlock::onRightClickBlock);
         MinecraftForge.EVENT_BUS.addListener(CozyContractsCommands::register);
+        MinecraftForge.EVENT_BUS.addListener(JsonContractReloadListener::register);
     }
 }

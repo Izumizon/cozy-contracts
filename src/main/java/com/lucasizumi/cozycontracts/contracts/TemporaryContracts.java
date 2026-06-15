@@ -5,8 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.List;
 
 public final class TemporaryContracts {
-    // Prototype hardcoded definitions. ContractRegistry is the public access layer
-    // and will later be backed by datapack/JSON-loaded contracts.
+    // Prototype fallback definitions used only when no valid JSON contracts load.
     private static final List<Contract> CONTRACTS = List.of(
             contract("bakers_morning_rush", "Baker\u2019s Morning Rush", "Baker", "kitchen",
                     ContractDifficulty.EASY, 35,

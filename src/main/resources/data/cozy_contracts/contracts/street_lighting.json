@@ -1,0 +1,15 @@
+{
+  "title": "Street Lighting",
+  "requester": "Mason",
+  "category": "builder",
+  "difficulty": "MEDIUM",
+  "weight": 12,
+  "reward_tokens": 6,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:torch",
+    "count": 16,
+    "display_name": "Torches"
+  },
+  "required_mods": []
+}

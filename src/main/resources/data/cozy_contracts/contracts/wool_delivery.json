@@ -1,0 +1,15 @@
+{
+  "title": "Wool Delivery",
+  "requester": "Tailor",
+  "category": "decorator",
+  "difficulty": "EASY",
+  "weight": 20,
+  "reward_tokens": 6,
+  "requirement": {
+    "type": "tag",
+    "id": "minecraft:wool",
+    "count": 16,
+    "display_name": "Wool"
+  },
+  "required_mods": []
+}

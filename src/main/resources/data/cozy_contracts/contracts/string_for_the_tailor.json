@@ -1,0 +1,15 @@
+{
+  "title": "String for the Tailor",
+  "requester": "Tailor",
+  "category": "hunter",
+  "difficulty": "EASY",
+  "weight": 10,
+  "reward_tokens": 6,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:string",
+    "count": 12,
+    "display_name": "String"
+  },
+  "required_mods": []
+}

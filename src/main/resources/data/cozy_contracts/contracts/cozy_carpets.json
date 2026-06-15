@@ -1,0 +1,15 @@
+{
+  "title": "Cozy Carpets",
+  "requester": "Decorator",
+  "category": "decorator",
+  "difficulty": "EASY",
+  "weight": 18,
+  "reward_tokens": 5,
+  "requirement": {
+    "type": "tag",
+    "id": "minecraft:wool_carpets",
+    "count": 8,
+    "display_name": "Carpets"
+  },
+  "required_mods": []
+}

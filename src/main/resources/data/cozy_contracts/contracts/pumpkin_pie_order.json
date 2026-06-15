@@ -1,0 +1,15 @@
+{
+  "title": "Pumpkin Pie Order",
+  "requester": "Cook",
+  "category": "kitchen",
+  "difficulty": "MEDIUM",
+  "weight": 18,
+  "reward_tokens": 8,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:pumpkin_pie",
+    "count": 3,
+    "display_name": "Pumpkin Pies"
+  },
+  "required_mods": []
+}

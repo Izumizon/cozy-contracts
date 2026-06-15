@@ -64,6 +64,22 @@ public class CommunityBoardBlockEntity extends BlockEntity {
         return !activeContractIds.isEmpty();
     }
 
+    public long getStoredActiveContractsDay() {
+        return activeContractsDay;
+    }
+
+    public List<ResourceLocation> getStoredActiveContractIds() {
+        return List.copyOf(activeContractIds);
+    }
+
+    public long getStoredCompletionDay() {
+        return completionDay;
+    }
+
+    public Set<ResourceLocation> getStoredCompletedContractIds() {
+        return Set.copyOf(completedContractIds);
+    }
+
     private void ensureCompletionDay(long day) {
         if (completionDay == day) {
             return;

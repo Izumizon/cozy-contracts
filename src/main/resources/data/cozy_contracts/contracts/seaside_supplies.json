@@ -1,0 +1,15 @@
+{
+  "title": "Seaside Supplies",
+  "requester": "Fisher",
+  "category": "explorer",
+  "difficulty": "MEDIUM",
+  "weight": 8,
+  "reward_tokens": 8,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:kelp",
+    "count": 16,
+    "display_name": "Kelp"
+  },
+  "required_mods": []
+}

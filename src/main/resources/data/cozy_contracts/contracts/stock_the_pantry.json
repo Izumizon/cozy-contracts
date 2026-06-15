@@ -1,0 +1,15 @@
+{
+  "title": "Stock the Pantry",
+  "requester": "Farmer",
+  "category": "farmer",
+  "difficulty": "EASY",
+  "weight": 25,
+  "reward_tokens": 5,
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:potato",
+    "count": 16,
+    "display_name": "Potatoes"
+  },
+  "required_mods": []
+}

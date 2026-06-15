@@ -2,15 +2,15 @@
 
 ## Current Prototype
 
-The current text-based prototype supports persistent Community Boards, weighted daily contracts, held-item submission, command submission, and Favour Token rewards.
+The current prototype includes a persistent Community Board system with weighted daily contract selection, per-board saved contract state, held-item submission, command-based slot submission, and Favour Token rewards.
 
-## Next Likely Steps
+## Next Steps
 
-1. Debug and polish board commands
-2. Improve player-facing messages
-3. Add JSON/datapack contract loading
+1. Polish board commands and developer debug tools
+2. Improve player-facing request and completion messages
+3. Add JSON/datapack-driven contract loading
 4. Add a basic Community Board GUI
 5. Add a Favour Token reward shop
-6. Add Village Bond
-7. Add Community Projects
-8. Add food mod compatibility
+6. Add Village Bond progression
+7. Add Community Projects and village upgrade milestones
+8. Add compatibility packs for Farmer’s Delight, Create: Food, and other food mods
