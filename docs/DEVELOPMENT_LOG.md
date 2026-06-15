@@ -456,7 +456,15 @@ Players can now complete contracts, earn Favour Tokens, and spend those tokens o
 
 ### Screenshots
 
-Screenshots will be added after in-game testing.
+![Community Board shop tab showing token rewards](screenshots/15-basic-favour-token-reward-shop/shop-tab-rewards.png)
+
+![Full inventory before shop purchase test](screenshots/15-basic-favour-token-reward-shop/full-inventory-before-purchase.png)
+
+![Purchased reward dropped after buying from the shop](screenshots/15-basic-favour-token-reward-shop/reward-dropped-after-purchase.png)
+
+![Inventory after shop purchase](screenshots/15-basic-favour-token-reward-shop/inventory-after-shop-purchase.png)
+
+![Not enough tokens message](screenshots/15-basic-favour-token-reward-shop/not-enough-tokens-message.png)
 
 ### Next step
 
