@@ -15,8 +15,9 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class CommunityBoardScreen extends Screen {
-    private static final int PANEL_WIDTH = 320;
-    private static final int PANEL_HEIGHT = 210;
+    private static final int PANEL_WIDTH = 350;
+    private static final int PANEL_HEIGHT = 230;
+    private static final int ENTRY_HEIGHT = 48;
 
     private final BlockPos boardPos;
     private final long day;
@@ -36,7 +37,7 @@ public class CommunityBoardScreen extends Screen {
     protected void init() {
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
-        int entryY = top + 48;
+        int entryY = top + 52;
 
         for (int index = 0; index < contracts.size(); index++) {
             int slotIndex = index;
@@ -44,11 +45,11 @@ public class CommunityBoardScreen extends Screen {
                             Component.literal("Submit"),
                             button -> ModNetworking.sendToServer(
                                     new SubmitCommunityBoardContractPacket(boardPos, slotIndex)))
-                    .bounds(left + PANEL_WIDTH - 70, entryY + 5, 58, 20)
+                    .bounds(left + PANEL_WIDTH - 76, entryY + 8, 62, 20)
                     .build();
             submitButton.active = !contracts.get(index).completed();
             addRenderableWidget(submitButton);
-            entryY += 46;
+            entryY += ENTRY_HEIGHT;
         }
     }
 
@@ -58,35 +59,44 @@ public class CommunityBoardScreen extends Screen {
 
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
-        graphics.fill(left, top, left + PANEL_WIDTH, top + PANEL_HEIGHT, 0xE0101010);
-        graphics.renderOutline(left, top, PANEL_WIDTH, PANEL_HEIGHT, 0xFF8B6B3F);
+        graphics.fill(left, top, left + PANEL_WIDTH, top + PANEL_HEIGHT, 0xED17120D);
+        graphics.renderOutline(left, top, PANEL_WIDTH, PANEL_HEIGHT, 0xFF9B7546);
 
-        graphics.drawCenteredString(font, title, width / 2, top + 12, 0xFFF2D7A1);
+        graphics.drawCenteredString(font, title, width / 2, top + 11, 0xFFFFDFA3);
         graphics.drawCenteredString(
                 font,
                 "Community Requests - Day " + day,
                 width / 2,
-                top + 28,
-                0xFFFFFFFF);
+                top + 29,
+                0xFFE6D5B8);
 
-        int entryY = top + 48;
+        int entryY = top + 52;
         for (int index = 0; index < contracts.size(); index++) {
+            int rowColor = contracts.get(index).completed()
+                    ? 0x60302D29
+                    : 0x604B3925;
+            graphics.fill(
+                    left + 10,
+                    entryY - 4,
+                    left + PANEL_WIDTH - 10,
+                    entryY + 39,
+                    rowColor);
             renderContract(graphics, left + 16, entryY, index + 1, contracts.get(index));
-            entryY += 46;
+            entryY += ENTRY_HEIGHT;
         }
 
         graphics.drawCenteredString(
                 font,
-                "Hold the requested item, then click Submit.",
+                "Submit uses matching items from your inventory.",
                 width / 2,
-                top + PANEL_HEIGHT - 20,
-                0xFFB8B8B8);
+                top + PANEL_HEIGHT - 22,
+                0xFFC8BBA8);
         graphics.drawString(
                 font,
                 "Board: " + boardPos.toShortString(),
                 left + 8,
-                top + PANEL_HEIGHT - 10,
-                0xFF777777,
+                top + PANEL_HEIGHT - 11,
+                0xFF746B61,
                 false);
 
         super.render(graphics, mouseX, mouseY, partialTick);
@@ -98,7 +108,9 @@ public class CommunityBoardScreen extends Screen {
             int y,
             int slot,
             OpenCommunityBoardScreenPacket.ContractEntry contract) {
-        int statusColor = contract.completed() ? 0xFF7DBB78 : 0xFFF2D7A1;
+        int statusColor = contract.completed() ? 0xFF88847D : 0xFFFFD38A;
+        int detailColor = contract.completed() ? 0xFF85817B : 0xFFE5DED2;
+        int rewardColor = contract.completed() ? 0xFF77736D : 0xFFFFC85C;
         String status = contract.completed() ? "[Completed]" : "[Available]";
 
         graphics.drawString(
@@ -113,14 +125,14 @@ public class CommunityBoardScreen extends Screen {
                 contract.requester() + " needs: " + contract.requirementText(),
                 x + 10,
                 y + 12,
-                0xFFE0E0E0,
+                detailColor,
                 false);
         graphics.drawString(
                 font,
                 "Reward: " + contract.rewardTokens() + " Favour Tokens",
                 x + 10,
                 y + 24,
-                0xFFFFD36A,
+                rewardColor,
                 false);
     }
 

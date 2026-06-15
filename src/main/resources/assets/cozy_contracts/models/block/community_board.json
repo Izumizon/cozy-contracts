@@ -1,6 +1,72 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/block",
   "textures": {
-    "all": "minecraft:block/oak_planks"
+    "front": "cozy_contracts:block/community_board_front",
+    "side": "cozy_contracts:block/community_board_side",
+    "post": "cozy_contracts:block/community_board_post",
+    "particle": "cozy_contracts:block/community_board_side"
+  },
+  "elements": [
+    {
+      "from": [1, 5, 6],
+      "to": [15, 16, 10],
+      "faces": {
+        "north": {"texture": "#front"},
+        "south": {"texture": "#side"},
+        "east": {"texture": "#side"},
+        "west": {"texture": "#side"},
+        "up": {"texture": "#side"},
+        "down": {"texture": "#side"}
+      }
+    },
+    {
+      "from": [2, 0, 7],
+      "to": [4, 6, 9],
+      "faces": {
+        "north": {"texture": "#post"},
+        "south": {"texture": "#post"},
+        "east": {"texture": "#post"},
+        "west": {"texture": "#post"},
+        "up": {"texture": "#post"},
+        "down": {"texture": "#post"}
+      }
+    },
+    {
+      "from": [12, 0, 7],
+      "to": [14, 6, 9],
+      "faces": {
+        "north": {"texture": "#post"},
+        "south": {"texture": "#post"},
+        "east": {"texture": "#post"},
+        "west": {"texture": "#post"},
+        "up": {"texture": "#post"},
+        "down": {"texture": "#post"}
+      }
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [30, 225, 0],
+      "translation": [0, -1, 0],
+      "scale": [0.8, 0.8, 0.8]
+    },
+    "ground": {
+      "translation": [0, 3, 0],
+      "scale": [0.4, 0.4, 0.4]
+    },
+    "fixed": {
+      "rotation": [0, 180, 0],
+      "scale": [0.5, 0.5, 0.5]
+    },
+    "thirdperson_righthand": {
+      "rotation": [75, 45, 0],
+      "translation": [0, 2.5, 0],
+      "scale": [0.45, 0.45, 0.45]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 45, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.4, 0.4, 0.4]
+    }
   }
 }

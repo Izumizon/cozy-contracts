@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=north": {
       "model": "cozy_contracts:block/community_board"
+    },
+    "facing=east": {
+      "model": "cozy_contracts:block/community_board",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "cozy_contracts:block/community_board",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "cozy_contracts:block/community_board",
+      "y": 270
     }
   }
 }

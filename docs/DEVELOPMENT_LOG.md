@@ -309,6 +309,7 @@ This first GUI phase made board information easier to scan while keeping gamepla
 
 ![Community Board GUI showing completed request](screenshots/10-board-gui-phase-1/board-gui-completed-request.png)
 
+
 ### Next step
 
 Add server-authoritative submit controls to the board GUI while continuing to use the shared submission backend.
@@ -383,14 +384,55 @@ Screenshots will be added after in-game testing.
 
 Improve Community Board visuals and feedback before beginning reward-shop work.
 
+## Milestone 14 — Community Board Visual Polish
+
+### Goal
+
+Improve the Community Board's presentation and make its GUI easier to scan without changing any gameplay behavior.
+
+### What was implemented
+
+* Added horizontal facing so the board turns toward the player when placed.
+* Replaced the full-cube model with a thin wooden notice board and supporting posts.
+* Added simple pixel-art textures for the board front, sides, and posts.
+* Updated blockstate rotations and collision shape to match the board's facing.
+* Improved GUI title and row spacing.
+* Made available and completed states easier to distinguish.
+* Dimmed completed contract details and kept completed Submit buttons disabled.
+* Clarified reward colors and the bottom inventory-submission instruction.
+* Preserved the existing BlockEntity, submission paths, commands, and persistence behavior.
+
+### Why it mattered
+
+The Community Board is the central interaction point for the mod. Giving it a recognizable notice-board silhouette and improving the screen hierarchy makes the prototype feel more intentional and easier to use while staying close to Minecraft's visual language.
+
+### Challenges / fixes
+
+* Kept the model simple enough to rotate cleanly in all four horizontal directions.
+* Matched the interaction shape to the thinner model instead of leaving full-cube collision.
+* Focused only on presentation and usability so gameplay logic remained unchanged.
+
+### Screenshots
+
+![Community Board front view](screenshots/14-community-board-visual-polish/community-board-front-view.png)
+
+![Community Board back and side view](screenshots/14-community-board-visual-polish/community-board-back-and-side-view.png)
+
+![Polished Community Board GUI showing available requests](screenshots/14-community-board-visual-polish/polished-board-gui-available-requests.png)
+
+![Polished Community Board GUI showing a completed request](screenshots/14-community-board-visual-polish/polished-board-gui-completed-request.png)
+
+### Next step
+
+Replace or refine the placeholder pixel art after visual testing, then begin the next gameplay milestone.
+
 ## Current Status
 
-Cozy Contracts is an early prototype. Data-driven contracts, weighted daily selection, persistent board state, and the Community Board GUI are working. GUI buttons and commands submit from the full player inventory, while shift-right-click remains a held-item hand-in option.
+Cozy Contracts is an early prototype. Data-driven contracts, weighted daily selection, persistent board state, and the polished Community Board GUI are working. GUI buttons and commands submit from the full player inventory, while shift-right-click remains a held-item hand-in option.
 
 ## Next Planned Work
 
-1. Better board visuals/assets
-2. Reward shop
-3. Farmer's Delight/Create: Food compatibility contracts
-4. Village Bond
-5. Community Projects
+1. Reward shop
+2. Farmer's Delight/Create: Food compatibility contracts
+3. Village Bond
+4. Community Projects
