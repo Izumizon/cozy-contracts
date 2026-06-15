@@ -10,12 +10,13 @@ Early prototype. Cozy Contracts has not been released yet.
 
 - Community Board block
 - Favour Token item
-- 14 temporary vanilla contracts
+- 14 built-in vanilla JSON contracts
 - Three active daily contracts per board
 - Deterministic weighted selection based on board position and Minecraft day
 - Persisted active contract IDs on the Community Board block entity
 - Persisted completed contract IDs on the Community Board block entity
-- Right-click contract preview
+- Data-driven JSON/datapack contract loading
+- Right-click read-only Community Board GUI
 - Shift-right-click held-item submission
 - `/cozycontracts submit <slot>`
 - `/cc submit <slot>`
@@ -24,10 +25,16 @@ Early prototype. Cozy Contracts has not been released yet.
 
 Contracts are loaded from JSON resources and datapacks. Built-in definitions live under `data/cozy_contracts/contracts/`, and datapacks can add contracts under their own namespaces. See [docs/CONTRACT_FORMAT.md](docs/CONTRACT_FORMAT.md) for the authoring format.
 
+## Documentation
+
+- [Development Log](docs/DEVELOPMENT_LOG.md)
+- [Contract JSON Format](docs/CONTRACT_FORMAT.md)
+- [Project Roadmap](docs/ROADMAP.md)
+
 ## Planned Features
 
-- Community Board GUI
-- JSON/datapack contract definitions
+- GUI submit buttons
+- Better Community Board visuals
 - Farmer's Delight and Create: Food compatibility
 - Themed village shops
 - Village Bond
