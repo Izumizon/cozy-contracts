@@ -466,6 +466,8 @@ Players can now complete contracts, earn Favour Tokens, and spend those tokens o
 
 ![Not enough tokens message](screenshots/15-basic-favour-token-reward-shop/not-enough-tokens-message.png)
 
+[Watch the reward system and shop showcase](screenshots/15-basic-favour-token-reward-shop/showcase-reward-system-and-shop.mp4)
+
 ### Next step
 
 Evaluate the MVP economy and shop usability before considering JSON-driven stock, rotating rewards, or village-themed shops.
