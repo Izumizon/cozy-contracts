@@ -3,6 +3,7 @@ package com.lucasizumi.cozycontracts.command;
 import com.lucasizumi.cozycontracts.block.CommunityBoardBlock;
 import com.lucasizumi.cozycontracts.block.entity.CommunityBoardBlockEntity;
 import com.lucasizumi.cozycontracts.contracts.CommunityBoardPreviewService;
+import com.lucasizumi.cozycontracts.contracts.Contract;
 import com.lucasizumi.cozycontracts.contracts.ContractRegistry;
 import com.lucasizumi.cozycontracts.contracts.ContractSubmissionService;
 import com.mojang.brigadier.CommandDispatcher;
@@ -10,6 +11,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +22,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.RegisterCommandsEvent;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public final class CozyContractsCommands {
@@ -50,7 +53,14 @@ public final class CozyContractsCommands {
                         .then(Commands.literal("board")
                                 .executes(context -> debugBoard(context.getSource())))
                         .then(Commands.literal("contracts")
-                                .executes(context -> debugContracts(context.getSource()))));
+                                .executes(context -> debugContracts(context.getSource())))
+                        .then(Commands.literal("contract")
+                                .then(Commands.argument("id", ResourceLocationArgument.id())
+                                        .executes(context -> debugContract(
+                                                context.getSource(),
+                                                ResourceLocationArgument.getId(
+                                                        context,
+                                                        "id"))))));
         dispatcher.register(root);
     }
 
@@ -100,7 +110,7 @@ public final class CozyContractsCommands {
 
     private static int debugContracts(CommandSourceStack source) {
         List<ResourceLocation> contractIds = ContractRegistry.getAllContracts().stream()
-                .map(contract -> contract.getId())
+                .map(Contract::getId)
                 .limit(5)
                 .toList();
 
@@ -118,6 +128,31 @@ public final class CozyContractsCommands {
                 false);
         source.sendSuccess(
                 () -> Component.literal("First contract IDs: " + contractIds),
+                false);
+        return 1;
+    }
+
+    private static int debugContract(CommandSourceStack source, ResourceLocation contractId) {
+        Optional<Contract> contract = ContractRegistry.getById(contractId);
+        if (contract.isEmpty()) {
+            source.sendFailure(Component.literal("Contract not found: " + contractId));
+            return 0;
+        }
+
+        Contract value = contract.get();
+        source.sendSuccess(() -> Component.literal("Contract: " + value.getId()), false);
+        source.sendSuccess(() -> Component.literal("Title: " + value.getTitle()), false);
+        source.sendSuccess(() -> Component.literal("Requester: " + value.getRequester()), false);
+        source.sendSuccess(() -> Component.literal("Category: " + value.getCategory()), false);
+        source.sendSuccess(() -> Component.literal("Difficulty: " + value.getDifficulty()), false);
+        source.sendSuccess(() -> Component.literal("Weight: " + value.getWeight()), false);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Requirement: " + value.getRequirement().getPreviewText()),
+                false);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Reward: " + value.getRewardTokens() + " Favour Tokens"),
                 false);
         return 1;
     }
@@ -162,7 +197,7 @@ public final class CozyContractsCommands {
 
         for (ResourceLocation contractId : activeIds) {
             String title = ContractRegistry.getById(contractId)
-                    .map(contract -> contract.getTitle())
+                    .map(Contract::getTitle)
                     .orElse("<missing contract>");
             player.sendSystemMessage(Component.literal(
                     "- "

@@ -20,6 +20,10 @@ Early prototype. Cozy Contracts has not been released yet.
 - `/cozycontracts submit <slot>`
 - `/cc submit <slot>`
 
+## Data-Driven Contracts
+
+Contracts are loaded from JSON resources and datapacks. Built-in definitions live under `data/cozy_contracts/contracts/`, and datapacks can add contracts under their own namespaces. See [docs/CONTRACT_FORMAT.md](docs/CONTRACT_FORMAT.md) for the authoring format.
+
 ## Planned Features
 
 - Community Board GUI
