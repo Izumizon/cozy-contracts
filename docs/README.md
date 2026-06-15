@@ -18,6 +18,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Data-driven JSON/datapack contract loading
 - Improved wooden Community Board model and polished GUI
 - Community Board GUI with full-inventory request submission
+- Favour Token reward shop with vanilla rewards
 - Shift-right-click held-item submission
 - Full-inventory `/cozycontracts submit <slot>` and `/cc submit <slot>` commands
 
@@ -34,7 +35,7 @@ Contracts are loaded from JSON resources and datapacks. Built-in definitions liv
 ## Planned Features
 
 - Farmer's Delight and Create: Food compatibility
-- Themed village shops
+- Expanded and themed village shops
 - Village Bond
 - Community Projects
 - Manual and assisted building

@@ -426,13 +426,49 @@ The Community Board is the central interaction point for the mod. Giving it a re
 
 Replace or refine the placeholder pixel art after visual testing, then begin the next gameplay milestone.
 
+## Milestone 15 — Basic Favour Token Reward Shop
+
+### Goal
+
+Complete the first MVP gameplay loop by giving players a useful way to spend the Favour Tokens earned from community requests.
+
+### What was implemented
+
+* Added a Java-defined shop item model and registry.
+* Added eight fixed vanilla rewards with individual Favour Token prices.
+* Added server-side token counting and removal across multiple inventory stacks.
+* Added server-authoritative purchase validation and reward delivery.
+* Dropped purchased rewards near the player if their inventory was full.
+* Added Requests and Shop sections to the Community Board GUI.
+* Added Buy buttons for each available reward.
+* Kept request submission, commands, shift-right-click hand-in, contract loading, and board persistence unchanged.
+
+### Why it mattered
+
+Players can now complete contracts, earn Favour Tokens, and spend those tokens on useful vanilla rewards. This closes the first complete MVP progression loop and gives contract completion an immediate purpose beyond accumulating currency.
+
+### Challenges / fixes
+
+* Kept purchases entirely server-side so the client cannot grant rewards or choose prices.
+* Used atomic inventory payment so unaffordable purchases never remove partial token stacks.
+* Kept shop stock Java-defined for this first version to avoid coupling it to contract JSON loading.
+* Used a compact two-column layout so all rewards remain readable without item icons or inventory slots.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Evaluate the MVP economy and shop usability before considering JSON-driven stock, rotating rewards, or village-themed shops.
+
 ## Current Status
 
-Cozy Contracts is an early prototype. Data-driven contracts, weighted daily selection, persistent board state, and the polished Community Board GUI are working. GUI buttons and commands submit from the full player inventory, while shift-right-click remains a held-item hand-in option.
+Cozy Contracts is an early prototype with a complete first gameplay loop: players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Persistent board state, GUI and command submission, and shift-right-click hand-in remain available.
 
 ## Next Planned Work
 
-1. Reward shop
+1. Economy and shop usability balancing
 2. Farmer's Delight/Create: Food compatibility contracts
 3. Village Bond
 4. Community Projects

@@ -2,6 +2,7 @@ package com.lucasizumi.cozycontracts.network;
 
 import com.lucasizumi.cozycontracts.CozyContracts;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
+import com.lucasizumi.cozycontracts.network.packet.PurchaseShopItemPacket;
 import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
@@ -37,6 +38,13 @@ public final class ModNetworking {
                 SubmitCommunityBoardContractPacket::decode,
                 SubmitCommunityBoardContractPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(
+                2,
+                PurchaseShopItemPacket.class,
+                PurchaseShopItemPacket::encode,
+                PurchaseShopItemPacket::decode,
+                PurchaseShopItemPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static void sendToPlayer(
@@ -46,6 +54,10 @@ public final class ModNetworking {
     }
 
     public static void sendToServer(SubmitCommunityBoardContractPacket packet) {
+        CHANNEL.sendToServer(packet);
+    }
+
+    public static void sendToServer(PurchaseShopItemPacket packet) {
         CHANNEL.sendToServer(packet);
     }
 }

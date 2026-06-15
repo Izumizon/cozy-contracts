@@ -2,7 +2,10 @@ package com.lucasizumi.cozycontracts.client.screen;
 
 import com.lucasizumi.cozycontracts.network.ModNetworking;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
+import com.lucasizumi.cozycontracts.network.packet.PurchaseShopItemPacket;
 import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
+import com.lucasizumi.cozycontracts.shop.ShopItem;
+import com.lucasizumi.cozycontracts.shop.ShopRegistry;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -15,13 +18,15 @@ import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class CommunityBoardScreen extends Screen {
-    private static final int PANEL_WIDTH = 350;
-    private static final int PANEL_HEIGHT = 230;
+    private static final int PANEL_WIDTH = 370;
+    private static final int PANEL_HEIGHT = 240;
     private static final int ENTRY_HEIGHT = 48;
+    private static final int SHOP_ENTRY_HEIGHT = 39;
 
     private final BlockPos boardPos;
     private final long day;
     private final List<OpenCommunityBoardScreenPacket.ContractEntry> contracts;
+    private View activeView = View.REQUESTS;
 
     public CommunityBoardScreen(
             BlockPos boardPos,
@@ -35,9 +40,46 @@ public class CommunityBoardScreen extends Screen {
 
     @Override
     protected void init() {
+        rebuildViewWidgets();
+    }
+
+    private void rebuildViewWidgets() {
+        clearWidgets();
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
-        int entryY = top + 52;
+
+        Button requestsTab = Button.builder(
+                        Component.literal("Requests"),
+                        button -> switchView(View.REQUESTS))
+                .bounds(width / 2 - 102, top + 26, 96, 20)
+                .build();
+        requestsTab.active = activeView != View.REQUESTS;
+        addRenderableWidget(requestsTab);
+
+        Button shopTab = Button.builder(
+                        Component.literal("Shop"),
+                        button -> switchView(View.SHOP))
+                .bounds(width / 2 + 6, top + 26, 96, 20)
+                .build();
+        shopTab.active = activeView != View.SHOP;
+        addRenderableWidget(shopTab);
+
+        if (activeView == View.REQUESTS) {
+            addRequestButtons(left, top);
+        } else {
+            addShopButtons(left, top);
+        }
+    }
+
+    private void switchView(View view) {
+        if (activeView != view) {
+            activeView = view;
+            rebuildViewWidgets();
+        }
+    }
+
+    private void addRequestButtons(int left, int top) {
+        int entryY = top + 70;
 
         for (int index = 0; index < contracts.size(); index++) {
             int slotIndex = index;
@@ -53,6 +95,26 @@ public class CommunityBoardScreen extends Screen {
         }
     }
 
+    private void addShopButtons(int left, int top) {
+        List<ShopItem> shopItems = ShopRegistry.getAllItems();
+        for (int index = 0; index < shopItems.size(); index++) {
+            ShopItem shopItem = shopItems.get(index);
+            int column = index / 4;
+            int row = index % 4;
+            int columnX = left + 12 + column * 174;
+            int entryY = top + 70 + row * SHOP_ENTRY_HEIGHT;
+
+            addRenderableWidget(Button.builder(
+                            Component.literal("Buy"),
+                            button -> ModNetworking.sendToServer(
+                                    new PurchaseShopItemPacket(
+                                            boardPos,
+                                            shopItem.getId())))
+                    .bounds(columnX + 116, entryY + 7, 44, 20)
+                    .build());
+        }
+    }
+
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         renderBackground(graphics);
@@ -63,14 +125,32 @@ public class CommunityBoardScreen extends Screen {
         graphics.renderOutline(left, top, PANEL_WIDTH, PANEL_HEIGHT, 0xFF9B7546);
 
         graphics.drawCenteredString(font, title, width / 2, top + 11, 0xFFFFDFA3);
+        if (activeView == View.REQUESTS) {
+            renderRequests(graphics, left, top);
+        } else {
+            renderShop(graphics, left, top);
+        }
+
+        graphics.drawString(
+                font,
+                "Board: " + boardPos.toShortString(),
+                left + 8,
+                top + PANEL_HEIGHT - 11,
+                0xFF746B61,
+                false);
+
+        super.render(graphics, mouseX, mouseY, partialTick);
+    }
+
+    private void renderRequests(GuiGraphics graphics, int left, int top) {
         graphics.drawCenteredString(
                 font,
                 "Community Requests - Day " + day,
                 width / 2,
-                top + 29,
+                top + 51,
                 0xFFE6D5B8);
 
-        int entryY = top + 52;
+        int entryY = top + 70;
         for (int index = 0; index < contracts.size(); index++) {
             int rowColor = contracts.get(index).completed()
                     ? 0x60302D29
@@ -91,15 +171,58 @@ public class CommunityBoardScreen extends Screen {
                 width / 2,
                 top + PANEL_HEIGHT - 22,
                 0xFFC8BBA8);
-        graphics.drawString(
-                font,
-                "Board: " + boardPos.toShortString(),
-                left + 8,
-                top + PANEL_HEIGHT - 11,
-                0xFF746B61,
-                false);
+    }
 
-        super.render(graphics, mouseX, mouseY, partialTick);
+    private void renderShop(GuiGraphics graphics, int left, int top) {
+        graphics.drawCenteredString(
+                font,
+                "Favour Token Rewards",
+                width / 2,
+                top + 51,
+                0xFFE6D5B8);
+
+        List<ShopItem> shopItems = ShopRegistry.getAllItems();
+        for (int index = 0; index < shopItems.size(); index++) {
+            ShopItem shopItem = shopItems.get(index);
+            int column = index / 4;
+            int row = index % 4;
+            int columnX = left + 12 + column * 174;
+            int entryY = top + 70 + row * SHOP_ENTRY_HEIGHT;
+
+            graphics.fill(
+                    columnX - 2,
+                    entryY - 3,
+                    columnX + 164,
+                    entryY + 32,
+                    0x604B3925);
+
+            String rewardName = shopItem.getDisplayName();
+            if (shopItem.getRewardCount() > 1) {
+                rewardName += " x" + shopItem.getRewardCount();
+            }
+
+            graphics.drawString(
+                    font,
+                    rewardName,
+                    columnX + 3,
+                    entryY + 2,
+                    0xFFFFD38A,
+                    false);
+            graphics.drawString(
+                    font,
+                    "Cost: " + shopItem.getCostTokens() + " Tokens",
+                    columnX + 3,
+                    entryY + 16,
+                    0xFFFFC85C,
+                    false);
+        }
+
+        graphics.drawCenteredString(
+                font,
+                "Purchases use Favour Tokens from your inventory.",
+                width / 2,
+                top + PANEL_HEIGHT - 22,
+                0xFFC8BBA8);
     }
 
     private void renderContract(
@@ -139,5 +262,10 @@ public class CommunityBoardScreen extends Screen {
     @Override
     public boolean isPauseScreen() {
         return false;
+    }
+
+    private enum View {
+        REQUESTS,
+        SHOP
     }
 }

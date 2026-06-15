@@ -1,6 +1,7 @@
 package com.lucasizumi.cozycontracts.contracts;
 
 import com.lucasizumi.cozycontracts.registry.ModItems;
+import com.lucasizumi.cozycontracts.util.PlayerInventoryItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -90,34 +91,13 @@ public final class ContractSubmissionService {
             return false;
         }
 
-        int matchingItemCount = 0;
-        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
-            ItemStack stack = player.getInventory().getItem(slot);
-            if (requirement.matches(stack)) {
-                matchingItemCount += stack.getCount();
-            }
-        }
-
-        if (matchingItemCount < requirement.getCount()) {
+        if (!PlayerInventoryItems.removeMatching(
+                player,
+                requirement::matches,
+                requirement.getCount())) {
             sendMissingItemsMessage(player, contract);
             return false;
         }
-
-        int remainingToRemove = requirement.getCount();
-        for (int slot = 0;
-             slot < player.getInventory().getContainerSize() && remainingToRemove > 0;
-             slot++) {
-            ItemStack stack = player.getInventory().getItem(slot);
-            if (!requirement.matches(stack)) {
-                continue;
-            }
-
-            int removedFromStack = Math.min(stack.getCount(), remainingToRemove);
-            stack.shrink(removedFromStack);
-            remainingToRemove -= removedFromStack;
-        }
-
-        player.getInventory().setChanged();
         completeContract(player, level, boardPos, day, contract);
         return true;
     }
