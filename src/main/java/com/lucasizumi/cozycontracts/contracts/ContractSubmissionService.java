@@ -13,7 +13,7 @@ public final class ContractSubmissionService {
     private ContractSubmissionService() {
     }
 
-    public static boolean submitContractSlot(
+    public static boolean submitContractSlotFromInventory(
             ServerPlayer player,
             Level level,
             BlockPos boardPos,
@@ -26,7 +26,11 @@ public final class ContractSubmissionService {
             return false;
         }
 
-        return submitContract(player, level, boardPos, activeContracts.get(slotIndex));
+        return submitContractFromInventory(
+                player,
+                level,
+                boardPos,
+                activeContracts.get(slotIndex));
     }
 
     public static boolean submitFirstMatchingHeldItem(
@@ -37,7 +41,7 @@ public final class ContractSubmissionService {
 
         for (Contract contract : CommunityBoardContractState.getActiveContracts(level, boardPos)) {
             if (contract.getRequirement().matches(heldStack)) {
-                return submitContract(player, level, boardPos, contract);
+                return submitContractFromHeldStack(player, level, boardPos, contract);
             }
         }
 
@@ -45,7 +49,7 @@ public final class ContractSubmissionService {
         return false;
     }
 
-    private static boolean submitContract(
+    private static boolean submitContractFromHeldStack(
             ServerPlayer player,
             Level level,
             BlockPos boardPos,
@@ -62,15 +66,68 @@ public final class ContractSubmissionService {
         }
 
         if (!requirement.matches(heldStack) || heldStack.getCount() < requirement.getCount()) {
-            player.sendSystemMessage(Component.literal(
-                    contract.getTitle()
-                            + " needs "
-                            + requirement.getPreviewText()
-                            + "."));
+            sendMissingItemsMessage(player, contract);
             return false;
         }
 
         heldStack.shrink(requirement.getCount());
+        completeContract(player, level, boardPos, day, contract);
+        return true;
+    }
+
+    private static boolean submitContractFromInventory(
+            ServerPlayer player,
+            Level level,
+            BlockPos boardPos,
+            Contract contract) {
+        long day = level.getDayTime() / 24000L;
+        ContractRequirement requirement = contract.getRequirement();
+
+        if (CommunityBoardCompletions.isCompleted(level, boardPos, day, contract.getId())) {
+            player.sendSystemMessage(Component.literal(
+                    "This request has already been completed today. "
+                            + "Come back tomorrow for new community requests."));
+            return false;
+        }
+
+        int matchingItemCount = 0;
+        for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
+            ItemStack stack = player.getInventory().getItem(slot);
+            if (requirement.matches(stack)) {
+                matchingItemCount += stack.getCount();
+            }
+        }
+
+        if (matchingItemCount < requirement.getCount()) {
+            sendMissingItemsMessage(player, contract);
+            return false;
+        }
+
+        int remainingToRemove = requirement.getCount();
+        for (int slot = 0;
+             slot < player.getInventory().getContainerSize() && remainingToRemove > 0;
+             slot++) {
+            ItemStack stack = player.getInventory().getItem(slot);
+            if (!requirement.matches(stack)) {
+                continue;
+            }
+
+            int removedFromStack = Math.min(stack.getCount(), remainingToRemove);
+            stack.shrink(removedFromStack);
+            remainingToRemove -= removedFromStack;
+        }
+
+        player.getInventory().setChanged();
+        completeContract(player, level, boardPos, day, contract);
+        return true;
+    }
+
+    private static void completeContract(
+            ServerPlayer player,
+            Level level,
+            BlockPos boardPos,
+            long day,
+            Contract contract) {
         giveReward(player, contract.getRewardTokens());
         CommunityBoardCompletions.markCompleted(level, boardPos, day, contract.getId());
         player.sendSystemMessage(Component.literal(
@@ -83,7 +140,17 @@ public final class ContractSubmissionService {
                 "You received "
                         + contract.getRewardTokens()
                         + " Favour Tokens."));
-        return true;
+    }
+
+    private static void sendMissingItemsMessage(ServerPlayer player, Contract contract) {
+        ContractRequirement requirement = contract.getRequirement();
+        player.sendSystemMessage(Component.literal(
+                contract.getTitle()
+                        + " needs "
+                        + requirement.getCount()
+                        + " "
+                        + requirement.getDisplayName()
+                        + ". You do not have enough."));
     }
 
     private static void giveReward(ServerPlayer player, int rewardTokens) {

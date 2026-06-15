@@ -83,7 +83,7 @@ public final class CozyContractsCommands {
             return 0;
         }
 
-        return ContractSubmissionService.submitContractSlot(
+        return ContractSubmissionService.submitContractSlotFromInventory(
                 player,
                 player.level(),
                 boardPos,

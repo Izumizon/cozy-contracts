@@ -16,10 +16,9 @@ Early prototype. Cozy Contracts has not been released yet.
 - Persisted active contract IDs on the Community Board block entity
 - Persisted completed contract IDs on the Community Board block entity
 - Data-driven JSON/datapack contract loading
-- Right-click read-only Community Board GUI
+- Community Board GUI with full-inventory request submission
 - Shift-right-click held-item submission
-- `/cozycontracts submit <slot>`
-- `/cc submit <slot>`
+- Full-inventory `/cozycontracts submit <slot>` and `/cc submit <slot>` commands
 
 ## Data-Driven Contracts
 
@@ -33,7 +32,6 @@ Contracts are loaded from JSON resources and datapacks. Built-in definitions liv
 
 ## Planned Features
 
-- GUI submit buttons
 - Better Community Board visuals
 - Farmer's Delight and Create: Food compatibility
 - Themed village shops

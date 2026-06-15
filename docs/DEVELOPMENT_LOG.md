@@ -313,15 +313,84 @@ This first GUI phase made board information easier to scan while keeping gamepla
 
 Add server-authoritative submit controls to the board GUI while continuing to use the shared submission backend.
 
+## Milestone 12 — GUI Submit Buttons
+
+### Goal
+
+Allow players to submit a specific active request directly from the Community Board GUI while keeping all contract processing authoritative on the server.
+
+### What was implemented
+
+* Added one Submit button to each active contract entry.
+* Disabled the button when its contract is already completed.
+* Added a client-to-server packet containing the board position and zero-based contract slot.
+* Validated the player, board position, interaction distance, and selected slot on the server.
+* Reused `ContractSubmissionService` for held-item validation, consumption, rewards, and completion state.
+* Refreshed the GUI with current board data after a valid submission request.
+* Preserved command and shift-right-click submission.
+
+### Why it mattered
+
+The GUI now supports the complete request-and-reward loop without duplicating gameplay rules or trusting client-provided results. Commands, world interaction, and GUI controls all use the same submission backend.
+
+### Challenges / fixes
+
+* Kept the buttons lightweight without introducing menu or inventory slots.
+* Added proximity and block identity checks before accepting a client request.
+* Reused the existing screen packet to refresh completed status instead of adding a larger synchronization system.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Improve the Community Board's presentation and visual assets before expanding into reward-shop features.
+
+## Milestone 13 — Inventory-Based GUI Submission
+
+### Goal
+
+Make GUI and command submission convenient by finding requested items across the player's inventory while preserving shift-right-click as an optional physical hand-in interaction.
+
+### What was implemented
+
+* Added a dedicated full-inventory contract slot submission path.
+* Updated GUI Submit buttons to check all player inventory stacks.
+* Updated `/cozycontracts submit <slot>` and `/cc submit <slot>` to use full-inventory submission.
+* Counted exact-item requirements across multiple matching stacks.
+* Allowed tag requirements to combine different matching items, such as mixed small flowers.
+* Removed exactly the required total only after confirming enough matching items were available.
+* Kept shift-right-click submission held-item-only.
+* Reused the existing reward, completion, and player message logic.
+
+### Why it mattered
+
+Held-item submission was useful for proving the backend before the GUI existed. Once Submit buttons were added, closing the board and arranging the requested item in the main hand became tedious. Full-inventory GUI and command submission makes the board much easier to use, while shift-right-click remains available for players who prefer the direct hand-in interaction.
+
+### Challenges / fixes
+
+* Used a count-first approach so an unsuccessful submission never removes partial items.
+* Removed items across stacks without exceeding the requested count.
+* Supported mixed stacks for tag requirements without adding partial contract progress storage.
+* Kept the held-stack and inventory submission paths separate so their intended behavior remains clear.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Improve Community Board visuals and feedback before beginning reward-shop work.
+
 ## Current Status
 
-Cozy Contracts is an early prototype. Data-driven contracts, weighted daily selection, persistent board state, and the read-only Community Board GUI are working. Players can currently submit held items through commands or shift-right-click and receive Favour Tokens for valid requests.
+Cozy Contracts is an early prototype. Data-driven contracts, weighted daily selection, persistent board state, and the Community Board GUI are working. GUI buttons and commands submit from the full player inventory, while shift-right-click remains a held-item hand-in option.
 
 ## Next Planned Work
 
-1. GUI submit buttons
-2. Better board visuals/assets
-3. Reward shop
-4. Farmer's Delight/Create: Food compatibility contracts
-5. Village Bond
-6. Community Projects
+1. Better board visuals/assets
+2. Reward shop
+3. Farmer's Delight/Create: Food compatibility contracts
+4. Village Bond
+5. Community Projects

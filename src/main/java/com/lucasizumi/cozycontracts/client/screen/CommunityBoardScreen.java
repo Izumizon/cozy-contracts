@@ -1,7 +1,10 @@
 package com.lucasizumi.cozycontracts.client.screen;
 
+import com.lucasizumi.cozycontracts.network.ModNetworking;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
+import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -30,6 +33,26 @@ public class CommunityBoardScreen extends Screen {
     }
 
     @Override
+    protected void init() {
+        int left = (width - PANEL_WIDTH) / 2;
+        int top = (height - PANEL_HEIGHT) / 2;
+        int entryY = top + 48;
+
+        for (int index = 0; index < contracts.size(); index++) {
+            int slotIndex = index;
+            Button submitButton = Button.builder(
+                            Component.literal("Submit"),
+                            button -> ModNetworking.sendToServer(
+                                    new SubmitCommunityBoardContractPacket(boardPos, slotIndex)))
+                    .bounds(left + PANEL_WIDTH - 70, entryY + 5, 58, 20)
+                    .build();
+            submitButton.active = !contracts.get(index).completed();
+            addRenderableWidget(submitButton);
+            entryY += 46;
+        }
+    }
+
+    @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         renderBackground(graphics);
 
@@ -54,7 +77,7 @@ public class CommunityBoardScreen extends Screen {
 
         graphics.drawCenteredString(
                 font,
-                "Hold the requested item and use /cc submit <1-3> to submit.",
+                "Hold the requested item, then click Submit.",
                 width / 2,
                 top + PANEL_HEIGHT - 20,
                 0xFFB8B8B8);

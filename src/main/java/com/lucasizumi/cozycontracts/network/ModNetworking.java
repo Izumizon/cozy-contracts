@@ -2,6 +2,7 @@ package com.lucasizumi.cozycontracts.network;
 
 import com.lucasizumi.cozycontracts.CozyContracts;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
+import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -29,11 +30,22 @@ public final class ModNetworking {
                 OpenCommunityBoardScreenPacket::decode,
                 OpenCommunityBoardScreenPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(
+                1,
+                SubmitCommunityBoardContractPacket.class,
+                SubmitCommunityBoardContractPacket::encode,
+                SubmitCommunityBoardContractPacket::decode,
+                SubmitCommunityBoardContractPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static void sendToPlayer(
             net.minecraft.server.level.ServerPlayer player,
             OpenCommunityBoardScreenPacket packet) {
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), packet);
+    }
+
+    public static void sendToServer(SubmitCommunityBoardContractPacket packet) {
+        CHANNEL.sendToServer(packet);
     }
 }
