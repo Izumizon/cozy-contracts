@@ -23,13 +23,13 @@ Early prototype. Cozy Contracts has not been released yet.
 
 ## Data-Driven Contracts
 
-Contracts are loaded from JSON resources and datapacks. Built-in definitions live under `data/cozy_contracts/contracts/`, and datapacks can add contracts under their own namespaces. See [docs/CONTRACT_FORMAT.md](docs/CONTRACT_FORMAT.md) for the authoring format.
+Contracts are loaded from JSON resources and datapacks. Built-in definitions live under `data/cozy_contracts/contracts/`, and datapacks can add contracts under their own namespaces. See [docs/CONTRACT_FORMAT.md](CONTRACT_FORMAT.md) for the authoring format.
 
 ## Documentation
 
-- [Development Log](docs/DEVELOPMENT_LOG.md)
-- [Contract JSON Format](docs/CONTRACT_FORMAT.md)
-- [Project Roadmap](docs/ROADMAP.md)
+- [Development Log](DEVELOPMENT_LOG.md)
+- [Contract JSON Format](CONTRACT_FORMAT.md)
+- [Project Roadmap](ROADMAP.md)
 
 ## Planned Features
 

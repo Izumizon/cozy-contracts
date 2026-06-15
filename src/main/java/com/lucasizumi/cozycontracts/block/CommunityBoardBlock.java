@@ -1,9 +1,10 @@
 package com.lucasizumi.cozycontracts.block;
 
 import com.lucasizumi.cozycontracts.block.entity.CommunityBoardBlockEntity;
-import com.lucasizumi.cozycontracts.contracts.CommunityBoardPreviewService;
+import com.lucasizumi.cozycontracts.contracts.CommunityBoardScreenService;
 import com.lucasizumi.cozycontracts.contracts.TemporaryContractSubmission;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -47,8 +48,8 @@ public class CommunityBoardBlock extends BaseEntityBlock {
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
-        if (!level.isClientSide) {
-            CommunityBoardPreviewService.sendPreview(player, level, pos);
+        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            CommunityBoardScreenService.open(serverPlayer, level, pos);
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide);
