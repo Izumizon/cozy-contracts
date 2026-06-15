@@ -31,6 +31,7 @@ Contracts are loaded from JSON resources and datapacks. Built-in definitions liv
 - [Development Log](DEVELOPMENT_LOG.md)
 - [Contract JSON Format](CONTRACT_FORMAT.md)
 - [Project Roadmap](ROADMAP.md)
+- [Village System Design](VILLAGE_SYSTEM_DESIGN.md)
 
 ## Planned Features
 
