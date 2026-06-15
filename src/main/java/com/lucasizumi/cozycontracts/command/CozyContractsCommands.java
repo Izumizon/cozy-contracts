@@ -6,6 +6,8 @@ import com.lucasizumi.cozycontracts.contracts.CommunityBoardPreviewService;
 import com.lucasizumi.cozycontracts.contracts.Contract;
 import com.lucasizumi.cozycontracts.contracts.ContractRegistry;
 import com.lucasizumi.cozycontracts.contracts.ContractSubmissionService;
+import com.lucasizumi.cozycontracts.settlement.Settlement;
+import com.lucasizumi.cozycontracts.settlement.SettlementService;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -15,6 +17,7 @@ import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -22,6 +25,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.RegisterCommandsEvent;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
@@ -54,6 +58,8 @@ public final class CozyContractsCommands {
                                 .executes(context -> debugBoard(context.getSource())))
                         .then(Commands.literal("contracts")
                                 .executes(context -> debugContracts(context.getSource())))
+                        .then(Commands.literal("settlement")
+                                .executes(context -> debugSettlement(context.getSource())))
                         .then(Commands.literal("contract")
                                 .then(Commands.argument("id", ResourceLocationArgument.id())
                                         .executes(context -> debugContract(
@@ -171,11 +177,13 @@ public final class CozyContractsCommands {
             return 0;
         }
 
-        Level level = player.level();
+        ServerLevel level = player.serverLevel();
         if (!(level.getBlockEntity(boardPos) instanceof CommunityBoardBlockEntity board)) {
             source.sendFailure(Component.literal("The targeted board has no board block entity."));
             return 0;
         }
+
+        Settlement settlement = SettlementService.getOrCreateSettlementForBoard(level, boardPos);
 
         long day = level.getDayTime() / 24000L;
         List<ResourceLocation> activeIds =
@@ -192,6 +200,9 @@ public final class CozyContractsCommands {
         player.sendSystemMessage(Component.literal(
                 "Dimension: " + level.dimension().location()));
         player.sendSystemMessage(Component.literal("Minecraft day: " + day));
+        player.sendSystemMessage(Component.literal("Settlement ID: " + settlement.getId()));
+        player.sendSystemMessage(Component.literal(
+                "Settlement center: " + settlement.getCenter().toShortString()));
         player.sendSystemMessage(Component.literal("Stored active IDs: " + activeIds));
         player.sendSystemMessage(Component.literal("Completed IDs: " + completedIds));
 
@@ -208,6 +219,40 @@ public final class CozyContractsCommands {
                             + completedIds.contains(contractId)));
         }
 
+        return 1;
+    }
+
+    private static int debugSettlement(CommandSourceStack source) {
+        ServerPlayer player = getPlayer(source);
+        if (player == null) {
+            return 0;
+        }
+
+        BlockPos boardPos = requireTargetedBoard(
+                source,
+                player,
+                "Look at a Community Board to debug its settlement.");
+        if (boardPos == null) {
+            return 0;
+        }
+
+        ServerLevel level = player.serverLevel();
+        Settlement settlement = SettlementService.getOrCreateSettlementForBoard(level, boardPos);
+        double distance = distanceBetween(boardPos, settlement.getCenter());
+
+        player.sendSystemMessage(Component.literal("Settlement Debug"));
+        player.sendSystemMessage(Component.literal("Settlement ID: " + settlement.getId()));
+        player.sendSystemMessage(Component.literal(
+                "Settlement center: " + settlement.getCenter().toShortString()));
+        player.sendSystemMessage(Component.literal(
+                "Current board: " + boardPos.toShortString()));
+        player.sendSystemMessage(Component.literal(
+                "Distance from center: "
+                        + String.format(Locale.ROOT, "%.2f", distance)
+                        + " blocks"));
+        player.sendSystemMessage(Component.literal(
+                "Settlements in this dimension: "
+                        + SettlementService.getSettlementCount(level)));
         return 1;
     }
 
@@ -242,5 +287,12 @@ public final class CozyContractsCommands {
         return player.level().getBlockState(blockPos).getBlock() instanceof CommunityBoardBlock
                 ? blockPos
                 : null;
+    }
+
+    private static double distanceBetween(BlockPos first, BlockPos second) {
+        double x = first.getX() - second.getX();
+        double y = first.getY() - second.getY();
+        double z = first.getZ() - second.getZ();
+        return Math.sqrt(x * x + y * y + z * z);
     }
 }

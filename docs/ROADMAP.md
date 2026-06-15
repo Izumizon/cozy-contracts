@@ -23,6 +23,7 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Command-based submission
 * Debug commands for boards and contracts
 * Basic Favour Token reward shop
+* Settlement Foundation Lite
 * Improved Community Board model, texture, and GUI presentation
 * Development log and documentation
 
@@ -52,27 +53,7 @@ Do not build the full village system now, but do not code the MVP in a way that 
 
 ## Next Steps
 
-### 1. Settlement Foundation Lite
-
-Add the smallest possible settlement foundation.
-
-Goal:
-
-When a Community Board is used, the mod can resolve which settlement it belongs to.
-
-This should include:
-
-* settlement ID
-* settlement center position
-* nearby boards resolving to the same settlement
-* basic debug command support
-* no districts yet
-* no Prosperity yet
-* no Village Bond yet
-
-This is mainly an architecture step to prevent future rewrites and reduce board-spam exploits.
-
-### 2. Category-Ready Shop Items
+### 1. Category-Ready Shop Items
 
 Update the shop item model so shop entries can store category/theme information.
 
@@ -91,7 +72,7 @@ Examples:
 
 The shop can still show the current basic stock for now, but the data structure should be ready for themed shops later.
 
-### 3. Themed Shop Foundation
+### 2. Themed Shop Foundation
 
 Begin separating shop stock by category.
 
@@ -103,7 +84,7 @@ Early version:
 
 Do not add full rotating stock yet.
 
-### 4. Farmer’s Delight Compatibility Contracts
+### 3. Farmer’s Delight Compatibility Contracts
 
 Add JSON contracts for Farmer’s Delight using `required_mods`.
 
@@ -114,7 +95,7 @@ Goals:
 * no hard dependency crash if Farmer’s Delight is missing
 * contracts are skipped safely when the mod is not installed
 
-### 5. Create: Food Compatibility Contracts
+### 4. Create: Food Compatibility Contracts
 
 Add JSON contracts for Create: Food using `required_mods`.
 
@@ -124,7 +105,7 @@ Goals:
 * kitchen/farming categories
 * safe skipping when the mod is missing
 
-### 6. MVP Polish and Release Testing
+### 5. MVP Polish and Release Testing
 
 Before sharing a first test jar:
 

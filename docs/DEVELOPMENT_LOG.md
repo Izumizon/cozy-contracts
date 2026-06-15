@@ -470,13 +470,50 @@ Players can now complete contracts, earn Favour Tokens, and spend those tokens o
 
 Evaluate the MVP economy and shop usability before considering JSON-driven stock, rotating rewards, or village-themed shops.
 
+## Milestone 16 — Settlement Foundation Lite
+
+### Goal
+
+Add the smallest possible settlement identity layer so a Community Board can answer which settlement it belongs to.
+
+### What was implemented
+
+* Added a settlement data model with an ID, center position, dimension identity, and created day.
+* Added dimension-local saved data so settlement identities persist through save and reload.
+* Added a lookup rule that reuses an existing settlement center within 64 blocks.
+* Created a new settlement centered on the board when no nearby settlement exists.
+* Added `/cozycontracts debug settlement` and `/cc debug settlement`.
+* Updated board debug output to include settlement ID and center position.
+* Kept active contract IDs and completed contract IDs stored on the board BlockEntity for now.
+
+### Why it mattered
+
+The Community Board can now resolve to a stable settlement identity without changing the current contract, shop, or completion loop. Nearby boards can resolve to the same settlement later, which prepares the architecture for future districts, Prosperity, Village Bond, and settlement networks.
+
+### Challenges / fixes
+
+* Kept the saved data intentionally small so it does not become a hidden gameplay system too early.
+* Ignored invalid saved entries during load instead of crashing a world.
+* Left gameplay logic unchanged so contract selection remains board/day-based.
+
+### Screenshots
+
+![Nearby boards sharing one settlement](screenshots/16-settlement-foundation-lite/settlement-debug-near-boards.png)
+
+![Far board creating a separate settlement](screenshots/16-settlement-foundation-lite/settlement-debug-near-and-far-boards.png)
+
+### Next step
+
+Use the settlement identity as a foundation for future category-ready shop data while keeping districts and progression systems out of the current MVP.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop: players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Persistent board state, GUI and command submission, and shift-right-click hand-in remain available.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Active and completed contracts are still stored on each board for now.
 
 ## Next Planned Work
 
-1. Economy and shop usability balancing
-2. Farmer's Delight/Create: Food compatibility contracts
-3. Village Bond
-4. Community Projects
+1. Category-ready shop item data
+2. Economy and shop usability balancing
+3. Farmer's Delight/Create: Food compatibility contracts
+4. Village Bond
+5. Community Projects

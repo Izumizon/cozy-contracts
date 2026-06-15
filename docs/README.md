@@ -19,6 +19,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Improved wooden Community Board model and polished GUI
 - Community Board GUI with full-inventory request submission
 - Favour Token reward shop with vanilla rewards
+- Settlement identity foundation for Community Boards
 - Shift-right-click held-item submission
 - Full-inventory `/cozycontracts submit <slot>` and `/cc submit <slot>` commands
 
