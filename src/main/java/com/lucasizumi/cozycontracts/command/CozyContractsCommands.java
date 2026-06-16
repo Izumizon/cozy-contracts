@@ -263,6 +263,13 @@ public final class CozyContractsCommands {
                         "Kitchen orders for board: "
                                 + KitchenBoardService.getKitchenOrdersForBoard(level, boardPos).size()),
                 false);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Source: "
+                                + (KitchenOrderRegistry.isUsingJsonOrders()
+                                ? "JSON/datapack kitchen orders"
+                                : "Java fallback kitchen orders")),
+                false);
 
         for (KitchenOrder order : KitchenBoardService.getKitchenOrdersForBoard(level, boardPos)) {
             int deliveredCount = board == null
@@ -297,6 +304,13 @@ public final class CozyContractsCommands {
                 () -> Component.literal(
                         "Kitchen order total: "
                                 + KitchenOrderRegistry.getAllOrders().size()),
+                false);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Source: "
+                                + (KitchenOrderRegistry.isUsingJsonOrders()
+                                ? "JSON/datapack kitchen orders"
+                                : "Java fallback kitchen orders")),
                 false);
         for (KitchenOrder order : KitchenOrderRegistry.getAllOrders()) {
             source.sendSuccess(

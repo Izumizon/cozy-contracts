@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,44 @@ public final class KitchenOrderRegistry {
      * datapack/JSON loader can replace or extend this snapshot without changing
      * callers that resolve orders through this registry.
      */
-    private static final RegistrySnapshot SNAPSHOT = createSnapshot(List.of(
+    private static volatile RegistrySnapshot snapshot = createSnapshot(defaultOrders(), false);
+
+    private KitchenOrderRegistry() {
+    }
+
+    public static List<KitchenOrder> getAllOrders() {
+        return snapshot.orders();
+    }
+
+    public static Optional<KitchenOrder> getById(ResourceLocation id) {
+        return Optional.ofNullable(snapshot.ordersById().get(id));
+    }
+
+    public static Map<ResourceLocation, KitchenOrder> getAllById() {
+        return snapshot.ordersById();
+    }
+
+    public static boolean isUsingJsonOrders() {
+        return snapshot.jsonLoaded();
+    }
+
+    public static void replaceLoadedOrders(Collection<KitchenOrder> orders) {
+        if (orders.isEmpty()) {
+            snapshot = createSnapshot(defaultOrders(), false);
+            LOGGER.warn(
+                    "No JSON kitchen orders loaded; using {} Java fallback kitchen orders",
+                    snapshot.orders().size());
+            return;
+        }
+
+        snapshot = createSnapshot(orders, true);
+        LOGGER.info(
+                "Kitchen order registry now uses {} JSON-loaded orders",
+                snapshot.orders().size());
+    }
+
+    private static List<KitchenOrder> defaultOrders() {
+        return List.of(
             order(
                     "morning_bread_basket",
                     "Morning Bread Basket",
@@ -91,21 +129,7 @@ public final class KitchenOrderRegistry {
                     2,
                     3,
                     Set.of("snack", "scholar"),
-                    15)));
-
-    private KitchenOrderRegistry() {
-    }
-
-    public static List<KitchenOrder> getAllOrders() {
-        return SNAPSHOT.orders();
-    }
-
-    public static Optional<KitchenOrder> getById(ResourceLocation id) {
-        return Optional.ofNullable(SNAPSHOT.ordersById().get(id));
-    }
-
-    public static Map<ResourceLocation, KitchenOrder> getAllById() {
-        return SNAPSHOT.ordersById();
+                    15));
     }
 
     private static KitchenOrder order(
@@ -136,7 +160,9 @@ public final class KitchenOrderRegistry {
                 weight);
     }
 
-    private static RegistrySnapshot createSnapshot(List<KitchenOrder> orders) {
+    private static RegistrySnapshot createSnapshot(
+            Collection<KitchenOrder> orders,
+            boolean jsonLoaded) {
         Map<ResourceLocation, KitchenOrder> ordersById = new LinkedHashMap<>();
 
         for (KitchenOrder order : orders) {
@@ -156,11 +182,13 @@ public final class KitchenOrderRegistry {
 
         return new RegistrySnapshot(
                 List.copyOf(ordersById.values()),
-                Map.copyOf(ordersById));
+                Map.copyOf(ordersById),
+                jsonLoaded);
     }
 
     private record RegistrySnapshot(
             List<KitchenOrder> orders,
-            Map<ResourceLocation, KitchenOrder> ordersById) {
+            Map<ResourceLocation, KitchenOrder> ordersById,
+            boolean jsonLoaded) {
     }
 }

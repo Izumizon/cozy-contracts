@@ -1,0 +1,16 @@
+{
+  "title": "Warm Supper Pot",
+  "requester": "Community Kitchen",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:mushroom_stew",
+    "count": 2,
+    "display": "Mushroom Stew"
+  },
+  "support_display": "Supports the evening meal.",
+  "reward_tokens": 3,
+  "daily_limit": 2,
+  "weight": 20,
+  "required_mods": []
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Farmhand Breakfast",
+  "requester": "Farmers",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:egg",
+    "count": 8,
+    "display": "Eggs"
+  },
+  "support_display": "Future farming support.",
+  "reward_tokens": 2,
+  "daily_limit": 3,
+  "weight": 15,
+  "required_mods": []
+}

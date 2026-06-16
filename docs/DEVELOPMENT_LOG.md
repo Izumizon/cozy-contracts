@@ -719,15 +719,50 @@ No screenshot needed, since gameplay and GUI appearance were unchanged.
 
 Test the refactored Kitchen orders in-game, then continue toward MVP polish or future Kitchen JSON loading when the format is ready.
 
+## Milestone 23 — Kitchen Orders JSON Foundation
+
+### Goal
+
+Load Kitchen orders from JSON/datapack resources while keeping the current Kitchen delivery gameplay unchanged.
+
+### What was implemented
+
+* Added a Kitchen order JSON format under `data/<namespace>/kitchen_orders/`.
+* Added a JSON reload listener for Kitchen orders.
+* Added validation for required fields, order type, item requirements, rewards, daily limits, and optional `required_mods`.
+* Moved the five existing vanilla Kitchen orders into built-in JSON resources.
+* Updated the Kitchen order registry so JSON/datapack orders become the active source when valid orders load.
+* Kept Java fallback Kitchen orders for safety if no valid JSON orders load.
+* Updated `/cozycontracts debug kitchen` and `/cc debug kitchen` to show the active source.
+
+### Why it mattered
+
+Kitchen orders now follow the same data-driven direction as contracts. This prepares the Community Kitchen for future datapacks and optional Farmer's Delight or Create: Food Kitchen orders without adding new content yet.
+
+### Challenges / fixes
+
+* Preserved the existing five vanilla Kitchen orders, delivery requirements, rewards, and daily caps.
+* Kept delivery counts, GUI refresh behavior, and server-side validation unchanged.
+* Supported `required_mods` so future food mod Kitchen orders can be skipped safely when their mods are missing.
+* Left Resident Profiles, Taste Preferences, Prosperity, and Storehouse as future systems.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Test Kitchen order reload behavior, then continue MVP polish before adding optional food mod Kitchen order content.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a Kitchen tab with simple vanilla food deliveries, small rewards, per-board daily caps, and data-ready order requirements.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a Kitchen tab with simple JSON-loaded vanilla food deliveries, small rewards, and per-board daily caps.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Test and tune Kitchen deliveries
+1. Test and tune Kitchen deliveries and Kitchen order reload behavior
 2. Create: Food compatibility contracts
 3. MVP polish and release testing
-4. Later: Kitchen JSON loading, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network
+4. Later: optional food mod Kitchen orders, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network

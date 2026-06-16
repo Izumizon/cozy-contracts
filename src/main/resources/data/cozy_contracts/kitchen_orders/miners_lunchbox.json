@@ -1,0 +1,16 @@
+{
+  "title": "Miner's Lunchbox",
+  "requester": "Mining Crew",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:cooked_beef",
+    "count": 3,
+    "display": "Cooked Beef"
+  },
+  "support_display": "Future mining support.",
+  "reward_tokens": 3,
+  "daily_limit": 3,
+  "weight": 15,
+  "required_mods": []
+}

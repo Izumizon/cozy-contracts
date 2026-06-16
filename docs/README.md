@@ -22,6 +22,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Community Board GUI with full-inventory request submission
 - Community Kitchen tab with simple vanilla food deliveries and daily caps
 - Data-ready Kitchen order requirements
+- JSON/datapack Kitchen order loading
 - Favour Token reward shop with vanilla rewards
 - Category-ready shop item metadata
 - Category-aware shop stock foundation
@@ -38,6 +39,7 @@ Contracts are loaded from JSON resources and datapacks. Built-in definitions liv
 
 - [Development Log](DEVELOPMENT_LOG.md)
 - [Contract JSON Format](CONTRACT_FORMAT.md)
+- [Kitchen Order JSON Format](KITCHEN_ORDER_FORMAT.md)
 - [Project Roadmap](ROADMAP.md)
 - [Village System Design](VILLAGE_SYSTEM_DESIGN.md)
 

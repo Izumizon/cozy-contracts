@@ -1,0 +1,16 @@
+{
+  "title": "School Snack Basket",
+  "requester": "Scholar Hall",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "minecraft:cookie",
+    "count": 8,
+    "display": "Cookies"
+  },
+  "support_display": "Future scholar support.",
+  "reward_tokens": 2,
+  "daily_limit": 3,
+  "weight": 15,
+  "required_mods": []
+}
