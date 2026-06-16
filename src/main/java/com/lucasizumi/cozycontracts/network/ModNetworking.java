@@ -1,6 +1,7 @@
 package com.lucasizumi.cozycontracts.network;
 
 import com.lucasizumi.cozycontracts.CozyContracts;
+import com.lucasizumi.cozycontracts.network.packet.DeliverKitchenOrderPacket;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
 import com.lucasizumi.cozycontracts.network.packet.PurchaseShopItemPacket;
 import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
@@ -45,6 +46,13 @@ public final class ModNetworking {
                 PurchaseShopItemPacket::decode,
                 PurchaseShopItemPacket::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
+        CHANNEL.registerMessage(
+                3,
+                DeliverKitchenOrderPacket.class,
+                DeliverKitchenOrderPacket::encode,
+                DeliverKitchenOrderPacket::decode,
+                DeliverKitchenOrderPacket::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
     }
 
     public static void sendToPlayer(
@@ -58,6 +66,10 @@ public final class ModNetworking {
     }
 
     public static void sendToServer(PurchaseShopItemPacket packet) {
+        CHANNEL.sendToServer(packet);
+    }
+
+    public static void sendToServer(DeliverKitchenOrderPacket packet) {
         CHANNEL.sendToServer(packet);
     }
 }

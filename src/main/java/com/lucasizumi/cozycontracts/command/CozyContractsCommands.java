@@ -231,33 +231,13 @@ public final class CozyContractsCommands {
     private static int debugKitchen(CommandSourceStack source) {
         ServerPlayer player = tryGetPlayer(source);
         if (player == null) {
-            source.sendSuccess(
-                    () -> Component.literal(
-                            "Kitchen order total: "
-                                    + KitchenOrderRegistry.getAllOrders().size()),
-                    false);
-            for (KitchenOrder order : KitchenOrderRegistry.getAllOrders()) {
-                source.sendSuccess(
-                        () -> Component.literal(
-                                "- " + order.getId() + " | type=" + order.getType()),
-                        false);
-            }
+            sendKitchenRegistryDebug(source);
             return 1;
         }
 
         BlockPos boardPos = findTargetedBoard(player);
         if (boardPos == null) {
-            source.sendSuccess(
-                    () -> Component.literal(
-                            "Kitchen order total: "
-                                    + KitchenOrderRegistry.getAllOrders().size()),
-                    false);
-            for (KitchenOrder order : KitchenOrderRegistry.getAllOrders()) {
-                source.sendSuccess(
-                        () -> Component.literal(
-                                "- " + order.getId() + " | type=" + order.getType()),
-                        false);
-            }
+            sendKitchenRegistryDebug(source);
             source.sendSuccess(
                     () -> Component.literal(
                             "Look at a Community Board to view board kitchen orders."),
@@ -266,9 +246,17 @@ public final class CozyContractsCommands {
         }
 
         ServerLevel level = player.serverLevel();
+        long day = level.getDayTime() / 24000L;
+        CommunityBoardBlockEntity board =
+                level.getBlockEntity(boardPos) instanceof CommunityBoardBlockEntity value
+                        ? value
+                        : null;
         source.sendSuccess(
                 () -> Component.literal(
                         "Current board: " + boardPos.toShortString()),
+                false);
+        source.sendSuccess(
+                () -> Component.literal("Minecraft day: " + day),
                 false);
         source.sendSuccess(
                 () -> Component.literal(
@@ -277,6 +265,9 @@ public final class CozyContractsCommands {
                 false);
 
         for (KitchenOrder order : KitchenBoardService.getKitchenOrdersForBoard(level, boardPos)) {
+            int deliveredCount = board == null
+                    ? 0
+                    : board.getKitchenDeliveryCount(day, order.getId());
             source.sendSuccess(
                     () -> Component.literal(
                             "- "
@@ -284,11 +275,42 @@ public final class CozyContractsCommands {
                                     + " | "
                                     + order.getType()
                                     + " | "
-                                    + order.getTitle()),
+                                    + order.getTitle()
+                                    + " | delivered="
+                                    + deliveredCount
+                                    + "/"
+                                    + order.getDailyLimit()
+                                    + " | canDeliver="
+                                    + (deliveredCount < order.getDailyLimit())),
                     false);
         }
 
         return 1;
+    }
+
+    private static void sendKitchenRegistryDebug(CommandSourceStack source) {
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Kitchen order total: "
+                                + KitchenOrderRegistry.getAllOrders().size()),
+                false);
+        for (KitchenOrder order : KitchenOrderRegistry.getAllOrders()) {
+            source.sendSuccess(
+                    () -> Component.literal(
+                            "- "
+                                    + order.getId()
+                                    + " | type="
+                                    + order.getType()
+                                    + " | requires="
+                                    + order.getRequirement().getCount()
+                                    + " "
+                                    + order.getRequirement().getDisplayName()
+                                    + " | reward="
+                                    + order.getRewardTokens()
+                                    + " | limit="
+                                    + order.getDailyLimit()),
+                    false);
+        }
     }
 
     private static int debugBoard(CommandSourceStack source) {

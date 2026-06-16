@@ -644,15 +644,54 @@ The Community Board can now show a cooking-focused space without changing contra
 
 Test the read-only Kitchen tab in-game, then decide the smallest safe path toward future cooking deliveries, caps, and food mod support.
 
+## Milestone 21 — Kitchen Deliveries Foundation
+
+### Goal
+
+Make the Community Kitchen tab playable by allowing simple vanilla food deliveries without adding the future resident, taste, Prosperity, or Storehouse systems.
+
+### What was implemented
+
+* Added exact-item requirements, required counts, small Favour Token rewards, and daily delivery limits to Kitchen orders.
+* Added server-side Kitchen delivery validation.
+* Added full-inventory item counting and removal for Kitchen deliveries.
+* Added per-board, per-day Kitchen delivery counts on the Community Board block entity.
+* Added a Kitchen delivery packet from the GUI to the server.
+* Added Deliver buttons, progress text, reward text, and disabled filled orders to the Kitchen tab.
+* Updated `/cozycontracts debug kitchen` and `/cc debug kitchen` to show requirements, rewards, limits, and board delivery progress.
+
+### Why it mattered
+
+Kitchen orders can now accept simple vanilla food deliveries while staying separate from normal board contracts. This gives cooking its first small gameplay loop and prepares the system for future food mod integration without making Kitchen rewards stronger than daily contracts.
+
+### Challenges / fixes
+
+* Kept delivery validation server-authoritative so the client only requests an order ID.
+* Removed required food only after confirming enough matching items exist.
+* Kept rewards intentionally small because Kitchen deliveries are ongoing support, not the main daily contract economy.
+* Reset delivery counts by Minecraft day without moving data into settlement storage yet.
+* Left Resident Profiles, Taste Preferences, Prosperity, and Storehouse as future systems.
+
+### Screenshots
+
+[Watch the kitchen delivery showcase](screenshots/21-kitchen-deliveries-foundation/kitchen-delivery-showcase.mp4)
+
+![Successful kitchen delivery reward message](screenshots/21-kitchen-deliveries-foundation/kitchen-delivery-success.png)
+
+![Kitchen delivery progress after completed orders](screenshots/21-kitchen-deliveries-foundation/kitchen-progress-updated.png)
+### Next step
+
+Test Kitchen deliveries in Survival, then tune messages and caps before considering food mod support or resident preference systems.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a read-only Kitchen tab for Daily Menu and Standing Order previews.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a Kitchen tab with simple vanilla food deliveries, small rewards, and per-board daily caps.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Test and polish the read-only Community Kitchen tab
+1. Test and tune Kitchen deliveries
 2. Create: Food compatibility contracts
 3. MVP polish and release testing
-4. Later: food submission, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Village Network
+4. Later: Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network

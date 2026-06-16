@@ -3,6 +3,7 @@ package com.lucasizumi.cozycontracts.network.packet;
 import com.lucasizumi.cozycontracts.client.ClientPacketHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.List;
@@ -70,27 +71,39 @@ public record OpenCommunityBoardScreenPacket(
     }
 
     public record KitchenOrderEntry(
+            ResourceLocation id,
             String title,
             String requester,
             String type,
             String requirementDisplay,
-            String supportDisplay) {
+            String supportDisplay,
+            int rewardTokens,
+            int deliveredToday,
+            int dailyLimit) {
 
         private static void encode(FriendlyByteBuf buffer, KitchenOrderEntry entry) {
+            buffer.writeResourceLocation(entry.id());
             buffer.writeUtf(entry.title());
             buffer.writeUtf(entry.requester());
             buffer.writeUtf(entry.type());
             buffer.writeUtf(entry.requirementDisplay());
             buffer.writeUtf(entry.supportDisplay());
+            buffer.writeVarInt(entry.rewardTokens());
+            buffer.writeVarInt(entry.deliveredToday());
+            buffer.writeVarInt(entry.dailyLimit());
         }
 
         private static KitchenOrderEntry decode(FriendlyByteBuf buffer) {
             return new KitchenOrderEntry(
+                    buffer.readResourceLocation(),
                     buffer.readUtf(),
                     buffer.readUtf(),
                     buffer.readUtf(),
                     buffer.readUtf(),
-                    buffer.readUtf());
+                    buffer.readUtf(),
+                    buffer.readVarInt(),
+                    buffer.readVarInt(),
+                    buffer.readVarInt());
         }
     }
 }

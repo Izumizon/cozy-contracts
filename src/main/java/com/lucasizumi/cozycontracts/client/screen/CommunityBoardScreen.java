@@ -1,6 +1,7 @@
 package com.lucasizumi.cozycontracts.client.screen;
 
 import com.lucasizumi.cozycontracts.network.ModNetworking;
+import com.lucasizumi.cozycontracts.network.packet.DeliverKitchenOrderPacket;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
 import com.lucasizumi.cozycontracts.network.packet.PurchaseShopItemPacket;
 import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
@@ -80,6 +81,8 @@ public class CommunityBoardScreen extends Screen {
             addRequestButtons(left, top);
         } else if (activeView == View.SHOP) {
             addShopButtons(left, top);
+        } else {
+            addKitchenButtons(left, top);
         }
     }
 
@@ -279,7 +282,7 @@ public class CommunityBoardScreen extends Screen {
 
         graphics.drawCenteredString(
                 font,
-                "Kitchen deliveries are planned for a future update.",
+                "Deliver food to support the Community Kitchen.",
                 width / 2,
                 top + PANEL_HEIGHT - 22,
                 0xFFC8BBA8);
@@ -305,6 +308,37 @@ public class CommunityBoardScreen extends Screen {
         }
     }
 
+    private void addKitchenButtons(int left, int top) {
+        int columnWidth = 166;
+        int dailyX = left + 14;
+        int standingX = left + PANEL_WIDTH - columnWidth - 14;
+        int sectionY = top + 77;
+
+        addKitchenButtonsForType(dailyX, sectionY, columnWidth, "DAILY_MENU");
+        addKitchenButtonsForType(standingX, sectionY, columnWidth, "STANDING_ORDER");
+    }
+
+    private void addKitchenButtonsForType(int x, int y, int width, String type) {
+        int entryY = y + 13;
+
+        for (OpenCommunityBoardScreenPacket.KitchenOrderEntry order : kitchenOrders) {
+            if (!order.type().equals(type)) {
+                continue;
+            }
+
+            Button deliverButton = Button.builder(
+                            Component.literal("Deliver"),
+                            button -> ModNetworking.sendToServer(
+                                    new DeliverKitchenOrderPacket(boardPos, order.id())))
+                    .bounds(x + width - 53, entryY + 8, 48, 20)
+                    .build();
+            deliverButton.active = order.deliveredToday() < order.dailyLimit();
+            addRenderableWidget(deliverButton);
+
+            entryY += KITCHEN_CARD_HEIGHT + 4;
+        }
+    }
+
     private void renderKitchenCard(
             GuiGraphics graphics,
             int x,
@@ -316,36 +350,55 @@ public class CommunityBoardScreen extends Screen {
                 y - 3,
                 x + width,
                 y + KITCHEN_CARD_HEIGHT,
-                0x604B3925);
+                order.deliveredToday() >= order.dailyLimit()
+                        ? 0x60302D29
+                        : 0x604B3925);
 
-        int textWidth = width - 12;
+        int textWidth = width - 66;
+        int titleColor = order.deliveredToday() >= order.dailyLimit()
+                ? 0xFF88847D
+                : 0xFFFFD38A;
+        int detailColor = order.deliveredToday() >= order.dailyLimit()
+                ? 0xFF85817B
+                : 0xFFE5DED2;
+        int rewardColor = order.deliveredToday() >= order.dailyLimit()
+                ? 0xFF77736D
+                : 0xFFFFC85C;
+
         graphics.drawString(
                 font,
                 trimToWidth(order.title(), textWidth),
                 x + 6,
                 y,
-                0xFFFFD38A,
+                titleColor,
                 false);
         graphics.drawString(
                 font,
                 trimToWidth(order.requester(), textWidth),
                 x + 6,
                 y + 9,
-                0xFFC8BBA8,
+                detailColor,
                 false);
         graphics.drawString(
                 font,
                 trimToWidth(shortKitchenRequirement(order.requirementDisplay()), textWidth),
                 x + 6,
                 y + 18,
-                0xFFE5DED2,
+                detailColor,
                 false);
         graphics.drawString(
                 font,
-                trimToWidth(shortKitchenSupport(order.supportDisplay()), textWidth),
+                trimToWidth(
+                        "Delivered: "
+                                + order.deliveredToday()
+                                + "/"
+                                + order.dailyLimit()
+                                + " | Reward: "
+                                + order.rewardTokens(),
+                        textWidth),
                 x + 6,
                 y + 27,
-                0xFFFFC85C,
+                rewardColor,
                 false);
     }
 
@@ -363,17 +416,6 @@ public class CommunityBoardScreen extends Screen {
             case "Bring simple breakfast food for the fields." -> "Simple breakfast food";
             case "Bring light snacks or baked goods." -> "Snacks or baked goods";
             default -> requirement;
-        };
-    }
-
-    private String shortKitchenSupport(String support) {
-        return switch (support) {
-            case "Supports the morning meal." -> "Morning meal support";
-            case "Supports the evening meal." -> "Evening meal support";
-            case "Future mining support." -> "Mining support planned";
-            case "Future farming support." -> "Farming support planned";
-            case "Future scholar support." -> "Scholar support planned";
-            default -> support;
         };
     }
 

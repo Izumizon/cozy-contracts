@@ -2,6 +2,7 @@ package com.lucasizumi.cozycontracts.contracts;
 
 import com.lucasizumi.cozycontracts.network.ModNetworking;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
+import com.lucasizumi.cozycontracts.block.entity.CommunityBoardBlockEntity;
 import com.lucasizumi.cozycontracts.kitchen.KitchenBoardService;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -30,14 +31,26 @@ public final class CommunityBoardScreenService {
                                 completedIds.contains(contract.getId())))
                         .toList();
 
+        ServerLevel serverLevel = (ServerLevel) level;
+        CommunityBoardBlockEntity board =
+                serverLevel.getBlockEntity(boardPos) instanceof CommunityBoardBlockEntity value
+                        ? value
+                        : null;
+
         List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenEntries =
-                KitchenBoardService.getKitchenOrdersForBoard((ServerLevel) level, boardPos).stream()
+                KitchenBoardService.getKitchenOrdersForBoard(serverLevel, boardPos).stream()
                         .map(order -> new OpenCommunityBoardScreenPacket.KitchenOrderEntry(
+                                order.getId(),
                                 order.getTitle(),
                                 order.getRequester(),
                                 order.getType().name(),
                                 order.getRequirementDisplay(),
-                                order.getSupportDisplay()))
+                                order.getSupportDisplay(),
+                                order.getRewardTokens(),
+                                board == null
+                                        ? 0
+                                        : board.getKitchenDeliveryCount(day, order.getId()),
+                                order.getDailyLimit()))
                         .toList();
 
         ModNetworking.sendToPlayer(

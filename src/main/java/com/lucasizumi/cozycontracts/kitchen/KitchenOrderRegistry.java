@@ -2,6 +2,8 @@ package com.lucasizumi.cozycontracts.kitchen;
 
 import com.lucasizumi.cozycontracts.CozyContracts;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +16,13 @@ public final class KitchenOrderRegistry {
                     "Morning Bread Basket",
                     "Community Kitchen",
                     KitchenOrderType.DAILY_MENU,
+                    Items.BREAD,
+                    4,
+                    "Bread",
                     "Bring breakfast foods such as Bread or Eggs.",
                     "Supports the morning meal.",
+                    2,
+                    2,
                     Set.of("breakfast", "kitchen"),
                     20),
             order(
@@ -23,8 +30,13 @@ public final class KitchenOrderRegistry {
                     "Warm Supper Pot",
                     "Community Kitchen",
                     KitchenOrderType.DAILY_MENU,
+                    Items.MUSHROOM_STEW,
+                    2,
+                    "Mushroom Stew",
                     "Bring warm meals such as Mushroom Stew or Cooked Meat.",
                     "Supports the evening meal.",
+                    3,
+                    2,
                     Set.of("supper", "kitchen"),
                     20),
             order(
@@ -32,8 +44,13 @@ public final class KitchenOrderRegistry {
                     "Miner's Lunchbox",
                     "Mining Crew",
                     KitchenOrderType.STANDING_ORDER,
+                    Items.COOKED_BEEF,
+                    3,
+                    "Cooked Beef",
                     "Bring hearty packed meals for workers.",
                     "Future mining support.",
+                    3,
+                    3,
                     Set.of("lunch", "mining"),
                     15),
             order(
@@ -41,8 +58,13 @@ public final class KitchenOrderRegistry {
                     "Farmhand Breakfast",
                     "Farmers",
                     KitchenOrderType.STANDING_ORDER,
+                    Items.EGG,
+                    8,
+                    "Eggs",
                     "Bring simple breakfast food for the fields.",
                     "Future farming support.",
+                    2,
+                    3,
                     Set.of("breakfast", "farming"),
                     15),
             order(
@@ -50,8 +72,13 @@ public final class KitchenOrderRegistry {
                     "School Snack Basket",
                     "Scholar Hall",
                     KitchenOrderType.STANDING_ORDER,
+                    Items.COOKIE,
+                    8,
+                    "Cookies",
                     "Bring light snacks or baked goods.",
                     "Future scholar support.",
+                    2,
+                    3,
                     Set.of("snack", "scholar"),
                     15));
 
@@ -73,8 +100,13 @@ public final class KitchenOrderRegistry {
             String title,
             String requester,
             KitchenOrderType type,
+            Item item,
+            int count,
+            String displayName,
             String requirementDisplay,
             String supportDisplay,
+            int rewardTokens,
+            int dailyLimit,
             Set<String> tags,
             int weight) {
         return new KitchenOrder(
@@ -82,8 +114,11 @@ public final class KitchenOrderRegistry {
                 title,
                 requester,
                 type,
+                new KitchenOrderRequirement(item, count, displayName),
                 requirementDisplay,
                 supportDisplay,
+                rewardTokens,
+                dailyLimit,
                 tags,
                 weight);
     }
