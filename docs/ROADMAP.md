@@ -12,6 +12,7 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Favour Token item
 * Data-driven JSON/datapack contract loading
 * 14 built-in vanilla JSON contracts
+* Optional Farmer's Delight JSON contracts
 * Three active daily contracts per board
 * Weighted daily contract selection
 * Persistent active contract IDs on the Community Board block entity
@@ -24,29 +25,36 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Debug commands for boards and contracts
 * Basic Favour Token reward shop
 * Category-ready shop item data
+* Category-ready contract data
 * Settlement Foundation Lite
 * Improved Community Board model, texture, and GUI presentation
-* Development log and documentation
+* Development log and design documentation
 
 ## Design Direction
 
 The long-term direction is no longer just a simple contract board.
 
-Cozy Contracts is becoming a village-building and community economy mod where the Community Board acts as the interface to a larger settlement system.
+Cozy Contracts is becoming a settlement-focused community economy mod where the Community Board acts as the main interface to a larger village system.
 
 Long-term systems should support:
 
 * settlements instead of isolated boards
 * multiple nearby boards sharing one settlement
 * districts such as Farming, Kitchen, Builder, Mining, Scholar, Decorator, Market, Hunter, and Fishing
+* themed village shops
+* Community Kitchen and Standing Orders
+* Resident Profiles and Taste Preferences
+* Resident Memories
+* Community Supplies and Storehouse
 * Prosperity as a positive buff system, not upkeep
-* Community Supplies
-* themed shops
 * Village Bond
 * Community Projects
 * player-founded villages
 * Capital Villages
 * Village Network progression
+* festivals
+
+Community Kitchen and Resident Profiles are future systems, not immediate MVP requirements.
 
 The key design rule is:
 
@@ -61,21 +69,24 @@ Begin separating shop stock by category.
 Early version:
 
 * Universal stock is always available.
-* Category stock exists internally but may not be fully used yet.
-* Future settlement/district data can decide which category stock appears.
+* Category stock exists internally.
+* Future settlement and district data can decide which category stock appears.
+* Shop data stays ready for themed village shops later.
 
 Do not add full rotating stock yet.
 
-### 2. Farmer’s Delight Compatibility Contracts
+### 2. Community Kitchen Design/Foundation
 
-Add JSON contracts for Farmer’s Delight using `required_mods`.
+Define the first small version of the future cooking-focused system.
 
 Goals:
 
-* food contracts using Farmer’s Delight dishes
-* kitchen/farming categories
-* no hard dependency crash if Farmer’s Delight is missing
-* contracts are skipped safely when the mod is not installed
+* decide whether the first version starts as a board tab or separate block later
+* document Daily Menu and Standing Orders
+* keep cooking distinct from normal board contracts
+* prepare for food mod integration without adding full resident simulation yet
+
+Do not make this an immediate MVP requirement.
 
 ### 3. Create: Food Compatibility Contracts
 
@@ -84,8 +95,9 @@ Add JSON contracts for Create: Food using `required_mods`.
 Goals:
 
 * food contracts using Create: Food items
-* kitchen/farming categories
+* kitchen and farming categories
 * safe skipping when the mod is missing
+* future compatibility with Community Kitchen systems
 
 ### 4. MVP Polish and Release Testing
 
@@ -96,7 +108,7 @@ Before sharing a first test jar:
 * test save/reload
 * test `/reload`
 * test without extra mods
-* test with Farmer’s Delight installed
+* test with Farmer's Delight installed
 * test with Create: Food installed if available
 * test full inventory reward drops
 * check screenshots
@@ -122,7 +134,53 @@ Villages can grow through multiple districts, such as:
 * Hunter District
 * Fishing District
 
-Districts should affect contracts, shop stock, services, rewards, and future Community Projects.
+Districts should affect contracts, shop stock, services, rewards, future Community Projects, and future Prosperity support.
+
+### Community Kitchen and Standing Orders
+
+A future cooking-focused system where players can deliver meals outside normal daily contracts.
+
+Possible features:
+
+* Daily Menu
+* Standing Orders
+* resident meal deliveries
+* Feast Prep
+* district meal support
+* limited repeatable food deliveries
+* Kitchen identity
+* future Prosperity support
+* Farmer's Delight and Create: Food integration
+
+### Resident Profiles and Taste Preferences
+
+Residents can eventually have names, roles, homes, personalities, relationship levels, hidden Taste Profiles, and personal food preferences.
+
+Players can discover loved dishes, liked food categories, favourite meal types, and disliked categories by cooking for residents. This should make food mods feel more personal and give cooking a stronger identity.
+
+### Village Registry
+
+A future UI, block, or board tab for tracking:
+
+* residents
+* homes
+* roles
+* relationship levels
+* known preferences
+* memories
+* personal requests
+
+### Resident Memories
+
+Important events and loved meals can create memories.
+
+Memories should make villages feel alive without requiring complex simulation.
+
+### Community Supplies and Storehouse
+
+Community Supplies can support districts and improve Prosperity.
+
+A future Storehouse can help manage supplied items. It should make support easier, not create stressful upkeep.
 
 ### Prosperity
 
@@ -130,7 +188,7 @@ Prosperity should be a positive buff system.
 
 Villages should never decay, lose progress, or punish the player for taking a break.
 
-Community Supplies should improve Prosperity and provide bonuses such as:
+Community Supplies, food support, and projects can improve Prosperity and provide bonuses such as:
 
 * faster services
 * better shop stock
@@ -140,7 +198,7 @@ Community Supplies should improve Prosperity and provide bonuses such as:
 
 ### Village Bond
 
-Village Bond should represent the player’s relationship with a settlement.
+Village Bond should represent the player's relationship with a settlement.
 
 It can later unlock:
 
@@ -189,7 +247,7 @@ The mod should not randomly place buildings without player control.
 
 The Village Network should connect multiple settlements.
 
-Specialised settlements can support larger settlements or Capital Villages.
+Specialized settlements can support larger settlements or Capital Villages.
 
 The network should encourage exploration and long-term world progression without becoming an industrial automation system.
 
@@ -199,11 +257,21 @@ Capital Villages should be expensive endgame settlements with multiple districts
 
 They should be powerful, but require significant support through projects, Prosperity, and linked villages.
 
+### Festivals
+
+Festivals can become future village events tied to seasons, food, districts, residents, Prosperity, and Community Projects.
+
 ## Not Planned for the Current MVP
 
 Do not add these yet:
 
 * full Prosperity system
+* Community Kitchen gameplay
+* Standing Orders
+* Resident Profiles
+* Taste Preferences
+* Resident Memories
+* Village Registry
 * Village Bond progression
 * Community Projects
 * Village Network

@@ -466,7 +466,7 @@ Players can now complete contracts, earn Favour Tokens, and spend those tokens o
 
 ![Not enough tokens message](screenshots/15-basic-favour-token-reward-shop/not-enough-tokens-message.png)
 
-[Watch the reward system and shop showcase](screenshots/15-basic-favour-token-reward-shop/`showcase-reward-system-and-shop.mp4`)
+[Watch the reward system and shop showcase](screenshots/15-basic-favour-token-reward-shop/showcase-reward-system-and-shop.mp4)
 
 ### Next step
 
@@ -541,14 +541,48 @@ Shop items now carry enough metadata to support future district and themed stock
 
 Use the category metadata to begin a themed shop foundation later, without adding rotating stock or settlement filtering yet.
 
+## Milestone 18 — Farmer's Delight Compatibility Contracts
+
+### Goal
+
+Add optional Farmer's Delight contracts that expand the cooking and farming request pool when Farmer's Delight is installed.
+
+### What was implemented
+
+* Added Farmer's Delight contracts as JSON contract files.
+* Added `required_mods: ["farmersdelight"]` to every Farmer's Delight contract.
+* Focused the new contracts on kitchen and farming requests.
+* Used verified Farmer's Delight 1.20.1 item IDs from the installed mod jar.
+* Kept Cozy Contracts standalone with no Java imports or mandatory dependency on Farmer's Delight.
+
+### Why it mattered
+
+The existing JSON contract loader can now support optional food-mod compatibility without adding hard dependencies. Players who install Farmer's Delight get more cozy cooking and farming requests, while players without it keep the standalone vanilla experience.
+
+### Challenges / fixes
+
+* Verified the `farmersdelight` mod ID and item registry IDs before writing JSON.
+* Avoided suggested item IDs that were not present in the installed 1.20.1 jar.
+* Kept contract loading, selection, shop behavior, settlement behavior, and GUI behavior unchanged.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Test the optional contracts in a runtime with Farmer's Delight installed, then consider Create: Food compatibility contracts later.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Shop items now include category metadata for future themed stock, but all current rewards still appear together.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed.
+
+The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
 1. Themed shop foundation
-2. Economy and shop usability balancing
-3. Farmer's Delight/Create: Food compatibility contracts
-4. Village Bond
-5. Community Projects
+2. Community Kitchen / Standing Orders design foundation
+3. Create: Food compatibility contracts
+4. MVP polish and release testing
+5. Later: Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Village Network

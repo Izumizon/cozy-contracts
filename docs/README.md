@@ -2,6 +2,8 @@
 
 Cozy Contracts is a cozy Forge 1.20.1 Minecraft mod where villages post daily community requests. Players complete cooking, farming, building, decorating, and gathering requests to earn Favour Tokens.
 
+Long term, Cozy Contracts is planned to grow into a settlement-focused community economy mod with districts, themed shops, Community Kitchen systems, Prosperity, Community Projects, and resident food preferences.
+
 ## Status
 
 Early prototype. Cozy Contracts has not been released yet.
@@ -21,6 +23,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Favour Token reward shop with vanilla rewards
 - Category-ready shop item metadata
 - Settlement identity foundation for Community Boards
+- Optional Farmer's Delight JSON contract support
 - Shift-right-click held-item submission
 - Full-inventory `/cozycontracts submit <slot>` and `/cc submit <slot>` commands
 
@@ -37,8 +40,10 @@ Contracts are loaded from JSON resources and datapacks. Built-in definitions liv
 
 ## Planned Features
 
-- Farmer's Delight and Create: Food compatibility
-- Expanded and themed village shops
+- Create: Food compatibility
+- Themed village shops
+- Community Kitchen and Standing Orders
+- Resident Profiles and Taste Preferences
 - Village Bond
 - Community Projects
 - Manual and assisted building

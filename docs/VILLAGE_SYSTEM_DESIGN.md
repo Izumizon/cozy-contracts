@@ -4,36 +4,37 @@
 
 This document defines the long-term village and settlement direction for Cozy Contracts.
 
-Cozy Contracts started as a Community Board contract system, but the design has grown into a broader village-building and community economy mod. The Community Board remains the main player-facing block, but the long-term system should be based around settlements, districts, Prosperity, Favour Tokens, and player-shaped village growth.
+Cozy Contracts began as a Community Board contract system, but the broader design is a settlement-focused community economy mod. The Community Board remains the main player-facing block and interface, while the systems behind it can grow into settlements, districts, Prosperity, Community Supplies, Favour Tokens, resident relationships, and village networks.
 
-The goal is to keep the first MVP simple while avoiding code and design choices that would block future settlement systems.
+The goal is to keep the MVP playable and focused while avoiding design choices that would block future settlement systems.
 
 ## Core Design Statement
 
-Cozy Contracts is a Minecraft mod where the Community Board becomes the heart of a growing village or settlement. Players complete cozy contracts, earn Favour Tokens, and use those tokens to buy themed goods, unlock services, support projects, and help the village grow.
+Cozy Contracts is a Minecraft mod where the Community Board becomes the heart of a growing village or settlement. Players complete requests, earn Favour Tokens, spend those tokens on useful rewards, and gradually support the identity and growth of the community.
 
-Villages can develop multiple districts such as Farming, Kitchen, Mining, Builder, Scholar, Decorator, Market, Hunter, and Fishing. Each district affects contracts, shop stock, services, and rewards.
+Long term, villages can develop multiple districts such as Farming, Kitchen, Mining, Builder, Scholar, Decorator, Market, Hunter, and Fishing. These districts can affect contracts, shop stock, services, rewards, Community Supplies, and future village progression.
 
-Large villages can become powerful, but they require Community Supplies to raise Prosperity and operate at full efficiency. Villages never decay or punish the player when unsupported; instead, supplies provide positive buffs such as faster production, better shop stock, stronger rewards, and improved services.
+Prosperity should be a positive buff system, not upkeep. Villages should never decay, lose progress, or punish the player for taking a break. Well-supported villages should receive bonuses, while unsupported villages keep their baseline function.
 
-Players can specialise villages or build expensive Capital Villages, while the Village Network remains valuable by linking specialised settlements together.
+The long-term design also supports larger settlements, Capital Villages, player-founded villages, manual and assisted building, and a Village Network that makes specialized settlements valuable.
 
 ## Main Design Rules
 
-1. Villages can have multiple districts.
-2. Districts affect contracts, shop stock, services, and future rewards.
-3. Prosperity is a positive buff system, not upkeep.
-4. Villages should never decay, lose bond, or become useless when unsupported.
-5. Super villages are allowed as expensive endgame Capital Villages.
-6. Specialised villages should remain efficient and useful.
-7. The Village Network should remain valuable.
-8. Nearby Community Boards should share settlement state instead of creating separate reward farms.
-9. Player-founded villages should be possible later.
-10. Players should stay in control of village growth.
-11. Random uncontrolled building placement should be avoided.
-12. Manual building and assisted building should both be supported later.
-13. Favour Tokens should become a central village economy currency.
-14. Shops should eventually be themed, not generic.
+1. The Community Board is the main settlement interface.
+2. The settlement is the system behind the board.
+3. Nearby boards should share settlement state instead of creating reward farms.
+4. Villages can have multiple districts.
+5. Districts should be player-shaped, not randomly assigned.
+6. Prosperity is a positive buff system, not upkeep.
+7. Villages should never decay, lose bond, or become useless when unsupported.
+8. Large villages and Capital Villages are allowed, but they require more support.
+9. Specialized villages should remain efficient and useful.
+10. The Village Network should remain valuable.
+11. Player-founded villages should be possible later.
+12. Players should stay in control of village growth.
+13. Manual building and assisted building should both be supported later.
+14. Favour Tokens should remain central to the village economy.
+15. Cooking should become a real playstyle, not only another contract category.
 
 ## Board vs Settlement
 
@@ -41,29 +42,24 @@ The Community Board is the player-facing block and interface.
 
 The settlement is the larger system behind the board.
 
-This distinction is important.
-
-A Community Board should not permanently be treated as the entire village. Long term, a board should point to settlement data. The settlement should store things like contracts, shop state, districts, Prosperity, Village Bond, projects, and village network links.
+A Community Board should not permanently be treated as the entire village. Long term, a board should point to settlement data. The settlement should store contracts, shop state, districts, Prosperity, Village Bond, projects, resident information, Community Supplies, and village network links.
 
 Future architecture should move toward:
 
 ```text
 Community Board
-↓
-Settlement ID / Settlement Center
-↓
-Settlement Data
-↓
-Contracts, shop, districts, Prosperity, bond, projects, network
+-> Settlement ID / Settlement Center
+-> Settlement Data
+-> Contracts, shops, districts, Prosperity, residents, bond, projects, network
 ```
 
-For the MVP, the Community Board can still act as the settlement center. However, future code should be structured so that the board can later become an interface to a settlement rather than the settlement itself.
+For the MVP, the Community Board can still act as the settlement center. Future code should continue moving toward the board as an interface to settlement state rather than the entire settlement itself.
 
 ## Settlement Foundation Lite
 
-The first settlement implementation should be intentionally small.
+The first settlement implementation should stay intentionally small.
 
-It should only answer one question:
+It should answer one question:
 
 ```text
 When this board is used, what settlement does it belong to?
@@ -71,16 +67,16 @@ When this board is used, what settlement does it belong to?
 
 It should not try to implement the full village system immediately.
 
-### First version goals
+### First Version Goals
 
 * Each board can resolve to a settlement.
 * Each settlement has an ID.
 * Each settlement has a center position.
 * Nearby boards can resolve to the same settlement.
 * The first board in an area can act as the settlement center.
-* Future systems can add districts, Prosperity, Village Bond, projects, and network data later.
+* Future systems can add districts, Prosperity, Village Bond, residents, projects, supplies, and network data later.
 
-### What not to include yet
+### What Not To Include Yet
 
 Settlement Foundation Lite should not include:
 
@@ -88,6 +84,7 @@ Settlement Foundation Lite should not include:
 * Prosperity
 * Village Bond
 * Village Network
+* resident simulation
 * project markers
 * storehouses
 * work crews
@@ -97,7 +94,7 @@ Settlement Foundation Lite should not include:
 * automatic structure placement
 * supply automation
 
-The first version should stay boring, small, and future-proof.
+The first version should stay small, readable, and future-proof.
 
 ## Board Spam Prevention
 
@@ -117,15 +114,11 @@ Better behaviour:
 This board is connected to the nearby settlement.
 ```
 
-This solves the board-spam exploit without blocking player creativity.
+This solves the board-spam exploit without blocking player creativity. If a player places several boards in one settlement area, those boards should act as access points to the same settlement state instead of creating separate daily reward systems.
 
-If a player places ten boards in one settlement area, those boards should act as access points to the same settlement state instead of creating ten separate daily reward systems.
-
-### Suggested future rule
+### Suggested Future Rule
 
 Boards within a configurable radius, such as 64 blocks, should share the same settlement.
-
-Example:
 
 ```text
 If another settlement center exists within 64 blocks, this board joins that settlement.
@@ -140,15 +133,15 @@ The board is the block. The settlement or village is the system behind it.
 
 Suggested long-term stages:
 
-| Stage            | Meaning                                            |
-| ---------------- | -------------------------------------------------- |
-| Outpost          | A new or small settlement with basic functionality |
-| Settlement       | Has basic population/support structures            |
-| Village          | Has districts and clearer identity                 |
-| Thriving Village | High Prosperity and stronger services              |
-| Capital Village  | Endgame multi-district hub                         |
+| Stage | Meaning |
+| --- | --- |
+| Outpost | A new or small settlement with basic functionality |
+| Settlement | Has basic population or support structures |
+| Village | Has districts and clearer identity |
+| Thriving Village | High Prosperity and stronger services |
+| Capital Village | Endgame multi-district hub |
 
-These stages should not be rushed into the MVP. They are long-term progression targets.
+These stages are long-term progression targets, not immediate MVP requirements.
 
 ## Districts
 
@@ -168,13 +161,11 @@ A village might contain:
 
 Districts should be shaped by what the player builds, supports, and upgrades.
 
-Example:
+Examples:
 
-If the player builds farms, composters, barns, and crop fields, the village gains Farming identity.
-
-If the player builds smokers, kitchens, pantries, and bakeries, the village gains Kitchen identity.
-
-If the player builds mine entrances, stonecutters, blacksmith areas, and tool storage, the village gains Mining or Builder identity.
+* Farms, composters, barns, and crop fields can build Farming identity.
+* Smokers, kitchens, pantries, bakeries, and meal counters can build Kitchen identity.
+* Mine entrances, stonecutters, blacksmith areas, and tool storage can build Mining or Builder identity.
 
 The village identity should feel player-shaped, not randomly assigned.
 
@@ -195,17 +186,17 @@ Each district can eventually affect:
 
 Example district behaviour:
 
-| District  | Possible Effects                                                 |
-| --------- | ---------------------------------------------------------------- |
-| Farming   | crop contracts, seed shop stock, bone meal rewards, animal goods |
-| Kitchen   | food contracts, ingredient shop stock, recipe rewards            |
-| Mining    | ore/stone contracts, mining supplies, mining crew services       |
-| Builder   | construction contracts, assisted building, block supply stock    |
-| Scholar   | books, maps, recipes, enchantments, paper contracts              |
-| Decorator | flowers, dyes, candles, wool, clay, cozy blocks                  |
-| Market    | rotating stock, trade, rare goods                                |
-| Hunter    | mob drops, bows, leather, string                                 |
-| Fishing   | fish, kelp, barrels, water-related goods                         |
+| District | Possible Effects |
+| --- | --- |
+| Farming | crop contracts, seed shop stock, bone meal rewards, animal goods |
+| Kitchen | food contracts, ingredient stock, Community Kitchen support, recipe rewards |
+| Mining | ore and stone contracts, mining supplies, mining crew services |
+| Builder | construction contracts, assisted building, block supply stock |
+| Scholar | books, maps, recipes, enchantments, paper contracts |
+| Decorator | flowers, dyes, candles, wool, clay, cozy blocks |
+| Market | rotating stock, trade, rare goods |
+| Hunter | mob drops, bows, leather, string |
+| Fishing | fish, kelp, barrels, water-related goods |
 
 ## Contracts and Districts
 
@@ -213,15 +204,14 @@ The current contract system already has categories. This should become the found
 
 Long term, a district should affect which contracts are more likely to appear.
 
-Example:
-
 A Kitchen District should increase the chance of:
 
 * cooking contracts
 * food contracts
 * ingredient requests
-* Farmer’s Delight requests
+* Farmer's Delight requests
 * Create: Food requests
+* Community Kitchen requests
 
 A Builder District should increase the chance of:
 
@@ -245,7 +235,180 @@ Requests
 - Scholar
 ```
 
-Each unlocked district could have its own small set of contracts.
+Each unlocked district could have its own small set of requests.
+
+## Community Kitchen
+
+The Community Kitchen is a future cooking-focused system.
+
+It should give players someone or somewhere to deliver meals outside normal daily contracts. This lets cooking become a real playstyle instead of only another board contract category.
+
+The Community Kitchen can start as a Community Board tab. Later, it may become its own block or interface, such as a Community Kitchen Counter or Meal Counter.
+
+The Kitchen should complement the Community Board, not replace it. The board remains the primary settlement interface, while Kitchen and Residents may become tabs or dedicated blocks as the design grows.
+
+The Kitchen should eventually support food mods such as Farmer's Delight and Create: Food. Those mods should feed into Community Kitchen systems, resident preferences, meal requests, and settlement support rather than existing only as extra contract JSON.
+
+Possible Kitchen tabs:
+
+* Daily Menu
+* Standing Orders
+* Residents
+* Feast Prep
+
+## Daily Menu
+
+The Daily Menu is a future set of village meal requests.
+
+It is different from normal board contracts because it focuses specifically on cooking. A menu might request breakfast, lunch, dinner, dessert, drinks, or comfort meals.
+
+The Daily Menu can reward:
+
+* Favour Tokens
+* Kitchen identity
+* known resident preferences
+* future Prosperity support
+* future festival or feast progress
+
+Daily Menu rewards should have limits to avoid infinite farming. The system should encourage cooking as a daily role without turning meals into an unlimited token source.
+
+## Standing Orders
+
+Standing Orders are repeatable or semi-repeatable food needs for a settlement or district.
+
+Examples:
+
+* Miner's Lunchbox
+* Farmhand Breakfast
+* School Meal
+* Builder's Packed Lunch
+
+Standing Orders should support cooking as an ongoing role. They can let a player keep helping the settlement even after daily contracts are completed.
+
+They should not give unlimited full rewards. The first few deliveries can give useful rewards, while extra deliveries may provide smaller support value, Kitchen identity, relationship hints, or future Prosperity bonuses.
+
+## Resident Profiles and Taste Preferences
+
+As villages grow, residents can move in.
+
+Residents can have:
+
+* names
+* roles
+* homes
+* personalities
+* relationship levels
+* hidden Taste Profiles
+* memories
+* personal requests
+
+Players can discover food preferences by cooking for residents. This creates personal attachment and gives food mods more purpose.
+
+Example profile:
+
+```text
+Name: Mira
+Role: Baker
+Home: Bakery Cottage
+Relationship: Acquaintance
+Likes: Baked goods
+Loves: Apple Pie
+Dislikes: Unknown
+Memories: Loved the Apple Pie delivered on Day 42
+```
+
+This system is inspired by the kind of personal attachment that can come from discovering a resident's likes, dislikes, habits, and memories over time.
+
+## Taste Profile Design
+
+Taste Profiles should use layered preferences instead of one flat favorite food.
+
+Possible layers:
+
+* loved exact dish
+* liked food category
+* liked ingredient
+* disliked category
+* favourite meal type
+* favourite drink
+
+Important rules:
+
+* Experimentation should not be punishing.
+* Disliked food should not heavily reduce relationship.
+* A disliked food should mostly reveal information and give little or no bonus.
+* Resident reactions should stay soft and cozy, not insulting.
+* Residents should only meaningfully react to a limited number of meals per day.
+
+The goal is discovery and attachment, not optimization pressure.
+
+## Resident Memories
+
+Loved dishes or important village events can create memories.
+
+Memories help the village feel alive. They can reference meaningful moments without requiring complex simulation.
+
+Example:
+
+```text
+Tomas still talks about the Beef Stew you made after the mine opened.
+```
+
+Memories can appear in a future Village Registry, Resident Profile UI, or Community Board resident tab.
+
+## Village Registry
+
+The Village Registry is a future UI, block, or board tab for tracking residents.
+
+It can show:
+
+* residents
+* homes
+* roles
+* relationship level
+* known preferences
+* memories
+* personal requests
+
+The Registry should help players understand the community they are building without requiring spreadsheets or external notes.
+
+## Food, Districts, and Prosperity
+
+Cooking can support districts.
+
+Giving a miner a loved hearty meal could later provide a small temporary Mining service bonus. Feeding builders might support construction work. Preparing meals for a festival could support village-wide Prosperity.
+
+These should be optional bonuses, not mandatory upkeep.
+
+Important rules:
+
+* Do not force players to feed every resident daily.
+* Do not reduce core village function when meals are missing.
+* Loved meals can provide small temporary district or Prosperity bonuses.
+* Food systems should reward attention without creating chores.
+
+## Community Supplies and Storehouse
+
+Community Supplies are items the player provides to support districts and improve Prosperity.
+
+Supplies should depend on the district.
+
+Examples:
+
+| District | Example Supplies |
+| --- | --- |
+| Farming | seeds, bone meal, hoes, compost, water buckets |
+| Kitchen | wheat, eggs, milk, sugar, fuel, cooked meals |
+| Mining | pickaxes, torches, food, logs, rails |
+| Scholar | paper, ink, books, candles, lapis |
+| Decorator | flowers, dyes, candles, wool, clay |
+| Builder | logs, stone, glass, lanterns, scaffolding |
+| Fishing | fish, kelp, barrels, boats, string |
+| Hunter | arrows, leather, string, bones, food |
+
+A future Storehouse can store these supplies and make settlement support easier to manage.
+
+The Storehouse should not become stressful upkeep. Missing supplies should not punish the player. Supplied villages should receive bonuses, better services, stronger stock, or smoother project support.
 
 ## Favour Tokens
 
@@ -269,10 +432,10 @@ The token economy should reward helpful community activity without becoming an i
 
 ## Shops
 
-The current MVP shop is a basic vanilla reward shop. This is useful for proving the gameplay loop:
+The current MVP shop is a basic reward shop. It proves the gameplay loop:
 
 ```text
-Complete contracts → earn Favour Tokens → spend Favour Tokens
+Complete requests -> earn Favour Tokens -> spend Favour Tokens
 ```
 
 Long term, shops should become themed.
@@ -331,13 +494,13 @@ Example shop themes:
 * torches
 * rails
 
-The shop system should eventually support categories or district tags internally.
+The shop system should eventually support categories, district tags, and settlement identity internally.
 
 ## Prosperity
 
 Prosperity replaces the idea of upkeep.
 
-The village should not punish the player for forgetting supplies. Instead, Community Supplies should raise Prosperity and provide positive bonuses.
+The village should not punish the player for forgetting supplies. Instead, Community Supplies, meals, projects, and resident support can raise Prosperity and provide positive bonuses.
 
 Bad feeling:
 
@@ -391,38 +554,18 @@ Prosperity can improve:
 * project assistance
 * festival rewards
 * service speed
+* district meal bonuses
 
 Example production framing:
 
 | Prosperity Level | Mining Crew Time |
-| ---------------- | ---------------- |
-| Stable           | 3 days           |
-| Supplied         | 2.5 days         |
-| Well Supplied    | 2 days           |
-| Thriving         | 1.5 days         |
+| --- | --- |
+| Stable | 3 days |
+| Supplied | 2.5 days |
+| Well Supplied | 2 days |
+| Thriving | 1.5 days |
 
 This should feel like a bonus, not a penalty.
-
-## Community Supplies
-
-Community Supplies are items the player provides to improve Prosperity.
-
-Supplies should depend on the district.
-
-Examples:
-
-| District  | Example Supplies                               |
-| --------- | ---------------------------------------------- |
-| Farming   | seeds, bone meal, hoes, compost, water buckets |
-| Kitchen   | wheat, eggs, milk, sugar, fuel                 |
-| Mining    | pickaxes, torches, food, logs, rails           |
-| Scholar   | paper, ink, books, candles, lapis              |
-| Decorator | flowers, dyes, candles, wool, clay             |
-| Builder   | logs, stone, glass, lanterns, scaffolding      |
-| Fishing   | fish, kelp, barrels, boats, string             |
-| Hunter    | arrows, leather, string, bones, food           |
-
-Supplying a village should feel like helping it thrive.
 
 ## Large Villages and Capital Villages
 
@@ -430,7 +573,7 @@ A player should be allowed to create a very large village.
 
 Large villages should not be forbidden, but they should require more support to reach full power.
 
-Specialised villages are efficient and easier to support.
+Specialized villages are efficient and easier to support.
 
 Capital Villages are powerful endgame settlements with many districts, but they require significant investment.
 
@@ -470,21 +613,21 @@ I maxed lots of villages.
 Instead, it should become:
 
 ```text
-I connected specialised villages together to support a thriving region.
+I connected specialized villages together to support a thriving region.
 ```
 
 Example network support:
 
-| Linked Village  | Supports With                |
-| --------------- | ---------------------------- |
+| Linked Village | Supports With |
+| --- | --- |
 | Farming Village | crops, eggs, milk, bone meal |
-| Mining Village  | coal, stone, copper, iron    |
-| Forest Village  | logs, saplings, berries      |
-| Scholar Village | paper, ink, books            |
-| Garden Village  | flowers, dyes, honey         |
-| Fishing Village | fish, kelp, barrels          |
+| Mining Village | coal, stone, copper, iron |
+| Forest Village | logs, saplings, berries |
+| Scholar Village | paper, ink, books |
+| Garden Village | flowers, dyes, honey |
+| Fishing Village | fish, kelp, barrels |
 
-The Village Network makes specialised settlements valuable even when Capital Villages exist.
+The Village Network makes specialized settlements valuable even when Capital Villages exist.
 
 ## Player-Founded Villages
 
@@ -514,7 +657,7 @@ This means Cozy Contracts is not only about improving vanilla villages. It is al
 
 Village growth should not randomly place buildings everywhere.
 
-Random uncontrolled structure placement can damage player builds and feel un-Minecraft-like.
+Random uncontrolled structure placement can damage player builds and feel unlike Minecraft.
 
 Instead, village growth should happen through:
 
@@ -531,21 +674,19 @@ The player should choose where things go.
 
 Both manual and assisted building should exist later.
 
-| Method         | How It Works                                                         |
-| -------------- | -------------------------------------------------------------------- |
-| Manual Build   | Player builds the structure themselves                               |
-| Assisted Build | Player provides materials/tokens and the structure appears gradually |
-| Validation     | Mod checks whether the structure meets requirements                  |
+| Method | How It Works |
+| --- | --- |
+| Manual Build | Player builds the structure themselves |
+| Assisted Build | Player provides materials or tokens and the structure appears gradually |
+| Validation | Mod checks whether the structure meets flexible requirements |
 
 This supports different playstyles.
 
-A cooking-focused player should not be forced to become a builder.
-
-A builder should not be forced to use auto-building.
+A cooking-focused player should not be forced to become a builder. A builder should not be forced to use auto-building.
 
 ## Role-Based Play
 
-Players should be able to specialise in the activities they enjoy.
+Players should be able to specialize in the activities they enjoy.
 
 Possible player roles:
 
@@ -562,7 +703,7 @@ Favour Tokens and village systems should help players access support for activit
 
 Example:
 
-A cooking-focused player can complete Kitchen contracts, earn Favour Tokens, buy seeds and ingredients, improve farms and kitchens, unlock better food contracts, and support a Kitchen/Farming village.
+A cooking-focused player can complete Kitchen requests, prepare Community Kitchen meals, discover resident taste preferences, earn Favour Tokens, buy ingredients, improve farms and kitchens, unlock better food requests, and support a Kitchen/Farming village.
 
 ## MVP Scope
 
@@ -582,23 +723,31 @@ The MVP should include:
 * basic reward shop
 * category-ready contracts
 * category-ready shop data
-* simple settlement foundation if needed
+* Settlement Foundation Lite
+* optional Farmer's Delight JSON contract support
+* development documentation
 
 The MVP should prove the core loop:
 
 ```text
-Open board → complete requests → earn Favour Tokens → spend tokens
+Open board -> complete requests -> earn Favour Tokens -> spend tokens
 ```
 
 ## Future Scope
 
 Future versions may include:
 
-* Settlement Foundation Lite
 * full districts
+* Community Kitchen
+* Daily Menu
+* Standing Orders
+* Resident Profiles
+* Taste Preferences
+* Resident Memories
+* Village Registry
 * Prosperity
 * Community Supplies
-* Community Storehouse
+* Storehouse
 * Project Markers
 * Village Bond
 * Community Projects
@@ -609,24 +758,24 @@ Future versions may include:
 * assisted building
 * manual structure validation
 * themed shops
-* Farmer’s Delight contracts
-* Create: Food contracts
+* Farmer's Delight integration
+* Create: Food integration
 * festivals
 
 ## Development Priority
 
 Current recommended order:
 
-1. Document the village system.
-2. Add Settlement Foundation Lite.
-3. Make shop items category-ready.
-4. Add Farmer’s Delight JSON contracts.
-5. Add Create: Food JSON contracts.
-6. Add district-aware contract weighting.
-7. Add Prosperity later.
-8. Add Village Bond later.
-9. Add Community Projects later.
-10. Add Village Network later.
+1. Finish MVP shop and board polish.
+2. Add themed shop foundation.
+3. Design Community Kitchen and Standing Orders.
+4. Add Create: Food compatibility contracts.
+5. Polish and release-test the MVP.
+6. Add district-aware contract and shop behaviour later.
+7. Add Resident Profiles, Taste Preferences, and Village Registry later.
+8. Add Prosperity and Community Supplies later.
+9. Add Village Bond and Community Projects later.
+10. Add Village Network and Capital Villages later.
 
 ## Non-Goals for Now
 
@@ -637,6 +786,10 @@ Do not implement these yet:
 * Community Projects
 * Village Network
 * Capital Villages
+* resident simulation
+* taste preferences
+* Community Kitchen gameplay
+* Standing Orders
 * district buildings
 * work crews
 * storehouses
@@ -651,4 +804,4 @@ These systems should be documented and planned, but not rushed into the current 
 
 Do not build the whole village system now, but do not code the MVP in a way that blocks it later.
 
-The Community Board should remain simple and playable now, while the architecture gradually moves toward settlements, districts, Prosperity, and village networks.
+The Community Board should remain simple and playable now, while the architecture gradually moves toward settlements, districts, Prosperity, resident attachment, food-focused play, and village networks.
