@@ -23,6 +23,7 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Command-based submission
 * Debug commands for boards and contracts
 * Basic Favour Token reward shop
+* Category-ready shop item data
 * Settlement Foundation Lite
 * Improved Community Board model, texture, and GUI presentation
 * Development log and documentation
@@ -53,26 +54,7 @@ Do not build the full village system now, but do not code the MVP in a way that 
 
 ## Next Steps
 
-### 1. Category-Ready Shop Items
-
-Update the shop item model so shop entries can store category/theme information.
-
-Examples:
-
-* universal
-* farming
-* kitchen
-* builder
-* decorator
-* mining
-* scholar
-* fishing
-* hunter
-* market
-
-The shop can still show the current basic stock for now, but the data structure should be ready for themed shops later.
-
-### 2. Themed Shop Foundation
+### 1. Themed Shop Foundation
 
 Begin separating shop stock by category.
 
@@ -84,7 +66,7 @@ Early version:
 
 Do not add full rotating stock yet.
 
-### 3. Farmer’s Delight Compatibility Contracts
+### 2. Farmer’s Delight Compatibility Contracts
 
 Add JSON contracts for Farmer’s Delight using `required_mods`.
 
@@ -95,7 +77,7 @@ Goals:
 * no hard dependency crash if Farmer’s Delight is missing
 * contracts are skipped safely when the mod is not installed
 
-### 4. Create: Food Compatibility Contracts
+### 3. Create: Food Compatibility Contracts
 
 Add JSON contracts for Create: Food using `required_mods`.
 
@@ -105,7 +87,7 @@ Goals:
 * kitchen/farming categories
 * safe skipping when the mod is missing
 
-### 5. MVP Polish and Release Testing
+### 4. MVP Polish and Release Testing
 
 Before sharing a first test jar:
 

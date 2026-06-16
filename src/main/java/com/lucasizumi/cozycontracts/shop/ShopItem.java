@@ -3,21 +3,28 @@ package com.lucasizumi.cozycontracts.shop;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
+
 public final class ShopItem {
     private final ResourceLocation id;
     private final ItemStack rewardStack;
     private final int costTokens;
     private final String displayName;
+    private final Set<ShopCategory> categories;
 
     public ShopItem(
             ResourceLocation id,
             ItemStack rewardStack,
             int costTokens,
-            String displayName) {
+            String displayName,
+            Set<ShopCategory> categories) {
         this.id = id;
         this.rewardStack = rewardStack.copy();
         this.costTokens = costTokens;
         this.displayName = displayName;
+        this.categories = Collections.unmodifiableSet(EnumSet.copyOf(categories));
     }
 
     public ResourceLocation getId() {
@@ -38,5 +45,9 @@ public final class ShopItem {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public Set<ShopCategory> getCategories() {
+        return categories;
     }
 }

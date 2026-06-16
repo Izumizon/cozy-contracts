@@ -466,7 +466,7 @@ Players can now complete contracts, earn Favour Tokens, and spend those tokens o
 
 ![Not enough tokens message](screenshots/15-basic-favour-token-reward-shop/not-enough-tokens-message.png)
 
-[Watch the reward system and shop showcase](screenshots/15-basic-favour-token-reward-shop/showcase-reward-system-and-shop.mp4)
+[Watch the reward system and shop showcase](screenshots/15-basic-favour-token-reward-shop/`showcase-reward-system-and-shop.mp4`)
 
 ### Next step
 
@@ -508,13 +508,46 @@ The Community Board can now resolve to a stable settlement identity without chan
 
 Use the settlement identity as a foundation for future category-ready shop data while keeping districts and progression systems out of the current MVP.
 
+## Milestone 17 — Category-Ready Shop Items
+
+### Goal
+
+Prepare the Java-defined reward shop for future themed and district-based stock without changing the current shop experience.
+
+### What was implemented
+
+* Added a `ShopCategory` enum for universal and future village themes.
+* Updated shop items to store immutable category metadata.
+* Assigned categories to the current eight vanilla reward items.
+* Added `/cozycontracts debug shop` and `/cc debug shop`.
+* Kept the Shop tab showing all existing rewards.
+* Kept shop prices, rewards, and purchase logic unchanged.
+
+### Why it mattered
+
+Shop items now carry enough metadata to support future district and themed stock decisions. This supports the long-term village and settlement design while keeping the current MVP shop simple and predictable.
+
+### Challenges / fixes
+
+* Added categories as data only, with no settlement filtering yet.
+* Kept reward stack copying and purchase safety unchanged.
+* Preserved the current GUI behavior so every existing shop item remains visible and purchasable.
+
+### Screenshots
+
+![Debug shop command showing item categories](screenshots/17-category-ready-shop-items/debug-shop-categories.png)
+
+### Next step
+
+Use the category metadata to begin a themed shop foundation later, without adding rotating stock or settlement filtering yet.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Active and completed contracts are still stored on each board for now.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Shop items now include category metadata for future themed stock, but all current rewards still appear together.
 
 ## Next Planned Work
 
-1. Category-ready shop item data
+1. Themed shop foundation
 2. Economy and shop usability balancing
 3. Farmer's Delight/Create: Food compatibility contracts
 4. Village Bond

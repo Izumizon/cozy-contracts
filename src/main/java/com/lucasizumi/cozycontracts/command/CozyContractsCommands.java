@@ -8,6 +8,9 @@ import com.lucasizumi.cozycontracts.contracts.ContractRegistry;
 import com.lucasizumi.cozycontracts.contracts.ContractSubmissionService;
 import com.lucasizumi.cozycontracts.settlement.Settlement;
 import com.lucasizumi.cozycontracts.settlement.SettlementService;
+import com.lucasizumi.cozycontracts.shop.ShopCategory;
+import com.lucasizumi.cozycontracts.shop.ShopItem;
+import com.lucasizumi.cozycontracts.shop.ShopRegistry;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -58,6 +61,8 @@ public final class CozyContractsCommands {
                                 .executes(context -> debugBoard(context.getSource())))
                         .then(Commands.literal("contracts")
                                 .executes(context -> debugContracts(context.getSource())))
+                        .then(Commands.literal("shop")
+                                .executes(context -> debugShop(context.getSource())))
                         .then(Commands.literal("settlement")
                                 .executes(context -> debugSettlement(context.getSource())))
                         .then(Commands.literal("contract")
@@ -160,6 +165,26 @@ public final class CozyContractsCommands {
                 () -> Component.literal(
                         "Reward: " + value.getRewardTokens() + " Favour Tokens"),
                 false);
+        return 1;
+    }
+
+    private static int debugShop(CommandSourceStack source) {
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Shop item total: " + ShopRegistry.getAllItems().size()),
+                false);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Known shop categories: " + List.of(ShopCategory.values())),
+                false);
+
+        for (ShopItem item : ShopRegistry.getAllItems()) {
+            source.sendSuccess(
+                    () -> Component.literal(
+                            "- " + item.getId() + " | categories=" + item.getCategories()),
+                    false);
+        }
+
         return 1;
     }
 

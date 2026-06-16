@@ -9,17 +9,26 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public final class ShopRegistry {
     private static final List<ShopItem> ITEMS = List.of(
-            item("name_tag", new ItemStack(Items.NAME_TAG), 20, "Name Tag"),
-            item("saddle", new ItemStack(Items.SADDLE), 25, "Saddle"),
-            item("bell", new ItemStack(Items.BELL), 16, "Bell"),
-            item("cherry_sapling", new ItemStack(Items.CHERRY_SAPLING), 12, "Cherry Sapling"),
-            item("jungle_sapling", new ItemStack(Items.JUNGLE_SAPLING), 12, "Jungle Sapling"),
-            item("lantern_bundle", new ItemStack(Items.LANTERN, 8), 4, "Lantern Bundle"),
-            item("bone_meal_bundle", new ItemStack(Items.BONE_MEAL, 16), 3, "Bone Meal Bundle"),
-            item("music_disc_cat", new ItemStack(Items.MUSIC_DISC_CAT), 32, "Music Disc"));
+            item("name_tag", new ItemStack(Items.NAME_TAG), 20, "Name Tag",
+                    ShopCategory.UNIVERSAL, ShopCategory.MARKET),
+            item("saddle", new ItemStack(Items.SADDLE), 25, "Saddle",
+                    ShopCategory.UNIVERSAL, ShopCategory.FARMING, ShopCategory.MARKET),
+            item("bell", new ItemStack(Items.BELL), 16, "Bell",
+                    ShopCategory.UNIVERSAL, ShopCategory.MARKET),
+            item("cherry_sapling", new ItemStack(Items.CHERRY_SAPLING), 12, "Cherry Sapling",
+                    ShopCategory.FARMING),
+            item("jungle_sapling", new ItemStack(Items.JUNGLE_SAPLING), 12, "Jungle Sapling",
+                    ShopCategory.FARMING),
+            item("lantern_bundle", new ItemStack(Items.LANTERN, 8), 4, "Lantern Bundle",
+                    ShopCategory.BUILDER, ShopCategory.DECORATOR),
+            item("bone_meal_bundle", new ItemStack(Items.BONE_MEAL, 16), 3, "Bone Meal Bundle",
+                    ShopCategory.FARMING),
+            item("music_disc_cat", new ItemStack(Items.MUSIC_DISC_CAT), 32, "Music Disc",
+                    ShopCategory.DECORATOR, ShopCategory.MARKET));
 
     private static final Map<ResourceLocation, ShopItem> ITEMS_BY_ID = createItemsById();
 
@@ -38,12 +47,14 @@ public final class ShopRegistry {
             String path,
             ItemStack rewardStack,
             int costTokens,
-            String displayName) {
+            String displayName,
+            ShopCategory... categories) {
         return new ShopItem(
                 ResourceLocation.parse(CozyContracts.MOD_ID + ":" + path),
                 rewardStack,
                 costTokens,
-                displayName);
+                displayName,
+                Set.of(categories));
     }
 
     private static Map<ResourceLocation, ShopItem> createItemsById() {
