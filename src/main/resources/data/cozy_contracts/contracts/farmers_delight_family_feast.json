@@ -1,0 +1,15 @@
+{
+  "title": "Family Feast",
+  "requester": "Cook",
+  "category": "kitchen",
+  "difficulty": "HARD",
+  "weight": 6,
+  "reward_tokens": 18,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:roast_chicken",
+    "count": 2,
+    "display_name": "Plates of Roast Chicken"
+  },
+  "required_mods": ["farmersdelight"]
+}

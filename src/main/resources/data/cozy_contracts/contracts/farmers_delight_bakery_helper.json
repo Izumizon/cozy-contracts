@@ -1,0 +1,15 @@
+{
+  "title": "Bakery Helper",
+  "requester": "Baker",
+  "category": "kitchen",
+  "difficulty": "EASY",
+  "weight": 18,
+  "reward_tokens": 7,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:sweet_berry_cookie",
+    "count": 8,
+    "display_name": "Sweet Berry Cookies"
+  },
+  "required_mods": ["farmersdelight"]
+}

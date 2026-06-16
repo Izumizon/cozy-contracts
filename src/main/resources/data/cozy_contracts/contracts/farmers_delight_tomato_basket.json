@@ -1,0 +1,15 @@
+{
+  "title": "Tomato Basket",
+  "requester": "Farmer",
+  "category": "farming",
+  "difficulty": "EASY",
+  "weight": 20,
+  "reward_tokens": 6,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:tomato",
+    "count": 16,
+    "display_name": "Tomatoes"
+  },
+  "required_mods": ["farmersdelight"]
+}

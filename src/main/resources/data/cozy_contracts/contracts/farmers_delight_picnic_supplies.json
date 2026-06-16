@@ -1,0 +1,15 @@
+{
+  "title": "Picnic Supplies",
+  "requester": "Farmer",
+  "category": "kitchen",
+  "difficulty": "MEDIUM",
+  "weight": 10,
+  "reward_tokens": 10,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:egg_sandwich",
+    "count": 5,
+    "display_name": "Egg Sandwiches"
+  },
+  "required_mods": ["farmersdelight"]
+}

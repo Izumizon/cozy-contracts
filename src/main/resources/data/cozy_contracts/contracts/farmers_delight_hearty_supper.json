@@ -1,0 +1,15 @@
+{
+  "title": "Hearty Supper",
+  "requester": "Cook",
+  "category": "kitchen",
+  "difficulty": "MEDIUM",
+  "weight": 12,
+  "reward_tokens": 12,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:beef_stew",
+    "count": 4,
+    "display_name": "Beef Stew"
+  },
+  "required_mods": ["farmersdelight"]
+}

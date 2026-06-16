@@ -1,0 +1,15 @@
+{
+  "title": "Rice Harvest",
+  "requester": "Farmer",
+  "category": "farming",
+  "difficulty": "EASY",
+  "weight": 20,
+  "reward_tokens": 6,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:rice",
+    "count": 24,
+    "display_name": "Rice"
+  },
+  "required_mods": ["farmersdelight"]
+}

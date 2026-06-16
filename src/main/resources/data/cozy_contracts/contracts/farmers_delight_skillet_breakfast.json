@@ -1,0 +1,15 @@
+{
+  "title": "Skillet Breakfast",
+  "requester": "Cook",
+  "category": "kitchen",
+  "difficulty": "MEDIUM",
+  "weight": 12,
+  "reward_tokens": 10,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:bacon_sandwich",
+    "count": 4,
+    "display_name": "Bacon Sandwiches"
+  },
+  "required_mods": ["farmersdelight"]
+}

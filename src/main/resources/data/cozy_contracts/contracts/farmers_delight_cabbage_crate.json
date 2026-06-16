@@ -1,0 +1,15 @@
+{
+  "title": "Cabbage Crate",
+  "requester": "Farmer",
+  "category": "farming",
+  "difficulty": "EASY",
+  "weight": 20,
+  "reward_tokens": 6,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:cabbage",
+    "count": 16,
+    "display_name": "Cabbage"
+  },
+  "required_mods": ["farmersdelight"]
+}

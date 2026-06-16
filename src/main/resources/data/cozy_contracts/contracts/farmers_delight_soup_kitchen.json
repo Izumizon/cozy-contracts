@@ -1,0 +1,15 @@
+{
+  "title": "Soup Kitchen",
+  "requester": "Cook",
+  "category": "kitchen",
+  "difficulty": "MEDIUM",
+  "weight": 12,
+  "reward_tokens": 11,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:vegetable_soup",
+    "count": 4,
+    "display_name": "Vegetable Soup"
+  },
+  "required_mods": ["farmersdelight"]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Pantry Restock",
+  "requester": "Cook",
+  "category": "farming",
+  "difficulty": "EASY",
+  "weight": 20,
+  "reward_tokens": 6,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:onion",
+    "count": 16,
+    "display_name": "Onions"
+  },
+  "required_mods": ["farmersdelight"]
+}

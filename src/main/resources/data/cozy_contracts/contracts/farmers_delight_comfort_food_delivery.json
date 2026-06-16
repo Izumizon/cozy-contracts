@@ -1,0 +1,15 @@
+{
+  "title": "Comfort Food Delivery",
+  "requester": "Cook",
+  "category": "kitchen",
+  "difficulty": "EASY",
+  "weight": 18,
+  "reward_tokens": 7,
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:cooked_rice",
+    "count": 8,
+    "display_name": "Cooked Rice"
+  },
+  "required_mods": ["farmersdelight"]
+}
