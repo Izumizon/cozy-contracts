@@ -12,10 +12,19 @@ public final class ClientPacketHandler {
     }
 
     public static void openCommunityBoard(OpenCommunityBoardScreenPacket packet) {
-        Minecraft.getInstance().setScreen(new CommunityBoardScreen(
+        Minecraft minecraft = Minecraft.getInstance();
+        CommunityBoardScreen.View activeView = CommunityBoardScreen.View.REQUESTS;
+
+        if (minecraft.screen instanceof CommunityBoardScreen currentScreen
+                && currentScreen.getBoardPos().equals(packet.boardPos())) {
+            activeView = currentScreen.getActiveView();
+        }
+
+        minecraft.setScreen(new CommunityBoardScreen(
                 packet.boardPos(),
                 packet.day(),
                 packet.contracts(),
-                packet.kitchenOrders()));
+                packet.kitchenOrders(),
+                activeView));
     }
 }

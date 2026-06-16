@@ -276,6 +276,10 @@ public final class CozyContractsCommands {
                                     + order.getType()
                                     + " | "
                                     + order.getTitle()
+                                    + " | requires="
+                                    + order.getRequirement().getDebugText()
+                                    + " | reward="
+                                    + order.getRewardTokens()
                                     + " | delivered="
                                     + deliveredCount
                                     + "/"
@@ -302,9 +306,7 @@ public final class CozyContractsCommands {
                                     + " | type="
                                     + order.getType()
                                     + " | requires="
-                                    + order.getRequirement().getCount()
-                                    + " "
-                                    + order.getRequirement().getDisplayName()
+                                    + order.getRequirement().getDebugText()
                                     + " | reward="
                                     + order.getRewardTokens()
                                     + " | limit="

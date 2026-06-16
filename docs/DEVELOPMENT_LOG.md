@@ -683,9 +683,45 @@ Kitchen orders can now accept simple vanilla food deliveries while staying separ
 
 Test Kitchen deliveries in Survival, then tune messages and caps before considering food mod support or resident preference systems.
 
+## Milestone 22 — Kitchen Orders Data Foundation
+
+### Goal
+
+Refactor Kitchen order data so it is ready for future JSON/datapack loading and optional modded food requirements while keeping current Kitchen gameplay unchanged.
+
+### What was implemented
+
+* Updated Kitchen order requirements to use a data-ready model with requirement type, ID, count, and display text.
+* Preserved exact-item Kitchen requirements for the current vanilla delivery orders.
+* Added item-tag requirement support in the model for future Kitchen orders.
+* Added stable registry lookup by Kitchen order ID.
+* Added duplicate ID protection for Kitchen orders, keeping the first definition and logging a warning.
+* Added requirement validation/debug text for easier future troubleshooting.
+* Improved `/cozycontracts debug kitchen` and `/cc debug kitchen` output with requirement details.
+
+### Why it mattered
+
+Kitchen orders now use a structure closer to the data-driven contract system. This prepares the Kitchen for future JSON/datapack orders and optional modded food orders without adding Kitchen JSON loading yet.
+
+### Challenges / fixes
+
+* Kept existing Kitchen deliveries working with the same vanilla food requirements, rewards, and daily caps.
+* Added tag-ready matching without adding new tag-based Kitchen content yet.
+* Kept the registry simple and immutable so future loading can replace or extend it cleanly.
+* Preserved the current Community Board tab when refreshed board data replaces the screen, so Kitchen deliveries keep the player on the Kitchen tab.
+* Left Resident Profiles, Taste Preferences, Prosperity, and Storehouse as future systems.
+
+### Screenshots
+
+No screenshot needed, since gameplay and GUI appearance were unchanged.
+
+### Next step
+
+Test the refactored Kitchen orders in-game, then continue toward MVP polish or future Kitchen JSON loading when the format is ready.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a Kitchen tab with simple vanilla food deliveries, small rewards, and per-board daily caps.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a Kitchen tab with simple vanilla food deliveries, small rewards, per-board daily caps, and data-ready order requirements.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
@@ -694,4 +730,4 @@ The long-term design direction now frames the Community Board as the main interf
 1. Test and tune Kitchen deliveries
 2. Create: Food compatibility contracts
 3. MVP polish and release testing
-4. Later: Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network
+4. Later: Kitchen JSON loading, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network

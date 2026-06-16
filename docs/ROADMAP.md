@@ -20,6 +20,7 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Daily completion tracking
 * Community Board GUI
 * Community Kitchen tab with simple vanilla food deliveries
+* Data-ready Kitchen order requirements
 * Full-inventory GUI request submission
 * Shift-right-click held-item submission
 * Command-based submission
@@ -72,6 +73,7 @@ Goals:
 
 * verify Kitchen deliveries in Survival
 * tune delivery caps, messages, and small rewards
+* keep Kitchen order data ready for future JSON/datapack loading
 * keep Daily Menu and Standing Orders simple for now
 * avoid Resident Profiles, Taste Preferences, Prosperity, and Storehouse until the design is ready
 * keep preparing for food mod integration without adding full resident simulation yet

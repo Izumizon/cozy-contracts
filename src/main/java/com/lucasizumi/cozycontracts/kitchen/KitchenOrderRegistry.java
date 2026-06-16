@@ -1,16 +1,27 @@
 package com.lucasizumi.cozycontracts.kitchen;
 
 import com.lucasizumi.cozycontracts.CozyContracts;
+import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import org.slf4j.Logger;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 public final class KitchenOrderRegistry {
-    private static final List<KitchenOrder> ORDERS = List.of(
+    private static final Logger LOGGER = LogUtils.getLogger();
+
+    /*
+     * Java-defined kitchen orders are the prototype source for now. A future
+     * datapack/JSON loader can replace or extend this snapshot without changing
+     * callers that resolve orders through this registry.
+     */
+    private static final RegistrySnapshot SNAPSHOT = createSnapshot(List.of(
             order(
                     "morning_bread_basket",
                     "Morning Bread Basket",
@@ -80,19 +91,21 @@ public final class KitchenOrderRegistry {
                     2,
                     3,
                     Set.of("snack", "scholar"),
-                    15));
+                    15)));
 
     private KitchenOrderRegistry() {
     }
 
     public static List<KitchenOrder> getAllOrders() {
-        return ORDERS;
+        return SNAPSHOT.orders();
     }
 
     public static Optional<KitchenOrder> getById(ResourceLocation id) {
-        return ORDERS.stream()
-                .filter(order -> order.getId().equals(id))
-                .findFirst();
+        return Optional.ofNullable(SNAPSHOT.ordersById().get(id));
+    }
+
+    public static Map<ResourceLocation, KitchenOrder> getAllById() {
+        return SNAPSHOT.ordersById();
     }
 
     private static KitchenOrder order(
@@ -114,12 +127,40 @@ public final class KitchenOrderRegistry {
                 title,
                 requester,
                 type,
-                new KitchenOrderRequirement(item, count, displayName),
+                KitchenOrderRequirement.exactItem(item, count, displayName),
                 requirementDisplay,
                 supportDisplay,
                 rewardTokens,
                 dailyLimit,
                 tags,
                 weight);
+    }
+
+    private static RegistrySnapshot createSnapshot(List<KitchenOrder> orders) {
+        Map<ResourceLocation, KitchenOrder> ordersById = new LinkedHashMap<>();
+
+        for (KitchenOrder order : orders) {
+            if (!order.getRequirement().isValid()) {
+                LOGGER.warn(
+                        "Kitchen order {} has an invalid requirement {}; it will still be registered but cannot match items",
+                        order.getId(),
+                        order.getRequirement().getDebugText());
+            }
+
+            if (ordersById.putIfAbsent(order.getId(), order) != null) {
+                LOGGER.warn(
+                        "Ignoring duplicate kitchen order ID {}; keeping the first definition",
+                        order.getId());
+            }
+        }
+
+        return new RegistrySnapshot(
+                List.copyOf(ordersById.values()),
+                Map.copyOf(ordersById));
+    }
+
+    private record RegistrySnapshot(
+            List<KitchenOrder> orders,
+            Map<ResourceLocation, KitchenOrder> ordersById) {
     }
 }

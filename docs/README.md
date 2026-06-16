@@ -21,6 +21,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Improved wooden Community Board model and polished GUI
 - Community Board GUI with full-inventory request submission
 - Community Kitchen tab with simple vanilla food deliveries and daily caps
+- Data-ready Kitchen order requirements
 - Favour Token reward shop with vanilla rewards
 - Category-ready shop item metadata
 - Category-aware shop stock foundation

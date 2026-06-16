@@ -29,18 +29,36 @@ public class CommunityBoardScreen extends Screen {
     private final long day;
     private final List<OpenCommunityBoardScreenPacket.ContractEntry> contracts;
     private final List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders;
-    private View activeView = View.REQUESTS;
+    private View activeView;
 
     public CommunityBoardScreen(
             BlockPos boardPos,
             long day,
             List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
             List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders) {
+        this(boardPos, day, contracts, kitchenOrders, View.REQUESTS);
+    }
+
+    public CommunityBoardScreen(
+            BlockPos boardPos,
+            long day,
+            List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
+            List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
+            View activeView) {
         super(Component.literal("Community Board"));
         this.boardPos = boardPos;
         this.day = day;
         this.contracts = List.copyOf(contracts);
         this.kitchenOrders = List.copyOf(kitchenOrders);
+        this.activeView = activeView;
+    }
+
+    public BlockPos getBoardPos() {
+        return boardPos;
+    }
+
+    public View getActiveView() {
+        return activeView;
     }
 
     @Override
@@ -458,7 +476,7 @@ public class CommunityBoardScreen extends Screen {
         return false;
     }
 
-    private enum View {
+    public enum View {
         REQUESTS,
         SHOP,
         KITCHEN
