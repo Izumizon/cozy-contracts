@@ -608,15 +608,51 @@ Long term, settlement shop categories should be shaped by player-built districts
 
 Use the stock service as the foundation for future themed village shops, then add settlement or district signals only when those systems are ready.
 
+## Milestone 20 — Community Kitchen Foundation
+
+### Goal
+
+Create the first visible foundation for cooking-focused gameplay without adding food hand-in, rewards, or economy changes.
+
+### What was implemented
+
+* Added a small Community Kitchen data model for display-only orders.
+* Added `DAILY_MENU`, `STANDING_ORDER`, and `FEAST_PREP` kitchen order types.
+* Added initial vanilla-safe Daily Menu and Standing Order examples.
+* Added a board kitchen service that returns the orders a Community Board should display.
+* Added read-only Kitchen data to the Community Board screen packet.
+* Added a third Community Board GUI tab: Requests, Shop, and Kitchen.
+* Added `/cozycontracts debug kitchen` and `/cc debug kitchen`.
+
+### Why it mattered
+
+The Community Board can now show a cooking-focused space without changing contract submission, shop purchases, or the token economy. This gives the future Community Kitchen, Daily Menu, Standing Orders, and food mod integration a visible foundation while keeping the current gameplay stable.
+
+### Challenges / fixes
+
+* Kept the Kitchen tab read-only, with no food submission, rewards, caps, or resident preferences.
+* Sent only display text to the client instead of item stacks or recipe data.
+* Kept every board showing the same small order set for now, with no settlement, district, or daily random filtering.
+* Polished the read-only Kitchen tab into separate Daily Menu and Standing Orders columns so the example orders are easier to scan.
+* Preserved existing Requests and Shop tab behavior.
+
+### Screenshots
+
+![Read-only Community Kitchen tab showing Daily Menu and Standing Orders](screenshots/20-community-kitchen-foundation/kitchen-tab-read-only.png)
+
+### Next step
+
+Test the read-only Kitchen tab in-game, then decide the smallest safe path toward future cooking deliveries, caps, and food mod support.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a read-only Kitchen tab for Daily Menu and Standing Order previews.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Community Kitchen / Standing Orders design foundation
+1. Test and polish the read-only Community Kitchen tab
 2. Create: Food compatibility contracts
 3. MVP polish and release testing
-4. Later: Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Village Network
+4. Later: food submission, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Village Network

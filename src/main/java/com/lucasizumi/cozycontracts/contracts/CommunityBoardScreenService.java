@@ -2,7 +2,9 @@ package com.lucasizumi.cozycontracts.contracts;
 
 import com.lucasizumi.cozycontracts.network.ModNetworking;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
+import com.lucasizumi.cozycontracts.kitchen.KitchenBoardService;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
@@ -28,8 +30,18 @@ public final class CommunityBoardScreenService {
                                 completedIds.contains(contract.getId())))
                         .toList();
 
+        List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenEntries =
+                KitchenBoardService.getKitchenOrdersForBoard((ServerLevel) level, boardPos).stream()
+                        .map(order -> new OpenCommunityBoardScreenPacket.KitchenOrderEntry(
+                                order.getTitle(),
+                                order.getRequester(),
+                                order.getType().name(),
+                                order.getRequirementDisplay(),
+                                order.getSupportDisplay()))
+                        .toList();
+
         ModNetworking.sendToPlayer(
                 player,
-                new OpenCommunityBoardScreenPacket(boardPos, day, entries));
+                new OpenCommunityBoardScreenPacket(boardPos, day, entries, kitchenEntries));
     }
 }

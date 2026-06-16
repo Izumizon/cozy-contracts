@@ -15,6 +15,7 @@ public final class ClientPacketHandler {
         Minecraft.getInstance().setScreen(new CommunityBoardScreen(
                 packet.boardPos(),
                 packet.day(),
-                packet.contracts()));
+                packet.contracts(),
+                packet.kitchenOrders()));
     }
 }

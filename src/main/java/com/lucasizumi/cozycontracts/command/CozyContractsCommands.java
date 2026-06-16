@@ -6,6 +6,9 @@ import com.lucasizumi.cozycontracts.contracts.CommunityBoardPreviewService;
 import com.lucasizumi.cozycontracts.contracts.Contract;
 import com.lucasizumi.cozycontracts.contracts.ContractRegistry;
 import com.lucasizumi.cozycontracts.contracts.ContractSubmissionService;
+import com.lucasizumi.cozycontracts.kitchen.KitchenBoardService;
+import com.lucasizumi.cozycontracts.kitchen.KitchenOrder;
+import com.lucasizumi.cozycontracts.kitchen.KitchenOrderRegistry;
 import com.lucasizumi.cozycontracts.settlement.Settlement;
 import com.lucasizumi.cozycontracts.settlement.SettlementService;
 import com.lucasizumi.cozycontracts.shop.ShopCategory;
@@ -64,6 +67,8 @@ public final class CozyContractsCommands {
                                 .executes(context -> debugContracts(context.getSource())))
                         .then(Commands.literal("shop")
                                 .executes(context -> debugShop(context.getSource())))
+                        .then(Commands.literal("kitchen")
+                                .executes(context -> debugKitchen(context.getSource())))
                         .then(Commands.literal("settlement")
                                 .executes(context -> debugSettlement(context.getSource())))
                         .then(Commands.literal("contract")
@@ -219,6 +224,69 @@ public final class CozyContractsCommands {
                 () -> Component.literal(
                         "Current board visible stock IDs: " + visibleItemIds),
                 false);
+
+        return 1;
+    }
+
+    private static int debugKitchen(CommandSourceStack source) {
+        ServerPlayer player = tryGetPlayer(source);
+        if (player == null) {
+            source.sendSuccess(
+                    () -> Component.literal(
+                            "Kitchen order total: "
+                                    + KitchenOrderRegistry.getAllOrders().size()),
+                    false);
+            for (KitchenOrder order : KitchenOrderRegistry.getAllOrders()) {
+                source.sendSuccess(
+                        () -> Component.literal(
+                                "- " + order.getId() + " | type=" + order.getType()),
+                        false);
+            }
+            return 1;
+        }
+
+        BlockPos boardPos = findTargetedBoard(player);
+        if (boardPos == null) {
+            source.sendSuccess(
+                    () -> Component.literal(
+                            "Kitchen order total: "
+                                    + KitchenOrderRegistry.getAllOrders().size()),
+                    false);
+            for (KitchenOrder order : KitchenOrderRegistry.getAllOrders()) {
+                source.sendSuccess(
+                        () -> Component.literal(
+                                "- " + order.getId() + " | type=" + order.getType()),
+                        false);
+            }
+            source.sendSuccess(
+                    () -> Component.literal(
+                            "Look at a Community Board to view board kitchen orders."),
+                    false);
+            return 1;
+        }
+
+        ServerLevel level = player.serverLevel();
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Current board: " + boardPos.toShortString()),
+                false);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Kitchen orders for board: "
+                                + KitchenBoardService.getKitchenOrdersForBoard(level, boardPos).size()),
+                false);
+
+        for (KitchenOrder order : KitchenBoardService.getKitchenOrdersForBoard(level, boardPos)) {
+            source.sendSuccess(
+                    () -> Component.literal(
+                            "- "
+                                    + order.getId()
+                                    + " | "
+                                    + order.getType()
+                                    + " | "
+                                    + order.getTitle()),
+                    false);
+        }
 
         return 1;
     }

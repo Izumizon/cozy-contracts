@@ -19,6 +19,7 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Persistent completed contract IDs on the Community Board block entity
 * Daily completion tracking
 * Community Board GUI
+* Read-only Community Kitchen tab
 * Full-inventory GUI request submission
 * Shift-right-click held-item submission
 * Command-based submission
@@ -63,16 +64,16 @@ Do not build the full village system now, but do not code the MVP in a way that 
 
 ## Next Steps
 
-### 1. Community Kitchen Design/Foundation
+### 1. Community Kitchen Polish
 
-Define the first small version of the future cooking-focused system.
+Test and polish the first read-only version of the cooking-focused system.
 
 Goals:
 
-* decide whether the first version starts as a board tab or separate block later
-* document Daily Menu and Standing Orders
-* keep cooking distinct from normal board contracts
-* prepare for food mod integration without adding full resident simulation yet
+* verify the Kitchen tab is readable in-game
+* keep Daily Menu and Standing Orders display-only for now
+* avoid food submission, rewards, caps, and resident preferences until the design is ready
+* keep preparing for food mod integration without adding full resident simulation yet
 
 Do not make this an immediate MVP requirement.
 

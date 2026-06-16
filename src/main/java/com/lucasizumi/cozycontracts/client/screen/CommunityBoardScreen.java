@@ -22,20 +22,24 @@ public class CommunityBoardScreen extends Screen {
     private static final int PANEL_HEIGHT = 240;
     private static final int ENTRY_HEIGHT = 48;
     private static final int SHOP_ENTRY_HEIGHT = 39;
+    private static final int KITCHEN_CARD_HEIGHT = 34;
 
     private final BlockPos boardPos;
     private final long day;
     private final List<OpenCommunityBoardScreenPacket.ContractEntry> contracts;
+    private final List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders;
     private View activeView = View.REQUESTS;
 
     public CommunityBoardScreen(
             BlockPos boardPos,
             long day,
-            List<OpenCommunityBoardScreenPacket.ContractEntry> contracts) {
+            List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
+            List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders) {
         super(Component.literal("Community Board"));
         this.boardPos = boardPos;
         this.day = day;
         this.contracts = List.copyOf(contracts);
+        this.kitchenOrders = List.copyOf(kitchenOrders);
     }
 
     @Override
@@ -51,7 +55,7 @@ public class CommunityBoardScreen extends Screen {
         Button requestsTab = Button.builder(
                         Component.literal("Requests"),
                         button -> switchView(View.REQUESTS))
-                .bounds(width / 2 - 102, top + 26, 96, 20)
+                .bounds(width / 2 - 153, top + 26, 96, 20)
                 .build();
         requestsTab.active = activeView != View.REQUESTS;
         addRenderableWidget(requestsTab);
@@ -59,14 +63,22 @@ public class CommunityBoardScreen extends Screen {
         Button shopTab = Button.builder(
                         Component.literal("Shop"),
                         button -> switchView(View.SHOP))
-                .bounds(width / 2 + 6, top + 26, 96, 20)
+                .bounds(width / 2 - 48, top + 26, 96, 20)
                 .build();
         shopTab.active = activeView != View.SHOP;
         addRenderableWidget(shopTab);
 
+        Button kitchenTab = Button.builder(
+                        Component.literal("Kitchen"),
+                        button -> switchView(View.KITCHEN))
+                .bounds(width / 2 + 57, top + 26, 96, 20)
+                .build();
+        kitchenTab.active = activeView != View.KITCHEN;
+        addRenderableWidget(kitchenTab);
+
         if (activeView == View.REQUESTS) {
             addRequestButtons(left, top);
-        } else {
+        } else if (activeView == View.SHOP) {
             addShopButtons(left, top);
         }
     }
@@ -129,8 +141,10 @@ public class CommunityBoardScreen extends Screen {
         graphics.drawCenteredString(font, title, width / 2, top + 11, 0xFFFFDFA3);
         if (activeView == View.REQUESTS) {
             renderRequests(graphics, left, top);
-        } else {
+        } else if (activeView == View.SHOP) {
             renderShop(graphics, left, top);
+        } else {
+            renderKitchen(graphics, left, top);
         }
 
         graphics.drawString(
@@ -229,6 +243,140 @@ public class CommunityBoardScreen extends Screen {
                 0xFFC8BBA8);
     }
 
+    private void renderKitchen(GuiGraphics graphics, int left, int top) {
+        graphics.drawCenteredString(
+                font,
+                "Community Kitchen",
+                width / 2,
+                top + 50,
+                0xFFE6D5B8);
+        graphics.drawCenteredString(
+                font,
+                "Daily Menu and Standing Orders",
+                width / 2,
+                top + 61,
+                0xFFC8BBA8);
+
+        int columnWidth = 166;
+        int dailyX = left + 14;
+        int standingX = left + PANEL_WIDTH - columnWidth - 14;
+        int sectionY = top + 77;
+
+        renderKitchenSection(
+                graphics,
+                dailyX,
+                sectionY,
+                columnWidth,
+                "Daily Menu",
+                "DAILY_MENU");
+        renderKitchenSection(
+                graphics,
+                standingX,
+                sectionY,
+                columnWidth,
+                "Standing Orders",
+                "STANDING_ORDER");
+
+        graphics.drawCenteredString(
+                font,
+                "Kitchen deliveries are planned for a future update.",
+                width / 2,
+                top + PANEL_HEIGHT - 22,
+                0xFFC8BBA8);
+    }
+
+    private void renderKitchenSection(
+            GuiGraphics graphics,
+            int x,
+            int y,
+            int width,
+            String title,
+            String type) {
+        graphics.drawString(font, title, x + 2, y, 0xFFFFD38A, false);
+        int entryY = y + 13;
+
+        for (OpenCommunityBoardScreenPacket.KitchenOrderEntry order : kitchenOrders) {
+            if (!order.type().equals(type)) {
+                continue;
+            }
+
+            renderKitchenCard(graphics, x, entryY, width, order);
+            entryY += KITCHEN_CARD_HEIGHT + 4;
+        }
+    }
+
+    private void renderKitchenCard(
+            GuiGraphics graphics,
+            int x,
+            int y,
+            int width,
+            OpenCommunityBoardScreenPacket.KitchenOrderEntry order) {
+        graphics.fill(
+                x,
+                y - 3,
+                x + width,
+                y + KITCHEN_CARD_HEIGHT,
+                0x604B3925);
+
+        int textWidth = width - 12;
+        graphics.drawString(
+                font,
+                trimToWidth(order.title(), textWidth),
+                x + 6,
+                y,
+                0xFFFFD38A,
+                false);
+        graphics.drawString(
+                font,
+                trimToWidth(order.requester(), textWidth),
+                x + 6,
+                y + 9,
+                0xFFC8BBA8,
+                false);
+        graphics.drawString(
+                font,
+                trimToWidth(shortKitchenRequirement(order.requirementDisplay()), textWidth),
+                x + 6,
+                y + 18,
+                0xFFE5DED2,
+                false);
+        graphics.drawString(
+                font,
+                trimToWidth(shortKitchenSupport(order.supportDisplay()), textWidth),
+                x + 6,
+                y + 27,
+                0xFFFFC85C,
+                false);
+    }
+
+    private String trimToWidth(String text, int maxWidth) {
+        return font.width(text) <= maxWidth
+                ? text
+                : font.plainSubstrByWidth(text, maxWidth - font.width("...")) + "...";
+    }
+
+    private String shortKitchenRequirement(String requirement) {
+        return switch (requirement) {
+            case "Bring breakfast foods such as Bread or Eggs." -> "Bread, Eggs, breakfast foods";
+            case "Bring warm meals such as Mushroom Stew or Cooked Meat." -> "Stew or cooked meat";
+            case "Bring hearty packed meals for workers." -> "Hearty packed meals";
+            case "Bring simple breakfast food for the fields." -> "Simple breakfast food";
+            case "Bring light snacks or baked goods." -> "Snacks or baked goods";
+            default -> requirement;
+        };
+    }
+
+    private String shortKitchenSupport(String support) {
+        return switch (support) {
+            case "Supports the morning meal." -> "Morning meal support";
+            case "Supports the evening meal." -> "Evening meal support";
+            case "Future mining support." -> "Mining support planned";
+            case "Future farming support." -> "Farming support planned";
+            case "Future scholar support." -> "Scholar support planned";
+            default -> support;
+        };
+    }
+
     private void renderContract(
             GuiGraphics graphics,
             int x,
@@ -270,6 +418,7 @@ public class CommunityBoardScreen extends Screen {
 
     private enum View {
         REQUESTS,
-        SHOP
+        SHOP,
+        KITCHEN
     }
 }

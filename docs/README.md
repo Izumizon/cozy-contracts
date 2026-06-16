@@ -20,6 +20,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Data-driven JSON/datapack contract loading
 - Improved wooden Community Board model and polished GUI
 - Community Board GUI with full-inventory request submission
+- Read-only Community Kitchen tab with Daily Menu and Standing Order previews
 - Favour Token reward shop with vanilla rewards
 - Category-ready shop item metadata
 - Category-aware shop stock foundation
