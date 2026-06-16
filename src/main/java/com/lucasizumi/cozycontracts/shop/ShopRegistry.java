@@ -39,6 +39,22 @@ public final class ShopRegistry {
         return ITEMS;
     }
 
+    public static List<ShopItem> getItemsForCategories(Set<ShopCategory> categories) {
+        return ITEMS.stream()
+                .filter(item -> item.getCategories().stream().anyMatch(categories::contains))
+                .toList();
+    }
+
+    public static List<ShopItem> getUniversalItems() {
+        return getItemsByCategory(ShopCategory.UNIVERSAL);
+    }
+
+    public static List<ShopItem> getItemsByCategory(ShopCategory category) {
+        return ITEMS.stream()
+                .filter(item -> item.getCategories().contains(category))
+                .toList();
+    }
+
     public static Optional<ShopItem> getById(ResourceLocation id) {
         return Optional.ofNullable(ITEMS_BY_ID.get(id));
     }

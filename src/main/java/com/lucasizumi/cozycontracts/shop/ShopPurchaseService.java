@@ -3,7 +3,9 @@ package com.lucasizumi.cozycontracts.shop;
 import com.lucasizumi.cozycontracts.registry.ModItems;
 import com.lucasizumi.cozycontracts.util.PlayerInventoryItems;
 import net.minecraft.network.chat.Component;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -48,5 +50,21 @@ public final class ShopPurchaseService {
                         + cost
                         + " Favour Tokens."));
         return true;
+    }
+
+    public static boolean purchaseForBoard(
+            ServerPlayer player,
+            ServerLevel level,
+            BlockPos boardPos,
+            ResourceLocation shopItemId) {
+        ShopItem shopItem = ShopRegistry.getById(shopItemId).orElse(null);
+        if (shopItem == null
+                || !ShopStockService.isShopItemAvailableForBoard(level, boardPos, shopItemId)) {
+            player.sendSystemMessage(Component.literal(
+                    "That shop item is not available."));
+            return false;
+        }
+
+        return purchase(player, shopItemId);
     }
 }

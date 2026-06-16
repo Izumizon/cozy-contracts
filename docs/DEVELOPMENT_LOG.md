@@ -573,16 +573,50 @@ Screenshots will be added after in-game testing.
 
 Test the optional contracts in a runtime with Farmer's Delight installed, then consider Create: Food compatibility contracts later.
 
+## Milestone 19 — Themed Shop Foundation
+
+### Goal
+
+Begin separating shop stock by category while keeping the current reward shop simple and stable.
+
+### What was implemented
+
+* Added a shop stock service that can resolve visible shop items from category data.
+* Added temporary MVP board shop categories: `UNIVERSAL`, `FARMING`, and `KITCHEN`.
+* Kept current MVP shop rewards visible through a compatibility rule while real district filtering is not implemented.
+* Updated the Community Board Shop tab to use board-resolved shop stock.
+* Updated shop purchase validation so the server checks that the requested item is available in the current board's shop stock.
+* Expanded the debug shop command to show registered items, known categories, and board-visible stock when looking at a Community Board.
+
+### Why it mattered
+
+Shop items can now be resolved through a stock layer instead of every screen or packet assuming the full registry is always visible. This prepares the reward shop for future settlement and district-themed stock without changing the current player experience.
+
+### Challenges / fixes
+
+* The temporary `FARMING` + `KITCHEN` board rule is only a placeholder, not the final settlement theme system.
+* Some current MVP rewards belong to future categories such as Builder, Decorator, and Market, so the first stock service keeps all current rewards visible until real district-based filtering exists.
+* Purchase validation now checks board stock availability server-side so hidden future stock cannot be bought by packet ID.
+
+Long term, settlement shop categories should be shaped by player-built districts, supplied items, completed contracts, and other settlement development signals, not chosen once when the board is placed.
+
+### Screenshots
+
+![Debug shop command showing temporary board shop categories and visible stock](screenshots/19-themed-shop-foundation/debug-shop-board-stock.png)
+
+### Next step
+
+Use the stock service as the foundation for future themed village shops, then add settlement or district signals only when those systems are ready.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Themed shop foundation
-2. Community Kitchen / Standing Orders design foundation
-3. Create: Food compatibility contracts
-4. MVP polish and release testing
-5. Later: Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Village Network
+1. Community Kitchen / Standing Orders design foundation
+2. Create: Food compatibility contracts
+3. MVP polish and release testing
+4. Later: Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Village Network

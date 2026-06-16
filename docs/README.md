@@ -22,6 +22,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Community Board GUI with full-inventory request submission
 - Favour Token reward shop with vanilla rewards
 - Category-ready shop item metadata
+- Category-aware shop stock foundation
 - Settlement identity foundation for Community Boards
 - Optional Farmer's Delight JSON contract support
 - Shift-right-click held-item submission

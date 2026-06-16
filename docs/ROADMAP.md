@@ -26,6 +26,7 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Basic Favour Token reward shop
 * Category-ready shop item data
 * Category-ready contract data
+* Category-aware shop stock foundation
 * Settlement Foundation Lite
 * Improved Community Board model, texture, and GUI presentation
 * Development log and design documentation
@@ -62,20 +63,7 @@ Do not build the full village system now, but do not code the MVP in a way that 
 
 ## Next Steps
 
-### 1. Themed Shop Foundation
-
-Begin separating shop stock by category.
-
-Early version:
-
-* Universal stock is always available.
-* Category stock exists internally.
-* Future settlement and district data can decide which category stock appears.
-* Shop data stays ready for themed village shops later.
-
-Do not add full rotating stock yet.
-
-### 2. Community Kitchen Design/Foundation
+### 1. Community Kitchen Design/Foundation
 
 Define the first small version of the future cooking-focused system.
 
@@ -88,7 +76,7 @@ Goals:
 
 Do not make this an immediate MVP requirement.
 
-### 3. Create: Food Compatibility Contracts
+### 2. Create: Food Compatibility Contracts
 
 Add JSON contracts for Create: Food using `required_mods`.
 
@@ -99,7 +87,7 @@ Goals:
 * safe skipping when the mod is missing
 * future compatibility with Community Kitchen systems
 
-### 4. MVP Polish and Release Testing
+### 3. MVP Polish and Release Testing
 
 Before sharing a first test jar:
 

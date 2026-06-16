@@ -5,7 +5,7 @@ import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacke
 import com.lucasizumi.cozycontracts.network.packet.PurchaseShopItemPacket;
 import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
 import com.lucasizumi.cozycontracts.shop.ShopItem;
-import com.lucasizumi.cozycontracts.shop.ShopRegistry;
+import com.lucasizumi.cozycontracts.shop.ShopStockService;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -96,7 +96,9 @@ public class CommunityBoardScreen extends Screen {
     }
 
     private void addShopButtons(int left, int top) {
-        List<ShopItem> shopItems = ShopRegistry.getAllItems();
+        List<ShopItem> shopItems = ShopStockService.getShopItemsForBoard(
+                minecraft.level,
+                boardPos);
         for (int index = 0; index < shopItems.size(); index++) {
             ShopItem shopItem = shopItems.get(index);
             int column = index / 4;
@@ -181,7 +183,9 @@ public class CommunityBoardScreen extends Screen {
                 top + 51,
                 0xFFE6D5B8);
 
-        List<ShopItem> shopItems = ShopRegistry.getAllItems();
+        List<ShopItem> shopItems = ShopStockService.getShopItemsForBoard(
+                minecraft.level,
+                boardPos);
         for (int index = 0; index < shopItems.size(); index++) {
             ShopItem shopItem = shopItems.get(index);
             int column = index / 4;

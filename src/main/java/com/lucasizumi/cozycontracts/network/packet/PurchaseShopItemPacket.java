@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
@@ -65,6 +66,10 @@ public record PurchaseShopItemPacket(
             return;
         }
 
-        ShopPurchaseService.purchase(player, packet.shopItemId());
+        ShopPurchaseService.purchaseForBoard(
+                player,
+                (ServerLevel) level,
+                boardPos,
+                packet.shopItemId());
     }
 }

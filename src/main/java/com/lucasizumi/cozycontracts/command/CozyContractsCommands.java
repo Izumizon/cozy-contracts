@@ -11,6 +11,7 @@ import com.lucasizumi.cozycontracts.settlement.SettlementService;
 import com.lucasizumi.cozycontracts.shop.ShopCategory;
 import com.lucasizumi.cozycontracts.shop.ShopItem;
 import com.lucasizumi.cozycontracts.shop.ShopRegistry;
+import com.lucasizumi.cozycontracts.shop.ShopStockService;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -185,6 +186,40 @@ public final class CozyContractsCommands {
                     false);
         }
 
+        ServerPlayer player = tryGetPlayer(source);
+        if (player == null) {
+            return 1;
+        }
+
+        BlockPos boardPos = findTargetedBoard(player);
+        if (boardPos == null) {
+            source.sendSuccess(
+                    () -> Component.literal("Look at a Community Board to view board shop stock."),
+                    false);
+            return 1;
+        }
+
+        ServerLevel level = player.serverLevel();
+        Set<ShopCategory> boardCategories =
+                ShopStockService.getShopCategoriesForBoard(level, boardPos);
+        List<ResourceLocation> visibleItemIds =
+                ShopStockService.getShopItemsForBoard(level, boardPos).stream()
+                        .map(ShopItem::getId)
+                        .toList();
+
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Current board: " + boardPos.toShortString()),
+                false);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Current board shop categories: " + boardCategories),
+                false);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Current board visible stock IDs: " + visibleItemIds),
+                false);
+
         return 1;
     }
 
@@ -286,6 +321,14 @@ public final class CozyContractsCommands {
             return source.getPlayerOrException();
         } catch (Exception exception) {
             source.sendFailure(Component.literal("This command must be run by a player."));
+            return null;
+        }
+    }
+
+    private static ServerPlayer tryGetPlayer(CommandSourceStack source) {
+        try {
+            return source.getPlayerOrException();
+        } catch (Exception exception) {
             return null;
         }
     }
