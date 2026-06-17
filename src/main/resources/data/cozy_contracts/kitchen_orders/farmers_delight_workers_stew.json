@@ -1,0 +1,16 @@
+{
+  "title": "Workers' Stew",
+  "requester": "Builder Crew",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:beef_stew",
+    "count": 3,
+    "display": "Beef Stew"
+  },
+  "support_display": "A filling stew for long building days.",
+  "reward_tokens": 9,
+  "daily_limit": 2,
+  "weight": 7,
+  "required_mods": ["farmersdelight"]
+}

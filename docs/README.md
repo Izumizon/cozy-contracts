@@ -28,6 +28,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Category-aware shop stock foundation
 - Settlement identity foundation for Community Boards
 - Optional Farmer's Delight JSON contract support
+- Optional Farmer's Delight Kitchen order support
 - Shift-right-click held-item submission
 - Full-inventory `/cozycontracts submit <slot>` and `/cc submit <slot>` commands
 
@@ -68,4 +69,10 @@ Launch the development client:
 
 ```powershell
 .\gradlew.bat runClient
+```
+
+Optional Farmer's Delight dev testing can be enabled with:
+
+```powershell
+.\gradlew.bat runClient -PenableFarmersDelight=true
 ```

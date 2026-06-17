@@ -124,4 +124,4 @@ If no valid JSON Kitchen orders load, Cozy Contracts falls back to its built-in 
 
 ## Future Use
 
-This format is intended to support future food mod compatibility and datapacks. Resident Profiles, Taste Preferences, Prosperity, Storehouse support, and advanced Kitchen selection are planned future systems and are not part of this format yet.
+This format is intended to support food mod compatibility and datapacks. Farmer's Delight Kitchen orders use this format with `required_mods`, and future Create: Food orders can follow the same pattern. Resident Profiles, Taste Preferences, Prosperity, Storehouse support, and advanced Kitchen selection are planned future systems and are not part of this format yet.

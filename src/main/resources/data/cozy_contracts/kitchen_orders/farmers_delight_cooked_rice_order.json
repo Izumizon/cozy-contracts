@@ -1,0 +1,16 @@
+{
+  "title": "Cooked Rice Order",
+  "requester": "Community Kitchen",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:cooked_rice",
+    "count": 6,
+    "display": "Cooked Rice"
+  },
+  "support_display": "Warm rice bowls for a simple village meal.",
+  "reward_tokens": 4,
+  "daily_limit": 3,
+  "weight": 10,
+  "required_mods": ["farmersdelight"]
+}

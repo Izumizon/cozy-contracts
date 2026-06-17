@@ -1,0 +1,16 @@
+{
+  "title": "Bacon and Eggs Breakfast",
+  "requester": "Community Kitchen",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:bacon_and_eggs",
+    "count": 3,
+    "display": "Bacon and Eggs"
+  },
+  "support_display": "A hearty breakfast before the settlement gets moving.",
+  "reward_tokens": 7,
+  "daily_limit": 2,
+  "weight": 9,
+  "required_mods": ["farmersdelight"]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Rice Sack",
+  "requester": "Community Kitchen",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:rice",
+    "count": 24,
+    "display": "Rice"
+  },
+  "support_display": "A pantry staple for warm bowls and quick meals.",
+  "reward_tokens": 3,
+  "daily_limit": 3,
+  "weight": 12,
+  "required_mods": ["farmersdelight"]
+}

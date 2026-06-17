@@ -13,6 +13,7 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Data-driven JSON/datapack contract loading
 * 14 built-in vanilla JSON contracts
 * Optional Farmer's Delight JSON contracts
+* Optional Farmer's Delight Kitchen orders
 * Three active daily contracts per board
 * Weighted daily contract selection
 * Persistent active contract IDs on the Community Board block entity
@@ -75,6 +76,7 @@ Goals:
 * verify Kitchen deliveries in Survival
 * tune delivery caps, messages, and small rewards
 * test JSON/datapack Kitchen order loading
+* test optional Farmer's Delight Kitchen orders
 * keep Daily Menu and Standing Orders simple for now
 * avoid Resident Profiles, Taste Preferences, Prosperity, and Storehouse until the design is ready
 * keep preparing for food mod integration without adding full resident simulation yet

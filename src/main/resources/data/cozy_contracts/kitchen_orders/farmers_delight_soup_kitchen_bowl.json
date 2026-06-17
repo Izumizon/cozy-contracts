@@ -1,0 +1,16 @@
+{
+  "title": "Soup Kitchen Bowl",
+  "requester": "Community Kitchen",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:vegetable_soup",
+    "count": 4,
+    "display": "Vegetable Soup"
+  },
+  "support_display": "Warm bowls for anyone stopping by the board.",
+  "reward_tokens": 7,
+  "daily_limit": 2,
+  "weight": 9,
+  "required_mods": ["farmersdelight"]
+}

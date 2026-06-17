@@ -1,0 +1,16 @@
+{
+  "title": "Chicken Soup Delivery",
+  "requester": "Community Kitchen",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:chicken_soup",
+    "count": 3,
+    "display": "Chicken Soup"
+  },
+  "support_display": "Comforting soup for tired residents and work crews.",
+  "reward_tokens": 9,
+  "daily_limit": 2,
+  "weight": 7,
+  "required_mods": ["farmersdelight"]
+}

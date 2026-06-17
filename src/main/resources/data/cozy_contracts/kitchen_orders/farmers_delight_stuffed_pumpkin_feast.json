@@ -1,0 +1,16 @@
+{
+  "title": "Stuffed Pumpkin Feast",
+  "requester": "Community Kitchen",
+  "type": "feast_prep",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:stuffed_pumpkin",
+    "count": 1,
+    "display": "Stuffed Pumpkin"
+  },
+  "support_display": "A special centrepiece dish for a village table.",
+  "reward_tokens": 20,
+  "daily_limit": 1,
+  "weight": 3,
+  "required_mods": ["farmersdelight"]
+}

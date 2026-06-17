@@ -14,10 +14,12 @@ public final class ClientPacketHandler {
     public static void openCommunityBoard(OpenCommunityBoardScreenPacket packet) {
         Minecraft minecraft = Minecraft.getInstance();
         CommunityBoardScreen.View activeView = CommunityBoardScreen.View.REQUESTS;
+        int kitchenScrollOffset = 0;
 
         if (minecraft.screen instanceof CommunityBoardScreen currentScreen
                 && currentScreen.getBoardPos().equals(packet.boardPos())) {
             activeView = currentScreen.getActiveView();
+            kitchenScrollOffset = currentScreen.getKitchenScrollOffset();
         }
 
         minecraft.setScreen(new CommunityBoardScreen(
@@ -25,6 +27,7 @@ public final class ClientPacketHandler {
                 packet.day(),
                 packet.contracts(),
                 packet.kitchenOrders(),
-                activeView));
+                activeView,
+                kitchenScrollOffset));
     }
 }

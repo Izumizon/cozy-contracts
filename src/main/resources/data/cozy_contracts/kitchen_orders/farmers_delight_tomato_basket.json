@@ -1,0 +1,16 @@
+{
+  "title": "Tomato Basket",
+  "requester": "Community Kitchen",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:tomato",
+    "count": 18,
+    "display": "Tomatoes"
+  },
+  "support_display": "Fresh tomatoes for sauces and kitchen prep.",
+  "reward_tokens": 2,
+  "daily_limit": 3,
+  "weight": 12,
+  "required_mods": ["farmersdelight"]
+}

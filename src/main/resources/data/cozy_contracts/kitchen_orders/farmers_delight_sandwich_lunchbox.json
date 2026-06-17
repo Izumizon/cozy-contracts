@@ -1,0 +1,16 @@
+{
+  "title": "Sandwich Lunchbox",
+  "requester": "Work Crew",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:egg_sandwich",
+    "count": 4,
+    "display": "Egg Sandwiches"
+  },
+  "support_display": "Packed sandwiches for workers heading out for the day.",
+  "reward_tokens": 6,
+  "daily_limit": 2,
+  "weight": 10,
+  "required_mods": ["farmersdelight"]
+}

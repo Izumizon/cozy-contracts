@@ -1,0 +1,16 @@
+{
+  "title": "Mixed Salad Bowl",
+  "requester": "Garden Table",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:mixed_salad",
+    "count": 4,
+    "display": "Mixed Salads"
+  },
+  "support_display": "A bright fresh dish for lighter village lunches.",
+  "reward_tokens": 6,
+  "daily_limit": 2,
+  "weight": 10,
+  "required_mods": ["farmersdelight"]
+}

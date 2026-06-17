@@ -1,0 +1,16 @@
+{
+  "title": "Pasta Night",
+  "requester": "Community Kitchen",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:pasta_with_meatballs",
+    "count": 3,
+    "display": "Pasta with Meatballs"
+  },
+  "support_display": "A cozy supper order for a busy village evening.",
+  "reward_tokens": 10,
+  "daily_limit": 2,
+  "weight": 7,
+  "required_mods": ["farmersdelight"]
+}

@@ -754,15 +754,52 @@ Screenshots will be added after in-game testing.
 
 Test Kitchen order reload behavior, then continue MVP polish before adding optional food mod Kitchen order content.
 
+## Milestone 24 — Farmer's Delight Kitchen Orders
+
+### Goal
+
+Add optional Farmer's Delight Kitchen orders that make the Community Kitchen feel more like cooking-focused gameplay while keeping Cozy Contracts standalone.
+
+### What was implemented
+
+* Added optional Farmer's Delight Kitchen order JSON files.
+* Added `required_mods: ["farmersdelight"]` to every Farmer's Delight Kitchen order.
+* Verified the Farmer's Delight mod ID and item IDs before writing the JSON.
+* Focused the order set mostly on cooked meals, lunch deliveries, soups, hearty meals, and a feast-style order.
+* Added raw ingredient orders only as kitchen support orders.
+* Kept the orders as JSON data with no Java dependency on Farmer's Delight.
+
+### Why it mattered
+
+The Community Kitchen now has a richer optional cooking-focused order pool when Farmer's Delight is installed. Players without Farmer's Delight keep the standalone vanilla Kitchen experience.
+
+### Challenges / fixes
+
+* Confirmed the mod ID is `farmersdelight`.
+* Used only Farmer's Delight item IDs verified from the local 1.20.1 jar.
+* Made Farmer's Delight an opt-in development runtime dependency with `-PenableFarmersDelight=true`, keeping standalone dev launches clean by default.
+* Made the Kitchen tab scrollable so larger optional order pools stay inside the Community Board panel.
+* Kept delivery refreshes on the Kitchen tab so repeated deliveries remain comfortable.
+* Kept normal contracts, Kitchen loading, delivery logic, shop behavior, and settlement behavior unchanged.
+* Left Resident Profiles, Taste Preferences, Prosperity, and Storehouse as future systems.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Test the optional Farmer's Delight Kitchen order pool in-game with the opt-in dev flag, then continue toward Create: Food compatibility or MVP polish.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts are available when that mod is installed. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a Kitchen tab with simple JSON-loaded vanilla food deliveries, small rewards, and per-board daily caps.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts and Kitchen orders are available when that mod is installed, with Farmer's Delight opt-in for development runtime testing. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a scrollable Kitchen tab with JSON-loaded food deliveries, small rewards, and per-board daily caps.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Test and tune Kitchen deliveries and Kitchen order reload behavior
+1. Test and tune Kitchen deliveries and optional Farmer's Delight Kitchen orders
 2. Create: Food compatibility contracts
 3. MVP polish and release testing
 4. Later: optional food mod Kitchen orders, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network

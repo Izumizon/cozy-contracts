@@ -24,12 +24,16 @@ public class CommunityBoardScreen extends Screen {
     private static final int ENTRY_HEIGHT = 48;
     private static final int SHOP_ENTRY_HEIGHT = 39;
     private static final int KITCHEN_CARD_HEIGHT = 34;
+    private static final int KITCHEN_CARD_GAP = 4;
+    private static final int KITCHEN_SECTION_GAP = 12;
+    private static final int KITCHEN_SCROLL_STEP = 18;
 
     private final BlockPos boardPos;
     private final long day;
     private final List<OpenCommunityBoardScreenPacket.ContractEntry> contracts;
     private final List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders;
     private View activeView;
+    private int kitchenScrollOffset;
 
     public CommunityBoardScreen(
             BlockPos boardPos,
@@ -45,12 +49,23 @@ public class CommunityBoardScreen extends Screen {
             List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
             List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
             View activeView) {
+        this(boardPos, day, contracts, kitchenOrders, activeView, 0);
+    }
+
+    public CommunityBoardScreen(
+            BlockPos boardPos,
+            long day,
+            List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
+            List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
+            View activeView,
+            int kitchenScrollOffset) {
         super(Component.literal("Community Board"));
         this.boardPos = boardPos;
         this.day = day;
         this.contracts = List.copyOf(contracts);
         this.kitchenOrders = List.copyOf(kitchenOrders);
         this.activeView = activeView;
+        this.kitchenScrollOffset = kitchenScrollOffset;
     }
 
     public BlockPos getBoardPos() {
@@ -59,6 +74,10 @@ public class CommunityBoardScreen extends Screen {
 
     public View getActiveView() {
         return activeView;
+    }
+
+    public int getKitchenScrollOffset() {
+        return kitchenScrollOffset;
     }
 
     @Override
@@ -70,6 +89,7 @@ public class CommunityBoardScreen extends Screen {
         clearWidgets();
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
+        clampKitchenScroll(top);
 
         Button requestsTab = Button.builder(
                         Component.literal("Requests"),
@@ -281,8 +301,11 @@ public class CommunityBoardScreen extends Screen {
         int columnWidth = 166;
         int dailyX = left + 14;
         int standingX = left + PANEL_WIDTH - columnWidth - 14;
-        int sectionY = top + 77;
+        int contentTop = getKitchenContentTop(top);
+        int contentBottom = getKitchenContentBottom(top);
+        int sectionY = contentTop - kitchenScrollOffset;
 
+        graphics.enableScissor(left + 8, contentTop - 4, left + PANEL_WIDTH - 8, contentBottom);
         renderKitchenSection(
                 graphics,
                 dailyX,
@@ -290,23 +313,33 @@ public class CommunityBoardScreen extends Screen {
                 columnWidth,
                 "Daily Menu",
                 "DAILY_MENU");
-        renderKitchenSection(
+        int standingEndY = renderKitchenSection(
                 graphics,
                 standingX,
                 sectionY,
                 columnWidth,
                 "Standing Orders",
                 "STANDING_ORDER");
+        if (countKitchenOrders("FEAST_PREP") > 0) {
+            renderKitchenSection(
+                    graphics,
+                    standingX,
+                    standingEndY + KITCHEN_SECTION_GAP,
+                    columnWidth,
+                    "Feast Prep",
+                    "FEAST_PREP");
+        }
+        graphics.disableScissor();
 
         graphics.drawCenteredString(
                 font,
-                "Deliver food to support the Community Kitchen.",
+                "Deliveries use matching food from your inventory.",
                 width / 2,
                 top + PANEL_HEIGHT - 22,
                 0xFFC8BBA8);
     }
 
-    private void renderKitchenSection(
+    private int renderKitchenSection(
             GuiGraphics graphics,
             int x,
             int y,
@@ -322,21 +355,52 @@ public class CommunityBoardScreen extends Screen {
             }
 
             renderKitchenCard(graphics, x, entryY, width, order);
-            entryY += KITCHEN_CARD_HEIGHT + 4;
+            entryY += KITCHEN_CARD_HEIGHT + KITCHEN_CARD_GAP;
         }
+
+        return entryY;
     }
 
     private void addKitchenButtons(int left, int top) {
         int columnWidth = 166;
         int dailyX = left + 14;
         int standingX = left + PANEL_WIDTH - columnWidth - 14;
-        int sectionY = top + 77;
+        int contentTop = getKitchenContentTop(top);
+        int contentBottom = getKitchenContentBottom(top);
+        int sectionY = contentTop - kitchenScrollOffset;
 
-        addKitchenButtonsForType(dailyX, sectionY, columnWidth, "DAILY_MENU");
-        addKitchenButtonsForType(standingX, sectionY, columnWidth, "STANDING_ORDER");
+        addKitchenButtonsForType(
+                dailyX,
+                sectionY,
+                columnWidth,
+                "DAILY_MENU",
+                contentTop,
+                contentBottom);
+        int standingEndY = addKitchenButtonsForType(
+                standingX,
+                sectionY,
+                columnWidth,
+                "STANDING_ORDER",
+                contentTop,
+                contentBottom);
+        if (countKitchenOrders("FEAST_PREP") > 0) {
+            addKitchenButtonsForType(
+                    standingX,
+                    standingEndY + KITCHEN_SECTION_GAP,
+                    columnWidth,
+                    "FEAST_PREP",
+                    contentTop,
+                    contentBottom);
+        }
     }
 
-    private void addKitchenButtonsForType(int x, int y, int width, String type) {
+    private int addKitchenButtonsForType(
+            int x,
+            int y,
+            int width,
+            String type,
+            int contentTop,
+            int contentBottom) {
         int entryY = y + 13;
 
         for (OpenCommunityBoardScreenPacket.KitchenOrderEntry order : kitchenOrders) {
@@ -344,17 +408,21 @@ public class CommunityBoardScreen extends Screen {
                 continue;
             }
 
-            Button deliverButton = Button.builder(
-                            Component.literal("Deliver"),
-                            button -> ModNetworking.sendToServer(
-                                    new DeliverKitchenOrderPacket(boardPos, order.id())))
-                    .bounds(x + width - 53, entryY + 8, 48, 20)
-                    .build();
-            deliverButton.active = order.deliveredToday() < order.dailyLimit();
-            addRenderableWidget(deliverButton);
+            if (entryY >= contentTop && entryY + KITCHEN_CARD_HEIGHT <= contentBottom) {
+                Button deliverButton = Button.builder(
+                                Component.literal("Deliver"),
+                                button -> ModNetworking.sendToServer(
+                                        new DeliverKitchenOrderPacket(boardPos, order.id())))
+                        .bounds(x + width - 53, entryY + 8, 48, 20)
+                        .build();
+                deliverButton.active = order.deliveredToday() < order.dailyLimit();
+                addRenderableWidget(deliverButton);
+            }
 
-            entryY += KITCHEN_CARD_HEIGHT + 4;
+            entryY += KITCHEN_CARD_HEIGHT + KITCHEN_CARD_GAP;
         }
+
+        return entryY;
     }
 
     private void renderKitchenCard(
@@ -435,6 +503,75 @@ public class CommunityBoardScreen extends Screen {
             case "Bring light snacks or baked goods." -> "Snacks or baked goods";
             default -> requirement;
         };
+    }
+
+    private int getKitchenContentTop(int top) {
+        return top + 77;
+    }
+
+    private int getKitchenContentBottom(int top) {
+        return top + PANEL_HEIGHT - 36;
+    }
+
+    private int countKitchenOrders(String type) {
+        int count = 0;
+        for (OpenCommunityBoardScreenPacket.KitchenOrderEntry order : kitchenOrders) {
+            if (order.type().equals(type)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int getKitchenSectionHeight(String type) {
+        int count = countKitchenOrders(type);
+        return count == 0
+                ? 0
+                : 13 + count * (KITCHEN_CARD_HEIGHT + KITCHEN_CARD_GAP);
+    }
+
+    private int getKitchenContentHeight() {
+        int dailyHeight = getKitchenSectionHeight("DAILY_MENU");
+        int standingHeight = getKitchenSectionHeight("STANDING_ORDER");
+        int feastPrepHeight = getKitchenSectionHeight("FEAST_PREP");
+        int rightHeight = standingHeight;
+        if (feastPrepHeight > 0) {
+            rightHeight += KITCHEN_SECTION_GAP + feastPrepHeight;
+        }
+
+        return Math.max(dailyHeight, rightHeight);
+    }
+
+    private int getMaxKitchenScroll(int top) {
+        int visibleHeight = getKitchenContentBottom(top) - getKitchenContentTop(top);
+        return Math.max(0, getKitchenContentHeight() - visibleHeight);
+    }
+
+    private void clampKitchenScroll(int top) {
+        kitchenScrollOffset = Math.max(0, Math.min(getMaxKitchenScroll(top), kitchenScrollOffset));
+    }
+
+    private boolean isInKitchenScrollArea(double mouseX, double mouseY) {
+        int left = (width - PANEL_WIDTH) / 2;
+        int top = (height - PANEL_HEIGHT) / 2;
+        return activeView == View.KITCHEN
+                && mouseX >= left + 8
+                && mouseX <= left + PANEL_WIDTH - 8
+                && mouseY >= getKitchenContentTop(top) - 4
+                && mouseY <= getKitchenContentBottom(top);
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
+        if (isInKitchenScrollArea(mouseX, mouseY)) {
+            int top = (height - PANEL_HEIGHT) / 2;
+            kitchenScrollOffset -= (int) (scrollDelta * KITCHEN_SCROLL_STEP);
+            clampKitchenScroll(top);
+            rebuildViewWidgets();
+            return true;
+        }
+
+        return super.mouseScrolled(mouseX, mouseY, scrollDelta);
     }
 
     private void renderContract(

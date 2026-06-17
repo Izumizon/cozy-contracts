@@ -1,0 +1,16 @@
+{
+  "title": "Onion Delivery",
+  "requester": "Community Kitchen",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:onion",
+    "count": 16,
+    "display": "Onions"
+  },
+  "support_display": "Aromatic onions for broths, stews, and supper pots.",
+  "reward_tokens": 2,
+  "daily_limit": 3,
+  "weight": 12,
+  "required_mods": ["farmersdelight"]
+}

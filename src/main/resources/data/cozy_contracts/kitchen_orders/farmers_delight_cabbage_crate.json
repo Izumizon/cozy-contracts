@@ -1,0 +1,16 @@
+{
+  "title": "Cabbage Crate",
+  "requester": "Community Kitchen",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "farmersdelight:cabbage",
+    "count": 16,
+    "display": "Cabbages"
+  },
+  "support_display": "Crisp greens for soups, rolls, and daily prep.",
+  "reward_tokens": 2,
+  "daily_limit": 3,
+  "weight": 12,
+  "required_mods": ["farmersdelight"]
+}
