@@ -1,0 +1,15 @@
+{
+  "title": "Baker's Apple Cheesecake",
+  "requester": "Baker",
+  "category": "kitchen",
+  "difficulty": "HARD",
+  "weight": 8,
+  "reward_tokens": 16,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:apple_cheesecake",
+    "count": 2,
+    "display_name": "Apple Cheesecakes"
+  },
+  "required_mods": ["createfood"]
+}

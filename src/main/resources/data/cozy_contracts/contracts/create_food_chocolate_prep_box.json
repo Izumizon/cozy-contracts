@@ -1,0 +1,15 @@
+{
+  "title": "Chocolate Prep Box",
+  "requester": "Confectioner",
+  "category": "kitchen",
+  "difficulty": "EASY",
+  "weight": 16,
+  "reward_tokens": 7,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:chocolate_chips",
+    "count": 12,
+    "display_name": "Chocolate Chips"
+  },
+  "required_mods": ["createfood"]
+}

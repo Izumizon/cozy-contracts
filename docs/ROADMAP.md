@@ -13,6 +13,7 @@ Players can open a Community Board, view daily contracts, submit requested items
 * Data-driven JSON/datapack contract loading
 * 14 built-in vanilla JSON contracts
 * Optional Farmer's Delight JSON contracts
+* Optional Create: Food JSON contracts
 * Optional Farmer's Delight Kitchen orders
 * Three active daily contracts per board
 * Weighted daily contract selection
@@ -83,16 +84,16 @@ Goals:
 
 Do not make this an immediate MVP requirement.
 
-### 2. Create: Food Compatibility Contracts
+### 2. Optional Food Mod Testing
 
-Add JSON contracts for Create: Food using `required_mods`.
+Test the optional food-mod contract pools in development runtimes.
 
 Goals:
 
-* food contracts using Create: Food items
-* kitchen and farming categories
-* safe skipping when the mod is missing
-* future compatibility with Community Kitchen systems
+* verify Farmer's Delight contracts and Kitchen orders when enabled
+* verify Create: Food board contracts when enabled
+* verify optional mod contracts are skipped safely when mods are missing
+* keep Create: Food Kitchen orders for a later milestone
 
 ### 3. MVP Polish and Release Testing
 
@@ -104,7 +105,7 @@ Before sharing a first test jar:
 * test `/reload`
 * test without extra mods
 * test with Farmer's Delight installed
-* test with Create: Food installed if available
+* test with Create: Food installed
 * test full inventory reward drops
 * check screenshots
 * update README

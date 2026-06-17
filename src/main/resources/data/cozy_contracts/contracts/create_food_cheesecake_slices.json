@@ -1,0 +1,15 @@
+{
+  "title": "Cheesecake Slices",
+  "requester": "Decorator",
+  "category": "kitchen",
+  "difficulty": "MEDIUM",
+  "weight": 12,
+  "reward_tokens": 12,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:cheesecake_slice",
+    "count": 6,
+    "display_name": "Cheesecake Slices"
+  },
+  "required_mods": ["createfood"]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Market Sandwich Prep",
+  "requester": "Market Cook",
+  "category": "market",
+  "difficulty": "MEDIUM",
+  "weight": 13,
+  "reward_tokens": 10,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:bacon_sandwich",
+    "count": 6,
+    "display_name": "Bacon Sandwiches"
+  },
+  "required_mods": ["createfood"]
+}

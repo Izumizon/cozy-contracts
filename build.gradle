@@ -155,6 +155,17 @@ dependencies {
         runtimeOnly fg.deobf("curse.maven:jei-238222:7920915")
     }
 
+    // Optional development-only runtime dependencies for testing Create: Food JSON content.
+    // Enable with: .\gradlew.bat runClient -PenableCreateFood=true
+    // Cozy Contracts does not import Create or Create: Food classes or require them in mods.toml.
+    if (providers.gradleProperty("enableCreateFood")
+            .map { it.toBoolean() }
+            .orElse(false)
+            .get()) {
+        runtimeOnly fg.deobf("curse.maven:create-food-959439:7769170")
+        runtimeOnly fg.deobf("curse.maven:create-328085:7178761")
+    }
+
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
     // The group id is ignored when searching -- in this case, it is "blank"

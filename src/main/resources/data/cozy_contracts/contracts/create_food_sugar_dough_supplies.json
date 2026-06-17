@@ -1,0 +1,15 @@
+{
+  "title": "Sugar Dough Supplies",
+  "requester": "Pastry Cook",
+  "category": "kitchen",
+  "difficulty": "EASY",
+  "weight": 15,
+  "reward_tokens": 7,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:sugar_dough",
+    "count": 8,
+    "display_name": "Sugar Dough"
+  },
+  "required_mods": ["createfood"]
+}

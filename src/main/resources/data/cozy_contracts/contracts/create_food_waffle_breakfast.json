@@ -1,0 +1,15 @@
+{
+  "title": "Waffle Breakfast",
+  "requester": "Innkeeper",
+  "category": "kitchen",
+  "difficulty": "MEDIUM",
+  "weight": 14,
+  "reward_tokens": 10,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:waffle",
+    "count": 6,
+    "display_name": "Waffles"
+  },
+  "required_mods": ["createfood"]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Dough Restock",
+  "requester": "Baker",
+  "category": "kitchen",
+  "difficulty": "EASY",
+  "weight": 16,
+  "reward_tokens": 7,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:butter_dough",
+    "count": 8,
+    "display_name": "Butter Dough"
+  },
+  "required_mods": ["createfood"]
+}

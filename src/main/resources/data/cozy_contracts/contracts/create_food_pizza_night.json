@@ -1,0 +1,15 @@
+{
+  "title": "Pizza Night",
+  "requester": "Cook",
+  "category": "kitchen",
+  "difficulty": "MEDIUM",
+  "weight": 13,
+  "reward_tokens": 11,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:cheese_pizza_slice",
+    "count": 8,
+    "display_name": "Cheese Pizza Slices"
+  },
+  "required_mods": ["createfood"]
+}

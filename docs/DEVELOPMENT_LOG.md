@@ -794,15 +794,50 @@ Screenshots will be added after in-game testing.
 
 Test the optional Farmer's Delight Kitchen order pool in-game with the opt-in dev flag, then continue toward Create: Food compatibility or MVP polish.
 
+## Milestone 25 — Create: Food Optional Contracts
+
+### Goal
+
+Add optional Create: Food Community Board contracts while keeping Cozy Contracts standalone and free of hard Create or Create: Food dependencies.
+
+### What was implemented
+
+* Added optional Create: Food board contract JSON files under `data/cozy_contracts/contracts/`.
+* Added `required_mods: ["createfood"]` to every Create: Food contract so they are skipped safely when Create: Food is not installed.
+* Added an opt-in `enableCreateFood` Gradle property for development runtime testing.
+* Included Create as part of the Create: Food dev runtime toggle because Create: Food declares it as a mandatory dependency.
+* Verified the Create: Food mod ID and item IDs from the local resolved jar before writing contract data.
+* Focused the contracts on chocolate prep, dough supplies, waffles, pizza, sandwiches, breakfast plates, cheesecake, donuts, and dessert table requests.
+
+### Why it mattered
+
+This milestone proves the JSON contract system can support another food mod without adding Java imports or mandatory dependencies. It also broadens normal Community Board food gameplay beyond vanilla and Farmer's Delight while leaving Kitchen order content for a later step.
+
+### Challenges / fixes
+
+* Confirmed the Create: Food mod ID is `createfood`.
+* Confirmed Create: Food requires Create at runtime, while Create bundles its required Flywheel and Ponder jars.
+* Used only Create: Food item IDs verified from the resolved 1.20.1 jar.
+* Kept contract loading, Kitchen deliveries, shop behavior, settlement behavior, and Farmer's Delight values unchanged.
+* Did not add Create: Food Java imports, mandatory `mods.toml` dependencies, Kitchen orders, Resident Profiles, Taste Preferences, Prosperity, or Storehouse systems.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Test standalone, Create: Food, and full optional food-mod development runtimes, then continue toward MVP polish or future Create: Food Kitchen orders.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts and Kitchen orders are available when that mod is installed, with Farmer's Delight opt-in for development runtime testing. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a scrollable Kitchen tab with JSON-loaded food deliveries, small rewards, and per-board daily caps.
+Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts, optional Farmer's Delight Kitchen orders, and optional Create: Food JSON contracts are available when those mods are installed, with opt-in Gradle properties for development runtime testing. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a scrollable Kitchen tab with JSON-loaded food deliveries, small rewards, and per-board daily caps.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Test and tune Kitchen deliveries and optional Farmer's Delight Kitchen orders
-2. Create: Food compatibility contracts
+1. Test standalone, Farmer's Delight, Create: Food, and JEI optional development runtimes
+2. Test and tune Kitchen deliveries and optional Farmer's Delight Kitchen orders
 3. MVP polish and release testing
-4. Later: optional food mod Kitchen orders, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network
+4. Later: optional Create: Food Kitchen orders, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network

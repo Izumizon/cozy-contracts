@@ -1,0 +1,15 @@
+{
+  "title": "Hearty Breakfast Plates",
+  "requester": "Farmer",
+  "category": "farming",
+  "difficulty": "MEDIUM",
+  "weight": 12,
+  "reward_tokens": 12,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:breakfast_plate",
+    "count": 4,
+    "display_name": "Breakfast Plates"
+  },
+  "required_mods": ["createfood"]
+}

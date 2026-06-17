@@ -1,0 +1,15 @@
+{
+  "title": "Donut Box",
+  "requester": "Confectioner",
+  "category": "market",
+  "difficulty": "MEDIUM",
+  "weight": 12,
+  "reward_tokens": 12,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:chocolate_glazed_donut",
+    "count": 8,
+    "display_name": "Chocolate Glazed Donuts"
+  },
+  "required_mods": ["createfood"]
+}

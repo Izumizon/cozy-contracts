@@ -1,0 +1,15 @@
+{
+  "title": "Village Pizza Table",
+  "requester": "Town Host",
+  "category": "market",
+  "difficulty": "HARD",
+  "weight": 7,
+  "reward_tokens": 18,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:bacon_pizza",
+    "count": 2,
+    "display_name": "Bacon Pizzas"
+  },
+  "required_mods": ["createfood"]
+}

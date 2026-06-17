@@ -1,0 +1,15 @@
+{
+  "title": "Dessert Table Cupcakes",
+  "requester": "Festival Planner",
+  "category": "kitchen",
+  "difficulty": "HARD",
+  "weight": 7,
+  "reward_tokens": 15,
+  "requirement": {
+    "type": "item",
+    "id": "createfood:chocolate_cream_frosted_cupcake",
+    "count": 8,
+    "display_name": "Chocolate Cream Frosted Cupcakes"
+  },
+  "required_mods": ["createfood"]
+}

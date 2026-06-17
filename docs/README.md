@@ -28,6 +28,7 @@ Early prototype. Cozy Contracts has not been released yet.
 - Category-aware shop stock foundation
 - Settlement identity foundation for Community Boards
 - Optional Farmer's Delight JSON contract support
+- Optional Create: Food JSON contract support
 - Optional Farmer's Delight Kitchen order support
 - Shift-right-click held-item submission
 - Full-inventory `/cozycontracts submit <slot>` and `/cc submit <slot>` commands
@@ -73,11 +74,12 @@ Launch the development client:
 
 ### Optional Dev Runtime Helpers
 
-Farmer's Delight and JEI can be enabled for development testing through Gradle properties. They are optional helpers, not mandatory Cozy Contracts dependencies, and should not be placed manually in `run/mods` when using these toggles.
+Farmer's Delight, Create: Food, and JEI can be enabled for development testing through Gradle properties. They are optional helpers, not mandatory Cozy Contracts dependencies, and should not be placed manually in `run/mods` when using these toggles.
 
 ```powershell
 .\gradlew.bat runClient
 .\gradlew.bat runClient -PenableFarmersDelight=true
+.\gradlew.bat runClient -PenableCreateFood=true
 .\gradlew.bat runClient -PenableJei=true
-.\gradlew.bat runClient -PenableFarmersDelight=true -PenableJei=true
+.\gradlew.bat runClient -PenableFarmersDelight=true -PenableCreateFood=true -PenableJei=true
 ```
