@@ -197,6 +197,10 @@ public class CommunityBoardScreen extends Screen {
                 false);
 
         super.render(graphics, mouseX, mouseY, partialTick);
+
+        if (activeView == View.KITCHEN) {
+            renderKitchenTooltip(graphics, left, top, mouseX, mouseY);
+        }
     }
 
     private void renderRequests(GuiGraphics graphics, int left, int top) {
@@ -474,14 +478,7 @@ public class CommunityBoardScreen extends Screen {
                 false);
         graphics.drawString(
                 font,
-                trimToWidth(
-                        "Delivered: "
-                                + order.deliveredToday()
-                                + "/"
-                                + order.dailyLimit()
-                                + " | Reward: "
-                                + order.rewardTokens(),
-                        textWidth),
+                trimToWidth(formatKitchenProgress(order), textWidth),
                 x + 6,
                 y + 27,
                 rewardColor,
@@ -502,6 +499,112 @@ public class CommunityBoardScreen extends Screen {
             case "Bring simple breakfast food for the fields." -> "Simple breakfast food";
             case "Bring light snacks or baked goods." -> "Snacks or baked goods";
             default -> requirement;
+        };
+    }
+
+    private String formatKitchenProgress(OpenCommunityBoardScreenPacket.KitchenOrderEntry order) {
+        return order.deliveredToday()
+                + "/"
+                + order.dailyLimit()
+                + " | +"
+                + order.rewardTokens()
+                + " FT";
+    }
+
+    private void renderKitchenTooltip(GuiGraphics graphics, int left, int top, int mouseX, int mouseY) {
+        OpenCommunityBoardScreenPacket.KitchenOrderEntry hoveredOrder =
+                findHoveredKitchenOrder(left, top, mouseX, mouseY);
+        if (hoveredOrder == null) {
+            return;
+        }
+
+        graphics.renderComponentTooltip(
+                font,
+                List.of(
+                        Component.literal(hoveredOrder.title()),
+                        Component.literal("Requester: " + hoveredOrder.requester()),
+                        Component.literal("Type: " + formatKitchenOrderType(hoveredOrder.type())),
+                        Component.literal("Requirement: " + hoveredOrder.requirementDisplay()),
+                        Component.literal(
+                                "Progress today: "
+                                        + hoveredOrder.deliveredToday()
+                                        + "/"
+                                        + hoveredOrder.dailyLimit()),
+                        Component.literal("Reward: " + hoveredOrder.rewardTokens() + " Favour Tokens"),
+                        Component.literal("Daily limit: " + hoveredOrder.dailyLimit())),
+                mouseX,
+                mouseY);
+    }
+
+    private OpenCommunityBoardScreenPacket.KitchenOrderEntry findHoveredKitchenOrder(
+            int left,
+            int top,
+            int mouseX,
+            int mouseY) {
+        int columnWidth = 166;
+        int dailyX = left + 14;
+        int standingX = left + PANEL_WIDTH - columnWidth - 14;
+        int contentTop = getKitchenContentTop(top);
+        int contentBottom = getKitchenContentBottom(top);
+
+        if (mouseY < contentTop - 4 || mouseY > contentBottom) {
+            return null;
+        }
+
+        int sectionY = contentTop - kitchenScrollOffset;
+        OpenCommunityBoardScreenPacket.KitchenOrderEntry dailyOrder =
+                findHoveredKitchenOrderForType(dailyX, sectionY, columnWidth, "DAILY_MENU", mouseX, mouseY);
+        if (dailyOrder != null) {
+            return dailyOrder;
+        }
+
+        OpenCommunityBoardScreenPacket.KitchenOrderEntry standingOrder =
+                findHoveredKitchenOrderForType(standingX, sectionY, columnWidth, "STANDING_ORDER", mouseX, mouseY);
+        if (standingOrder != null) {
+            return standingOrder;
+        }
+
+        if (countKitchenOrders("FEAST_PREP") > 0) {
+            int feastPrepY = sectionY + getKitchenSectionHeight("STANDING_ORDER") + KITCHEN_SECTION_GAP;
+            return findHoveredKitchenOrderForType(standingX, feastPrepY, columnWidth, "FEAST_PREP", mouseX, mouseY);
+        }
+
+        return null;
+    }
+
+    private OpenCommunityBoardScreenPacket.KitchenOrderEntry findHoveredKitchenOrderForType(
+            int x,
+            int y,
+            int width,
+            String type,
+            int mouseX,
+            int mouseY) {
+        if (mouseX < x || mouseX > x + width) {
+            return null;
+        }
+
+        int entryY = y + 13;
+        for (OpenCommunityBoardScreenPacket.KitchenOrderEntry order : kitchenOrders) {
+            if (!order.type().equals(type)) {
+                continue;
+            }
+
+            if (mouseY >= entryY - 3 && mouseY <= entryY + KITCHEN_CARD_HEIGHT) {
+                return order;
+            }
+
+            entryY += KITCHEN_CARD_HEIGHT + KITCHEN_CARD_GAP;
+        }
+
+        return null;
+    }
+
+    private String formatKitchenOrderType(String type) {
+        return switch (type) {
+            case "DAILY_MENU" -> "Daily Menu";
+            case "STANDING_ORDER" -> "Standing Order";
+            case "FEAST_PREP" -> "Feast Prep";
+            default -> type;
         };
     }
 

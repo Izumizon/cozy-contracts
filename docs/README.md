@@ -71,8 +71,13 @@ Launch the development client:
 .\gradlew.bat runClient
 ```
 
-Optional Farmer's Delight dev testing can be enabled with:
+### Optional Dev Runtime Helpers
+
+Farmer's Delight and JEI can be enabled for development testing through Gradle properties. They are optional helpers, not mandatory Cozy Contracts dependencies, and should not be placed manually in `run/mods` when using these toggles.
 
 ```powershell
+.\gradlew.bat runClient
 .\gradlew.bat runClient -PenableFarmersDelight=true
+.\gradlew.bat runClient -PenableJei=true
+.\gradlew.bat runClient -PenableFarmersDelight=true -PenableJei=true
 ```

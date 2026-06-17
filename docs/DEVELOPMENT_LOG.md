@@ -778,7 +778,10 @@ The Community Kitchen now has a richer optional cooking-focused order pool when 
 * Confirmed the mod ID is `farmersdelight`.
 * Used only Farmer's Delight item IDs verified from the local 1.20.1 jar.
 * Made Farmer's Delight an opt-in development runtime dependency with `-PenableFarmersDelight=true`, keeping standalone dev launches clean by default.
+* Added optional JEI dev-runtime support with `-PenableJei=true` for recipe and item lookup testing without making JEI a dependency.
 * Made the Kitchen tab scrollable so larger optional order pools stay inside the Community Board panel.
+* Added compact Kitchen row progress text so delivery counts and token rewards fit beside the Deliver button.
+* Added Kitchen row hover details for the full title, requester, type, requirement, progress, reward, and daily limit.
 * Kept delivery refreshes on the Kitchen tab so repeated deliveries remain comfortable.
 * Kept normal contracts, Kitchen loading, delivery logic, shop behavior, and settlement behavior unchanged.
 * Left Resident Profiles, Taste Preferences, Prosperity, and Storehouse as future systems.
