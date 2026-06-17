@@ -16,7 +16,7 @@
       "item": "minecraft:paper"
     },
     "T": {
-      "tag": "minecraft:sticks"
+      "item": "minecraft:stick"
     }
   },
   "result": {
