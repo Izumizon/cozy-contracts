@@ -1,44 +1,49 @@
 # Cozy Contracts Roadmap
 
-## Current Prototype
+## Current Alpha
 
-Cozy Contracts currently has a complete first gameplay loop:
+Cozy Contracts 0.1.0-alpha has a complete first gameplay loop:
 
-Players can open a Community Board, view daily contracts, submit requested items, earn Favour Tokens, and spend those tokens in a basic reward shop.
+```text
+Open Community Board -> view daily requests -> submit items -> earn Favour Tokens -> buy rewards
+```
 
-## Current Prototype Features
+The current alpha also includes the first playable Community Kitchen delivery loop. This is still early and intentionally simple, but basic Daily Menu and Standing Order style Kitchen deliveries now exist.
+
+## Current Alpha Features
 
 * Community Board block
 * Favour Token item
 * Data-driven JSON/datapack contract loading
 * 14 built-in vanilla JSON contracts
-* Optional Farmer's Delight JSON contracts
-* Optional Create: Food JSON contracts
-* Optional Farmer's Delight Kitchen orders
+* Optional Farmer's Delight board contracts
+* Optional Create: Food board contracts
 * Three active daily contracts per board
 * Weighted daily contract selection
 * Persistent active contract IDs on the Community Board block entity
 * Persistent completed contract IDs on the Community Board block entity
 * Daily completion tracking
 * Community Board GUI
-* Community Kitchen tab with simple vanilla food deliveries
-* Data-ready Kitchen order requirements
-* JSON/datapack Kitchen order loading
 * Full-inventory GUI request submission
 * Shift-right-click held-item submission
 * Command-based submission
-* Debug commands for boards and contracts
+* Debug commands for boards, contracts, Kitchen orders, shops, and settlements
 * Basic Favour Token reward shop
 * Category-ready shop item data
 * Category-ready contract data
 * Category-aware shop stock foundation
 * Settlement Foundation Lite
-* Improved Community Board model, texture, and GUI presentation
-* Development log and design documentation
+* Community Kitchen tab
+* Basic Community Kitchen deliveries
+* Basic Standing Orders as Kitchen order types
+* JSON/datapack Kitchen order loading
+* Optional Farmer's Delight Kitchen orders
+* Scrollable Kitchen UI with compact rows and hover details
+* Optional dev runtime toggles for Farmer's Delight, Create: Food, and JEI
+* Improved Community Board model, texture, GUI, and crafting recipe
+* Development log, design documentation, and release notes
 
 ## Design Direction
-
-The long-term direction is no longer just a simple contract board.
 
 Cozy Contracts is becoming a settlement-focused community economy mod where the Community Board acts as the main interface to a larger village system.
 
@@ -48,7 +53,8 @@ Long-term systems should support:
 * multiple nearby boards sharing one settlement
 * districts such as Farming, Kitchen, Builder, Mining, Scholar, Decorator, Market, Hunter, and Fishing
 * themed village shops
-* Community Kitchen and Standing Orders
+* advanced Community Kitchen progression
+* resident meal deliveries
 * Resident Profiles and Taste Preferences
 * Resident Memories
 * Community Supplies and Storehouse
@@ -60,61 +66,91 @@ Long-term systems should support:
 * Village Network progression
 * festivals
 
-Community Kitchen and Resident Profiles are future systems, not immediate MVP requirements.
-
 The key design rule is:
 
-Do not build the full village system now, but do not code the MVP in a way that blocks it later.
+Do not build the full village system now, but do not code the alpha in a way that blocks it later.
 
 ## Next Steps
 
-### 1. Community Kitchen Tuning
+### 1. MVP Release Testing
 
-Test and tune the first playable version of the cooking-focused system.
-
-Goals:
-
-* verify Kitchen deliveries in Survival
-* tune delivery caps, messages, and small rewards
-* test JSON/datapack Kitchen order loading
-* test optional Farmer's Delight Kitchen orders
-* keep Daily Menu and Standing Orders simple for now
-* avoid Resident Profiles, Taste Preferences, Prosperity, and Storehouse until the design is ready
-* keep preparing for food mod integration without adding full resident simulation yet
-
-Do not make this an immediate MVP requirement.
-
-### 2. Optional Food Mod Testing
-
-Test the optional food-mod contract pools in development runtimes.
+Verify the 0.1.0-alpha candidate in normal play conditions.
 
 Goals:
 
-* verify Farmer's Delight contracts and Kitchen orders when enabled
-* verify Create: Food board contracts when enabled
-* verify optional mod contracts are skipped safely when mods are missing
-* keep Create: Food Kitchen orders for a later milestone
-
-### 3. MVP Polish and Release Testing
-
-Before sharing a first test jar:
-
-* test in a fresh world
-* test in Survival mode
-* test save/reload
+* test a fresh world
+* test Survival mode
+* test save and reload
 * test `/reload`
-* test without extra mods
-* test with Farmer's Delight installed
-* test with Create: Food installed
-* test full inventory reward drops
-* check screenshots
-* update README
-* update development log
-* build final jar
+* test request completion and reward delivery
+* test Kitchen deliveries and daily caps
+* test shop purchases with normal and full inventories
+
+### 2. Final Documentation And Release Notes
+
+Prepare the release-facing documentation for players and pack makers.
+
+Goals:
+
+* finalize README wording
+* update release notes
+* verify known limitations
+* verify optional mod support wording
+* make sure future systems are clearly marked as future
+
+### 3. Fresh Forge Instance Testing
+
+Test the built jar outside the development workspace.
+
+Recommended setups:
+
+* standalone Forge 1.20.1
+* Forge 1.20.1 with Farmer's Delight
+* Forge 1.20.1 with Create and Create: Food
+* Forge 1.20.1 with Farmer's Delight, Create, Create: Food, and JEI
+
+### 4. GitHub Alpha Release
+
+Prepare the GitHub release page and attach the alpha jar.
+
+Recommended checks:
+
+* jar filename
+* version number
+* release notes
+* known limitations
+* optional dependency notes
+* screenshots or short clips if available
+
+### 5. Modrinth / CurseForge Alpha Release
+
+Publish on mod platforms if desired.
+
+Recommended checks:
+
+* loader and Minecraft version metadata
+* optional dependencies marked correctly
+* screenshots
+* feature summary
+* alpha status clearly visible
+
+### 6. Later Systems
+
+After the alpha, likely next work includes:
+
+* Create: Food Kitchen orders
+* advanced Community Kitchen progression
+* advanced Standing Orders
+* resident meal deliveries
+* Resident Profiles and Taste Preferences
+* district-aware contracts and shops
+* Prosperity and Storehouse support
+* Village Bond and Community Projects
+* Village Network and Capital Villages
 
 ## Future Features
 
-These are planned future systems, not immediate MVP tasks.
+These are planned future systems, not part of the 0.1.0-alpha release.
 
 ### Districts
 
@@ -132,23 +168,22 @@ Villages can grow through multiple districts, such as:
 
 Districts should affect contracts, shop stock, services, rewards, future Community Projects, and future Prosperity support.
 
-### Community Kitchen and Standing Orders
+### Advanced Community Kitchen And Standing Orders
 
-A future cooking-focused system where players can deliver meals outside normal daily contracts.
+The current alpha has basic Kitchen deliveries and Standing Order order types. Future versions can expand this into a deeper cooking playstyle.
 
-Possible features:
+Possible future features:
 
-* Daily Menu
-* Standing Orders
 * resident meal deliveries
-* Feast Prep
+* Feast Prep gameplay
 * district meal support
-* limited repeatable food deliveries
+* advanced Standing Orders
 * Kitchen identity
 * future Prosperity support
-* Farmer's Delight and Create: Food integration
+* Create: Food Kitchen orders
+* deeper Farmer's Delight Kitchen support
 
-### Resident Profiles and Taste Preferences
+### Resident Profiles And Taste Preferences
 
 Residents can eventually have names, roles, homes, personalities, relationship levels, hidden Taste Profiles, and personal food preferences.
 
@@ -172,7 +207,7 @@ Important events and loved meals can create memories.
 
 Memories should make villages feel alive without requiring complex simulation.
 
-### Community Supplies and Storehouse
+### Community Supplies And Storehouse
 
 Community Supplies can support districts and improve Prosperity.
 
@@ -207,9 +242,7 @@ It can later unlock:
 
 ### Community Projects
 
-Community Projects should become the main way villages grow.
-
-Players should choose where growth happens.
+Community Projects should become the main way villages grow. Players should choose where growth happens.
 
 Future project types may include:
 
@@ -223,7 +256,7 @@ Future project types may include:
 * community hearths
 * festival grounds
 
-### Manual and Assisted Building
+### Manual And Assisted Building
 
 Both playstyles should be supported.
 
@@ -243,9 +276,7 @@ The mod should not randomly place buildings without player control.
 
 The Village Network should connect multiple settlements.
 
-Specialized settlements can support larger settlements or Capital Villages.
-
-The network should encourage exploration and long-term world progression without becoming an industrial automation system.
+Specialized settlements can support larger settlements or Capital Villages. The network should encourage exploration and long-term world progression without becoming an industrial automation system.
 
 ### Capital Villages
 
@@ -257,13 +288,16 @@ They should be powerful, but require significant support through projects, Prosp
 
 Festivals can become future village events tied to seasons, food, districts, residents, Prosperity, and Community Projects.
 
-## Not Planned for the Current MVP
+## Not Planned For The Current MVP
 
 Do not add these yet:
 
 * full Prosperity system
-* Community Kitchen gameplay
-* Standing Orders
+* advanced Community Kitchen progression
+* resident meal deliveries
+* Feast Prep gameplay
+* advanced Standing Orders
+* district-aware Kitchen support
 * Resident Profiles
 * Taste Preferences
 * Resident Memories
@@ -275,9 +309,9 @@ Do not add these yet:
 * work crews
 * automatic building placement
 * strict house schematics
-* complex villager AI
+* complex villager behavior
 * full rotating shop stock
 * shop JSON loading
 * major balance pass
 
-These systems should stay documented, but they should not be rushed into the current prototype.
+These systems should stay documented, but they should not be rushed into the current alpha.

@@ -1,6 +1,6 @@
 # Cozy Contracts Development Log
 
-Cozy Contracts is a Forge 1.20.1 Minecraft mod focused on cozy village requests, daily contracts, Favour Tokens, and future cooking and village progression systems. This log follows the project from its initial Forge setup through the current early prototype.
+Cozy Contracts is a Forge 1.20.1 Minecraft mod focused on cozy village requests, daily contracts, Favour Tokens, and future cooking and village progression systems. This log follows the project from its initial Forge setup through the current 0.1.0-alpha release candidate.
 
 ## Milestone 1 — Project Setup and Forge Foundation
 
@@ -679,6 +679,7 @@ Kitchen orders can now accept simple vanilla food deliveries while staying separ
 ![Successful kitchen delivery reward message](screenshots/21-kitchen-deliveries-foundation/kitchen-delivery-success.png)
 
 ![Kitchen delivery progress after completed orders](screenshots/21-kitchen-deliveries-foundation/kitchen-progress-updated.png)
+
 ### Next step
 
 Test Kitchen deliveries in Survival, then tune messages and caps before considering food mod support or resident preference systems.
@@ -829,15 +830,51 @@ Screenshots will be added after in-game testing.
 
 Test standalone, Create: Food, and full optional food-mod development runtimes, then continue toward MVP polish or future Create: Food Kitchen orders.
 
+## Milestone 26 - MVP Release Candidate Polish
+
+### Goal
+
+Prepare Cozy Contracts for a 0.1.0-alpha release candidate by tightening release-facing documentation and checking small release-readiness issues without adding new gameplay systems.
+
+### What was checked / fixed
+
+* Fixed the Community Board crafting recipe so JEI no longer shows an empty `minecraft:sticks` tag.
+* Cleaned documentation for the 0.1.0-alpha release candidate.
+* Updated release-facing wording for standalone play and optional food-mod setups.
+* Clarified current alpha features, known limitations, and future systems.
+* Added release notes for the first alpha candidate.
+
+### Why it mattered
+
+The project now has a complete first gameplay loop: Community Board requests, Favour Tokens, the reward shop, Community Kitchen deliveries, JSON/datapack content, optional Farmer's Delight content, and optional Create: Food board contracts. Release documentation needs to describe what is playable now, what is optional, and what remains future work.
+
+### Challenges / fixes
+
+* Kept standalone Cozy Contracts clearly separate from optional Farmer's Delight, Create, Create: Food, and JEI setups.
+* Marked Resident Profiles, Taste Preferences, Prosperity, Storehouse, Village Bond, Community Projects, and Village Network as future systems.
+* Kept this milestone focused on release preparation and documentation; no new gameplay systems were added.
+
+### Screenshots / media
+
+No new screenshots were added for this documentation milestone.
+
+### Next step
+
+Test the built jar in a fresh Forge 1.20.1 instance, then prepare the GitHub alpha release.
+
 ## Current Status
 
-Cozy Contracts is an early prototype with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts, optional Farmer's Delight Kitchen orders, and optional Create: Food JSON contracts are available when those mods are installed, with opt-in Gradle properties for development runtime testing. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a scrollable Kitchen tab with JSON-loaded food deliveries, small rewards, and per-board daily caps.
+Cozy Contracts is a 0.1.0-alpha release candidate with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts, optional Farmer's Delight Kitchen orders, and optional Create: Food JSON contracts are available when those mods are installed, with opt-in Gradle properties for development runtime testing. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a scrollable Kitchen tab with JSON-loaded food deliveries, small rewards, and per-board daily caps.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Test standalone, Farmer's Delight, Create: Food, and JEI optional development runtimes
-2. Test and tune Kitchen deliveries and optional Farmer's Delight Kitchen orders
-3. MVP polish and release testing
-4. Later: optional Create: Food Kitchen orders, Resident Profiles, Taste Preferences, Village Bond, Community Projects, Prosperity, Storehouse, Village Network
+1. Test built jar in a fresh Forge 1.20.1 instance.
+2. Test standalone.
+3. Test with Farmer's Delight.
+4. Test with Create + Create: Food.
+5. Test with Farmer's Delight + Create + Create: Food + JEI.
+6. Prepare GitHub release.
+7. Prepare Modrinth/CurseForge alpha pages if desired.
+8. Later: Create: Food Kitchen orders, residents, taste preferences, Prosperity, Storehouse, Village Bond, Community Projects, Village Network.

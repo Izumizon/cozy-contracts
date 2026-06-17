@@ -82,6 +82,8 @@ cozy_contracts:morning_bread_basket
 `required_mods`
 : Optional array of mod IDs. If any listed mod is missing, the order is skipped.
 
+Kitchen delivery rewards and daily limits are balance values. They may change during alpha development as the Kitchen loop is tested.
+
 ## Item Requirement
 
 ```json
@@ -116,6 +118,8 @@ Tag requirements are supported by the data model and delivery matching. Tag IDs 
 
 Orders with missing required mods are skipped safely. This is intended for future Farmer's Delight, Create: Food, and other food mod Kitchen orders.
 
+Optional modded Kitchen orders should include `required_mods` so standalone Cozy Contracts worlds can still load safely. Farmer's Delight Kitchen orders already use this format. Create: Food Kitchen orders can use the same format in a later compatibility pass.
+
 ## Validation
 
 Invalid Kitchen order JSON entries are skipped with warnings.
@@ -124,4 +128,4 @@ If no valid JSON Kitchen orders load, Cozy Contracts falls back to its built-in 
 
 ## Future Use
 
-This format is intended to support food mod compatibility and datapacks. Farmer's Delight Kitchen orders use this format with `required_mods`, and future Create: Food orders can follow the same pattern. Resident Profiles, Taste Preferences, Prosperity, Storehouse support, and advanced Kitchen selection are planned future systems and are not part of this format yet.
+This format is intended to support food mod compatibility and datapacks. Resident Profiles, Taste Preferences, Prosperity, Storehouse support, and advanced Kitchen selection are planned future systems and are not part of this format yet.

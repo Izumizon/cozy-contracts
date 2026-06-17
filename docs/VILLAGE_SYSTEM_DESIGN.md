@@ -239,15 +239,15 @@ Each unlocked district could have its own small set of requests.
 
 ## Community Kitchen
 
-The Community Kitchen is a future cooking-focused system.
+The Community Kitchen is a cooking-focused system that begins in the 0.1.0-alpha as a Community Board tab with basic food deliveries, daily limits, and JSON-loaded Kitchen orders.
 
-It should give players someone or somewhere to deliver meals outside normal daily contracts. This lets cooking become a real playstyle instead of only another board contract category.
+It gives players somewhere to deliver meals outside normal daily contracts. This lets cooking become a real playstyle instead of only another board contract category.
 
-The Community Kitchen can start as a Community Board tab. Later, it may become its own block or interface, such as a Community Kitchen Counter or Meal Counter.
+The current version is intentionally small. Later, the Kitchen may become its own block or interface, such as a Community Kitchen Counter or Meal Counter.
 
 The Kitchen should complement the Community Board, not replace it. The board remains the primary settlement interface, while Kitchen and Residents may become tabs or dedicated blocks as the design grows.
 
-The Kitchen should eventually support food mods such as Farmer's Delight and Create: Food. Those mods should feed into Community Kitchen systems, resident preferences, meal requests, and settlement support rather than existing only as extra contract JSON.
+The Kitchen already supports vanilla Kitchen orders and optional Farmer's Delight Kitchen orders. Create: Food Kitchen orders, resident preferences, meal requests, and settlement support are possible future expansions.
 
 Possible Kitchen tabs:
 
@@ -258,7 +258,7 @@ Possible Kitchen tabs:
 
 ## Daily Menu
 
-The Daily Menu is a future set of village meal requests.
+The Daily Menu exists in basic form as a Kitchen order type. Future versions can expand it into a richer set of village meal requests.
 
 It is different from normal board contracts because it focuses specifically on cooking. A menu might request breakfast, lunch, dinner, dessert, drinks, or comfort meals.
 
@@ -274,7 +274,7 @@ Daily Menu rewards should have limits to avoid infinite farming. The system shou
 
 ## Standing Orders
 
-Standing Orders are repeatable or semi-repeatable food needs for a settlement or district.
+Standing Orders exist in basic form as Kitchen order types with daily delivery limits. Future versions can expand them into repeatable or semi-repeatable food needs for a settlement or district.
 
 Examples:
 
@@ -707,7 +707,7 @@ A cooking-focused player can complete Kitchen requests, prepare Community Kitche
 
 ## MVP Scope
 
-The MVP should not include the full settlement system.
+The 0.1.0-alpha MVP should not include the full settlement system.
 
 The MVP should include:
 
@@ -715,17 +715,24 @@ The MVP should include:
 * daily contracts
 * JSON/datapack contract loading
 * Favour Tokens
+* reward shop
 * contract completion tracking
 * persistent board state
 * GUI request display
 * GUI submit buttons
 * full-inventory request submission
-* basic reward shop
 * category-ready contracts
 * category-ready shop data
+* category-aware shop foundation
 * Settlement Foundation Lite
-* optional Farmer's Delight JSON contract support
-* development documentation
+* Community Kitchen tab
+* vanilla Kitchen deliveries
+* JSON/datapack Kitchen order loading
+* optional Farmer's Delight board contracts
+* optional Farmer's Delight Kitchen orders
+* optional Create: Food board contracts
+* optional dev runtime helpers for testing
+* release documentation
 
 The MVP should prove the core loop:
 
@@ -738,9 +745,11 @@ Open board -> complete requests -> earn Favour Tokens -> spend tokens
 Future versions may include:
 
 * full districts
-* Community Kitchen
-* Daily Menu
-* Standing Orders
+* advanced Community Kitchen progression
+* resident meal deliveries
+* advanced Standing Orders
+* Feast Prep gameplay
+* district-aware Kitchen support
 * Resident Profiles
 * Taste Preferences
 * Resident Memories
@@ -758,47 +767,48 @@ Future versions may include:
 * assisted building
 * manual structure validation
 * themed shops
-* Farmer's Delight integration
-* Create: Food integration
+* deeper Farmer's Delight integration
+* Create: Food Kitchen orders
 * festivals
 
 ## Development Priority
 
 Current recommended order:
 
-1. Finish MVP shop and board polish.
-2. Add themed shop foundation.
-3. Design Community Kitchen and Standing Orders.
-4. Add Create: Food compatibility contracts.
-5. Polish and release-test the MVP.
-6. Add district-aware contract and shop behaviour later.
-7. Add Resident Profiles, Taste Preferences, and Village Registry later.
-8. Add Prosperity and Community Supplies later.
-9. Add Village Bond and Community Projects later.
-10. Add Village Network and Capital Villages later.
+1. Finish release documentation.
+2. Test release jar in a fresh Forge instance.
+3. Release 0.1.0-alpha.
+4. Later: Create: Food Kitchen orders.
+5. Later: district-aware contracts and shops.
+6. Later: Resident Profiles and Taste Preferences.
+7. Later: Prosperity, Storehouse, Village Bond, Community Projects, and Village Network.
 
 ## Non-Goals for Now
 
 Do not implement these yet:
 
+* advanced Community Kitchen progression
+* resident meal deliveries
+* advanced Standing Orders
+* Feast Prep gameplay
+* Resident Profiles
+* Taste Preferences
+* Resident Memories
+* Village Registry
 * full Prosperity
+* Storehouse
 * Village Bond
 * Community Projects
 * Village Network
 * Capital Villages
-* resident simulation
-* taste preferences
-* Community Kitchen gameplay
-* Standing Orders
-* district buildings
 * work crews
-* storehouses
-* automatic construction
-* random building placement
-* house validation
-* full settlement simulation
+* automatic building placement
+* strict house schematics
+* complex villager behavior
+* full rotating shop stock
+* shop JSON loading
 
-These systems should be documented and planned, but not rushed into the current MVP.
+These systems should be documented and planned, but not rushed into the current alpha.
 
 ## Final Design Principle
 

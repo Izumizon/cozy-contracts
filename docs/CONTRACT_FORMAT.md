@@ -67,10 +67,10 @@ The contract ID comes from the namespace and file path. The example above become
 | `difficulty` | Balancing tier: `EASY`, `MEDIUM`, or `HARD`. Parsing is case-insensitive. |
 | `weight` | Positive weighted-selection value. Higher values make selection more likely. |
 | `reward_tokens` | Positive number of Favour Tokens awarded on completion. |
-| `requirement` | Object describing the single held-stack requirement. |
+| `requirement` | Object describing one item or tag requirement. |
 | `requirement.type` | `item` for one exact item or `tag` for any item in a tag. |
 | `requirement.id` | Resource location of the item or item tag. |
-| `requirement.count` | Positive number of items required in the held stack. |
+| `requirement.count` | Positive number of matching items required. |
 | `requirement.display_name` | Readable name used in board and submission messages. |
 | `required_mods` | Optional list of mod IDs that must be loaded. Defaults to an empty list. |
 
@@ -78,6 +78,16 @@ The contract ID comes from the namespace and file path. The example above become
 
 - `item`: matches one exact registered item, such as `minecraft:bread`.
 - `tag`: matches any item in an item tag, such as `minecraft:logs`.
+
+## Completion Methods
+
+Contracts can be completed through the Community Board GUI, commands, or shift-right-click hand-in.
+
+- GUI submission searches the full player inventory for matching items.
+- `/cozycontracts submit <slot>` and `/cc submit <slot>` search the full player inventory.
+- Shift-right-click hand-in remains held-stack based and only checks the player's main-hand stack.
+
+The JSON format is the same for all completion methods.
 
 ## Loading Rules
 
