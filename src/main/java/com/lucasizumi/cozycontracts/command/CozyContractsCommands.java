@@ -260,8 +260,8 @@ public final class CozyContractsCommands {
                 false);
         source.sendSuccess(
                 () -> Component.literal(
-                        "Kitchen orders for board: "
-                                + KitchenBoardService.getKitchenOrdersForBoard(level, boardPos).size()),
+                        "Total loaded Kitchen orders: "
+                                + KitchenOrderRegistry.getAllOrders().size()),
                 false);
         source.sendSuccess(
                 () -> Component.literal(
@@ -271,7 +271,14 @@ public final class CozyContractsCommands {
                                 : "Java fallback kitchen orders")),
                 false);
 
-        for (KitchenOrder order : KitchenBoardService.getKitchenOrdersForBoard(level, boardPos)) {
+        List<KitchenOrder> activeOrders =
+                KitchenBoardService.getKitchenOrdersForBoard(level, boardPos);
+        source.sendSuccess(
+                () -> Component.literal(
+                        "Selected active Kitchen orders: " + activeOrders.size()),
+                false);
+
+        for (KitchenOrder order : activeOrders) {
             int deliveredCount = board == null
                     ? 0
                     : board.getKitchenDeliveryCount(day, order.getId());
@@ -287,6 +294,8 @@ public final class CozyContractsCommands {
                                     + order.getRequirement().getDebugText()
                                     + " | reward="
                                     + order.getRewardTokens()
+                                    + " | limit="
+                                    + order.getDailyLimit()
                                     + " | delivered="
                                     + deliveredCount
                                     + "/"

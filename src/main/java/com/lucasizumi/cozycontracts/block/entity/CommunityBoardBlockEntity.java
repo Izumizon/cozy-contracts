@@ -22,6 +22,8 @@ public class CommunityBoardBlockEntity extends BlockEntity {
     private static final String COMPLETED_CONTRACTS_TAG = "CompletedContracts";
     private static final String ACTIVE_CONTRACTS_DAY_TAG = "ActiveContractsDay";
     private static final String ACTIVE_CONTRACTS_TAG = "ActiveContracts";
+    private static final String ACTIVE_KITCHEN_ORDERS_DAY_TAG = "ActiveKitchenOrdersDay";
+    private static final String ACTIVE_KITCHEN_ORDERS_TAG = "ActiveKitchenOrders";
     private static final String KITCHEN_DELIVERY_DAY_TAG = "KitchenDeliveryDay";
     private static final String KITCHEN_DELIVERIES_TAG = "KitchenDeliveries";
 
@@ -29,6 +31,8 @@ public class CommunityBoardBlockEntity extends BlockEntity {
     private final Set<ResourceLocation> completedContractIds = new HashSet<>();
     private long activeContractsDay = Long.MIN_VALUE;
     private final List<ResourceLocation> activeContractIds = new ArrayList<>();
+    private long activeKitchenOrdersDay = Long.MIN_VALUE;
+    private final List<ResourceLocation> activeKitchenOrderIds = new ArrayList<>();
     private long kitchenDeliveryDay = Long.MIN_VALUE;
     private final Map<ResourceLocation, Integer> kitchenDeliveryCounts = new HashMap<>();
 
@@ -86,6 +90,23 @@ public class CommunityBoardBlockEntity extends BlockEntity {
         return Set.copyOf(completedContractIds);
     }
 
+    public List<ResourceLocation> getActiveKitchenOrderIds(long day) {
+        ensureActiveKitchenOrdersDay(day);
+        return List.copyOf(activeKitchenOrderIds);
+    }
+
+    public void setActiveKitchenOrderIds(long day, List<ResourceLocation> ids) {
+        ensureActiveKitchenOrdersDay(day);
+        activeKitchenOrderIds.clear();
+        activeKitchenOrderIds.addAll(ids);
+        setChanged();
+    }
+
+    public boolean hasActiveKitchenOrdersForDay(long day) {
+        ensureActiveKitchenOrdersDay(day);
+        return !activeKitchenOrderIds.isEmpty();
+    }
+
     public int getKitchenDeliveryCount(long day, ResourceLocation orderId) {
         ensureKitchenDeliveryDay(day);
         return kitchenDeliveryCounts.getOrDefault(orderId, 0);
@@ -132,6 +153,16 @@ public class CommunityBoardBlockEntity extends BlockEntity {
         setChanged();
     }
 
+    private void ensureActiveKitchenOrdersDay(long day) {
+        if (activeKitchenOrdersDay == day) {
+            return;
+        }
+
+        activeKitchenOrdersDay = day;
+        activeKitchenOrderIds.clear();
+        setChanged();
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
@@ -139,6 +170,8 @@ public class CommunityBoardBlockEntity extends BlockEntity {
         tag.put(COMPLETED_CONTRACTS_TAG, saveResourceLocations(completedContractIds));
         tag.putLong(ACTIVE_CONTRACTS_DAY_TAG, activeContractsDay);
         tag.put(ACTIVE_CONTRACTS_TAG, saveResourceLocations(activeContractIds));
+        tag.putLong(ACTIVE_KITCHEN_ORDERS_DAY_TAG, activeKitchenOrdersDay);
+        tag.put(ACTIVE_KITCHEN_ORDERS_TAG, saveResourceLocations(activeKitchenOrderIds));
         tag.putLong(KITCHEN_DELIVERY_DAY_TAG, kitchenDeliveryDay);
         tag.put(KITCHEN_DELIVERIES_TAG, saveKitchenDeliveries(kitchenDeliveryCounts));
     }
@@ -153,6 +186,10 @@ public class CommunityBoardBlockEntity extends BlockEntity {
         activeContractsDay = tag.getLong(ACTIVE_CONTRACTS_DAY_TAG);
         activeContractIds.clear();
         activeContractIds.addAll(loadResourceLocations(tag, ACTIVE_CONTRACTS_TAG));
+
+        activeKitchenOrdersDay = tag.getLong(ACTIVE_KITCHEN_ORDERS_DAY_TAG);
+        activeKitchenOrderIds.clear();
+        activeKitchenOrderIds.addAll(loadResourceLocations(tag, ACTIVE_KITCHEN_ORDERS_TAG));
 
         kitchenDeliveryDay = tag.getLong(KITCHEN_DELIVERY_DAY_TAG);
         kitchenDeliveryCounts.clear();
