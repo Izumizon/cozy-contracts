@@ -432,13 +432,15 @@ The token economy should reward helpful community activity without becoming an i
 
 ## Shops
 
-The current MVP shop is a basic reward shop. It proves the gameplay loop:
+The 0.3.0-alpha shop is a settlement supply market. It sells practical bundles that support building, farming, cooking, and decorating while preserving the gameplay loop:
 
 ```text
 Complete requests -> earn Favour Tokens -> spend Favour Tokens
 ```
 
-Long term, shops should become themed.
+The shop should favor base materials, ingredients, starter resources, and useful bundles over finished block variants or major progression skips.
+
+Long term, shops should become themed through settlement development tracks and Community Projects. Nearby block detection is not the intended unlock model: placing composters, smokers, flowers, or similar blocks around the Community Board should not unlock categories or encourage block spam.
 
 A Farming District shop should not sell the same items as a Scholar District shop.
 
@@ -707,7 +709,7 @@ A cooking-focused player can complete Kitchen requests, prepare Community Kitche
 
 ## MVP Scope
 
-The 0.1.0-alpha MVP should not include the full settlement system.
+The current alpha scope should not include the full settlement system.
 
 The MVP should include:
 

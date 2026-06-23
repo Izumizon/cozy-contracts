@@ -6,7 +6,7 @@ Long term, Cozy Contracts is planned to grow into a settlement-focused community
 
 ## Status
 
-0.2.0-alpha. Cozy Contracts is playable, but still in early development.
+0.3.0-alpha. Cozy Contracts is playable, but still in early development.
 
 ## Alpha Status
 
@@ -36,7 +36,7 @@ Cozy Contracts can run standalone with no optional food mods. Optional content i
 
 - Community Board block and GUI
 - Three active daily contracts per board
-- Favour Token item and reward shop
+- Favour Token item and scrollable settlement supply-bundle shop
 - Full-inventory request submission from the GUI and commands
 - Shift-right-click held-item hand-in
 - Persistent active and completed board state
@@ -50,7 +50,7 @@ Cozy Contracts can run standalone with no optional food mods. Optional content i
 - Optional Create: Food Kitchen orders
 - Scrollable Kitchen UI with compact rows and hover details
 - Category-ready contract and shop data
-- Category-aware shop stock foundation
+- Category-aware shop stock foundation with Java-defined supply bundles
 - Settlement Foundation Lite for board settlement identity
 - Debug commands for boards, contracts, Kitchen orders, shops, and settlements
 - Improved wooden Community Board model and recipe
@@ -76,7 +76,8 @@ JEI is useful for recipe viewing, but Cozy Contracts does not require it.
 - This is an alpha build; balance may change.
 - The Community Kitchen is basic and does not yet include residents or taste preferences.
 - Settlement Foundation Lite exists, but full districts and settlement progression are not implemented.
-- Shop stock is category-ready, but not fully district-driven yet.
+- Shop stock is category-ready, but not filtered by full settlement development tracks yet.
+- Nearby blocks do not unlock shop categories; this avoids rewarding block spam around the Community Board.
 - Advanced Prosperity, Storehouse, Village Bond, Community Projects, and Village Network systems are not implemented yet.
 - Resident Profiles, Taste Preferences, Resident Memories, and Village Registry are future systems.
 
@@ -113,12 +114,13 @@ Optional development runtime helpers can be enabled with Gradle properties. Do n
 - [Kitchen Order JSON Format](KITCHEN_ORDER_FORMAT.md)
 - [Project Roadmap](ROADMAP.md)
 - [Village System Design](VILLAGE_SYSTEM_DESIGN.md)
+- [0.3.0-alpha Release Notes](RELEASE_NOTES_0.3.0_ALPHA.md)
 - [0.2.0-alpha Release Notes](RELEASE_NOTES_0.2.0_ALPHA.md)
 - [0.1.0-alpha Release Notes](RELEASE_NOTES_0.1.0_ALPHA.md)
 
 ## Planned Future Systems
 
-- Themed village shops
+- Settlement development tracks and Community Project shop unlocks
 - Advanced Community Kitchen and Standing Orders
 - Resident Profiles and Taste Preferences
 - Prosperity and Storehouse support

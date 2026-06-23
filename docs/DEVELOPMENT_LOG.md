@@ -1,6 +1,6 @@
 # Cozy Contracts Development Log
 
-Cozy Contracts is a Forge 1.20.1 Minecraft mod focused on cozy village requests, daily contracts, Favour Tokens, and future cooking and village progression systems. This log follows the project from its initial Forge setup through the current 0.1.0-alpha release candidate.
+Cozy Contracts is a Forge 1.20.1 Minecraft mod focused on cozy village requests, daily contracts, Favour Tokens, and future cooking and village progression systems. This log follows the project from its initial Forge setup through the current 0.3.0-alpha milestone.
 
 ## Milestone 1 — Project Setup and Forge Foundation
 
@@ -862,19 +862,81 @@ No new screenshots were added for this documentation milestone.
 
 Test the built jar in a fresh Forge 1.20.1 instance, then prepare the GitHub alpha release.
 
+## Milestone 27 - Kitchen Daily Selection
+
+### Goal
+
+Keep large vanilla and optional-mod Kitchen registries manageable by selecting a small active set for each Community Board and Minecraft day.
+
+### What was implemented
+
+* Added deterministic weighted Kitchen order selection by board position and day.
+* Selected up to three Daily Menu orders and three Standing Orders.
+* Added an optional single Feast Prep selection when eligible orders exist.
+* Persisted active Kitchen order IDs on the Community Board block entity.
+* Kept delivery counts, Deliver buttons, hover details, and Kitchen tab refresh behavior intact.
+* Updated `/cc debug kitchen` to show loaded and active board orders.
+
+### Why it mattered
+
+The Kitchen registry can grow through vanilla, Farmer's Delight, and Create: Food content without flooding the Community Board screen. The registry remains the available pool while each board shows a curated daily set.
+
+### Challenges / fixes
+
+* Prevented duplicate weighted selections.
+* Regenerated a same-day selection only when stored IDs no longer resolve after data reloads.
+* Kept missing-mod filtering in the existing JSON loader.
+
+### Next step
+
+Improve how Favour Tokens support settlement building and cooking without adding major progression skips.
+
+## Milestone 28 - Shop Supply Rework
+
+### Goal
+
+Turn the Favour Token shop into a useful settlement supply market focused on practical bundles and project support.
+
+### What was implemented
+
+* Replaced the eight-item generic reward list with 39 Java-defined supply entries.
+* Added universal, farming, Kitchen, builder, and decorator supply bundles.
+* Kept immutable category metadata on each shop item.
+* Added mouse-wheel scrolling to the existing Community Board Shop tab.
+* Kept bundle quantities visible and added settlement-supply helper text.
+* Preserved server-authoritative stock validation, atomic payment, and full-inventory reward drops.
+
+### Why it mattered
+
+Favour Tokens now buy building momentum, cooking ingredients, farming supplies, and decorating materials instead of a small set of unrelated rewards. The shop supports settlement play without becoming a creative inventory or selling major progression skips.
+
+### Challenges / fixes
+
+* Priced direct contract and Kitchen inputs conservatively to prevent profitable token loops.
+* Priced the 32-glass bundle above the return from two glass contracts.
+* Kept all alpha stock visible while full settlement development tracks remain future work.
+* Rejected nearby block detection as a category unlock system because it would encourage block spam around the Community Board.
+* Did not add districts, Community Projects, Prosperity, Storehouse, Village Bond, shop JSON loading, or a new shop screen.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Playtest supply prices, scrolling, purchase delivery, and full-inventory drops for the 0.3.0-alpha release.
+
 ## Current Status
 
-Cozy Contracts is a 0.1.0-alpha release candidate with a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on vanilla rewards through the Community Board shop. Optional Farmer's Delight JSON contracts, optional Farmer's Delight Kitchen orders, and optional Create: Food JSON contracts are available when those mods are installed, with opt-in Gradle properties for development runtime testing. Shop stock now resolves through a category-aware foundation while keeping the current MVP rewards visible. The Community Board also has a scrollable Kitchen tab with JSON-loaded food deliveries, small rewards, and per-board daily caps.
+Cozy Contracts 0.3.0-alpha has a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on practical settlement supply bundles through the Community Board shop. Optional Farmer's Delight and Create: Food content can extend the board and Kitchen registries, while deterministic daily Kitchen selection keeps each board's active set manageable.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Test built jar in a fresh Forge 1.20.1 instance.
-2. Test standalone.
-3. Test with Farmer's Delight.
-4. Test with Create + Create: Food.
-5. Test with Farmer's Delight + Create + Create: Food + JEI.
-6. Prepare GitHub release.
-7. Prepare Modrinth/CurseForge alpha pages if desired.
-8. Later: Create: Food Kitchen orders, residents, taste preferences, Prosperity, Storehouse, Village Bond, Community Projects, Village Network.
+1. Test Shop tab scrolling and Buy button alignment.
+2. Test supply purchases with normal and full inventories.
+3. Audit supply prices against contract and Kitchen rewards.
+4. Test Requests, Kitchen daily selection, save/reload, and optional mod setups.
+5. Prepare the 0.3.0-alpha release.
+6. Later: settlement development tracks, Community Project stock unlocks, residents, taste preferences, Prosperity, Storehouse, Village Bond, and Village Network.

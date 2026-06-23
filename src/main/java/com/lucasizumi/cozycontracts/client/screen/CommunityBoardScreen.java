@@ -23,6 +23,8 @@ public class CommunityBoardScreen extends Screen {
     private static final int PANEL_HEIGHT = 240;
     private static final int ENTRY_HEIGHT = 48;
     private static final int SHOP_ENTRY_HEIGHT = 39;
+    private static final int SHOP_CARD_HEIGHT = 32;
+    private static final int SHOP_SCROLL_STEP = 18;
     private static final int KITCHEN_CARD_HEIGHT = 34;
     private static final int KITCHEN_CARD_GAP = 4;
     private static final int KITCHEN_SECTION_GAP = 12;
@@ -33,6 +35,7 @@ public class CommunityBoardScreen extends Screen {
     private final List<OpenCommunityBoardScreenPacket.ContractEntry> contracts;
     private final List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders;
     private View activeView;
+    private int shopScrollOffset;
     private int kitchenScrollOffset;
 
     public CommunityBoardScreen(
@@ -49,7 +52,7 @@ public class CommunityBoardScreen extends Screen {
             List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
             List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
             View activeView) {
-        this(boardPos, day, contracts, kitchenOrders, activeView, 0);
+        this(boardPos, day, contracts, kitchenOrders, activeView, 0, 0);
     }
 
     public CommunityBoardScreen(
@@ -59,12 +62,24 @@ public class CommunityBoardScreen extends Screen {
             List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
             View activeView,
             int kitchenScrollOffset) {
+        this(boardPos, day, contracts, kitchenOrders, activeView, 0, kitchenScrollOffset);
+    }
+
+    public CommunityBoardScreen(
+            BlockPos boardPos,
+            long day,
+            List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
+            List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
+            View activeView,
+            int shopScrollOffset,
+            int kitchenScrollOffset) {
         super(Component.literal("Community Board"));
         this.boardPos = boardPos;
         this.day = day;
         this.contracts = List.copyOf(contracts);
         this.kitchenOrders = List.copyOf(kitchenOrders);
         this.activeView = activeView;
+        this.shopScrollOffset = shopScrollOffset;
         this.kitchenScrollOffset = kitchenScrollOffset;
     }
 
@@ -80,6 +95,10 @@ public class CommunityBoardScreen extends Screen {
         return kitchenScrollOffset;
     }
 
+    public int getShopScrollOffset() {
+        return shopScrollOffset;
+    }
+
     @Override
     protected void init() {
         rebuildViewWidgets();
@@ -89,6 +108,7 @@ public class CommunityBoardScreen extends Screen {
         clearWidgets();
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
+        clampShopScroll(top);
         clampKitchenScroll(top);
 
         Button requestsTab = Button.builder(
@@ -152,12 +172,19 @@ public class CommunityBoardScreen extends Screen {
         List<ShopItem> shopItems = ShopStockService.getShopItemsForBoard(
                 minecraft.level,
                 boardPos);
+        int contentTop = getShopContentTop(top);
+        int contentBottom = getShopContentBottom(top);
+
         for (int index = 0; index < shopItems.size(); index++) {
             ShopItem shopItem = shopItems.get(index);
-            int column = index / 4;
-            int row = index % 4;
+            int column = index % 2;
+            int row = index / 2;
             int columnX = left + 12 + column * 174;
-            int entryY = top + 70 + row * SHOP_ENTRY_HEIGHT;
+            int entryY = contentTop + row * SHOP_ENTRY_HEIGHT - shopScrollOffset;
+
+            if (entryY < contentTop || entryY + SHOP_CARD_HEIGHT > contentBottom) {
+                continue;
+            }
 
             addRenderableWidget(Button.builder(
                             Component.literal("Buy"),
@@ -165,7 +192,7 @@ public class CommunityBoardScreen extends Screen {
                                     new PurchaseShopItemPacket(
                                             boardPos,
                                             shopItem.getId())))
-                    .bounds(columnX + 116, entryY + 7, 44, 20)
+                    .bounds(columnX + 126, entryY + 7, 34, 20)
                     .build());
         }
     }
@@ -237,7 +264,7 @@ public class CommunityBoardScreen extends Screen {
     private void renderShop(GuiGraphics graphics, int left, int top) {
         graphics.drawCenteredString(
                 font,
-                "Favour Token Rewards",
+                "Settlement Supply Market",
                 width / 2,
                 top + 51,
                 0xFFE6D5B8);
@@ -245,12 +272,16 @@ public class CommunityBoardScreen extends Screen {
         List<ShopItem> shopItems = ShopStockService.getShopItemsForBoard(
                 minecraft.level,
                 boardPos);
+        int contentTop = getShopContentTop(top);
+        int contentBottom = getShopContentBottom(top);
+
+        graphics.enableScissor(left + 8, contentTop - 4, left + PANEL_WIDTH - 8, contentBottom);
         for (int index = 0; index < shopItems.size(); index++) {
             ShopItem shopItem = shopItems.get(index);
-            int column = index / 4;
-            int row = index % 4;
+            int column = index % 2;
+            int row = index / 2;
             int columnX = left + 12 + column * 174;
-            int entryY = top + 70 + row * SHOP_ENTRY_HEIGHT;
+            int entryY = contentTop + row * SHOP_ENTRY_HEIGHT - shopScrollOffset;
 
             graphics.fill(
                     columnX - 2,
@@ -266,7 +297,7 @@ public class CommunityBoardScreen extends Screen {
 
             graphics.drawString(
                     font,
-                    rewardName,
+                    trimToWidth(rewardName, 118),
                     columnX + 3,
                     entryY + 2,
                     0xFFFFD38A,
@@ -279,10 +310,11 @@ public class CommunityBoardScreen extends Screen {
                     0xFFFFC85C,
                     false);
         }
+        graphics.disableScissor();
 
         graphics.drawCenteredString(
                 font,
-                "Purchases use Favour Tokens from your inventory.",
+                "Spend Favour Tokens on settlement supplies.",
                 width / 2,
                 top + PANEL_HEIGHT - 22,
                 0xFFC8BBA8);
@@ -612,6 +644,29 @@ public class CommunityBoardScreen extends Screen {
         return top + 77;
     }
 
+    private int getShopContentTop(int top) {
+        return top + 70;
+    }
+
+    private int getShopContentBottom(int top) {
+        return top + PANEL_HEIGHT - 36;
+    }
+
+    private int getShopContentHeight() {
+        int itemCount = ShopStockService.getShopItemsForBoard(minecraft.level, boardPos).size();
+        int rowCount = (itemCount + 1) / 2;
+        return rowCount == 0 ? 0 : (rowCount - 1) * SHOP_ENTRY_HEIGHT + SHOP_CARD_HEIGHT;
+    }
+
+    private int getMaxShopScroll(int top) {
+        int visibleHeight = getShopContentBottom(top) - getShopContentTop(top);
+        return Math.max(0, getShopContentHeight() - visibleHeight);
+    }
+
+    private void clampShopScroll(int top) {
+        shopScrollOffset = Math.max(0, Math.min(getMaxShopScroll(top), shopScrollOffset));
+    }
+
     private int getKitchenContentBottom(int top) {
         return top + PANEL_HEIGHT - 36;
     }
@@ -664,8 +719,26 @@ public class CommunityBoardScreen extends Screen {
                 && mouseY <= getKitchenContentBottom(top);
     }
 
+    private boolean isInShopScrollArea(double mouseX, double mouseY) {
+        int left = (width - PANEL_WIDTH) / 2;
+        int top = (height - PANEL_HEIGHT) / 2;
+        return activeView == View.SHOP
+                && mouseX >= left + 8
+                && mouseX <= left + PANEL_WIDTH - 8
+                && mouseY >= getShopContentTop(top) - 4
+                && mouseY <= getShopContentBottom(top);
+    }
+
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
+        if (isInShopScrollArea(mouseX, mouseY)) {
+            int top = (height - PANEL_HEIGHT) / 2;
+            shopScrollOffset -= (int) (scrollDelta * SHOP_SCROLL_STEP);
+            clampShopScroll(top);
+            rebuildViewWidgets();
+            return true;
+        }
+
         if (isInKitchenScrollArea(mouseX, mouseY)) {
             int top = (height - PANEL_HEIGHT) / 2;
             kitchenScrollOffset -= (int) (scrollDelta * KITCHEN_SCROLL_STEP);

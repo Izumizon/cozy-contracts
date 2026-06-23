@@ -14,11 +14,13 @@ public final class ClientPacketHandler {
     public static void openCommunityBoard(OpenCommunityBoardScreenPacket packet) {
         Minecraft minecraft = Minecraft.getInstance();
         CommunityBoardScreen.View activeView = CommunityBoardScreen.View.REQUESTS;
+        int shopScrollOffset = 0;
         int kitchenScrollOffset = 0;
 
         if (minecraft.screen instanceof CommunityBoardScreen currentScreen
                 && currentScreen.getBoardPos().equals(packet.boardPos())) {
             activeView = currentScreen.getActiveView();
+            shopScrollOffset = currentScreen.getShopScrollOffset();
             kitchenScrollOffset = currentScreen.getKitchenScrollOffset();
         }
 
@@ -28,6 +30,7 @@ public final class ClientPacketHandler {
                 packet.contracts(),
                 packet.kitchenOrders(),
                 activeView,
+                shopScrollOffset,
                 kitchenScrollOffset));
     }
 }

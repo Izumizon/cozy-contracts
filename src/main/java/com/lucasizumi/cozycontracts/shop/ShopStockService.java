@@ -18,8 +18,8 @@ public final class ShopStockService {
     }
 
     public static Set<ShopCategory> getShopCategoriesForBoard(Level level, BlockPos boardPos) {
-        // Temporary MVP rule only. Future settlement/district logic should replace this with
-        // categories shaped by player-built districts, supplied items, and settlement progress.
+        // Temporary alpha rule only. Future unlocks should come from deliberate settlement
+        // development tracks and Community Projects, not nearby block-placement signals.
         return Set.copyOf(TEMPORARY_BOARD_CATEGORIES);
     }
 
@@ -27,8 +27,8 @@ public final class ShopStockService {
         LinkedHashSet<ShopItem> visibleItems = new LinkedHashSet<>(
                 ShopRegistry.getItemsForCategories(getShopCategoriesForBoard(level, boardPos)));
 
-        // MVP compatibility: keep the current reward shop fully visible until real district
-        // filtering exists, even if some existing rewards belong to future-only categories.
+        // Keep all current supply bundles visible until deliberate settlement progression can
+        // unlock categories without encouraging block spam around the Community Board.
         visibleItems.addAll(ShopRegistry.getAllItems());
 
         return List.copyOf(visibleItems);

@@ -4,13 +4,13 @@ Cozy Contracts is a cozy Forge 1.20.1 Minecraft mod where villages post daily co
 
 ## Status
 
-0.2.0-alpha. Cozy Contracts is playable, but still in early development.
+0.3.0-alpha. Cozy Contracts is playable, but still in early development.
 
 ## Highlights
 
 - Community Board block and GUI
 - Daily request contracts
-- Favour Tokens and reward shop
+- Favour Tokens and a settlement supply-bundle shop
 - Community Kitchen deliveries
 - JSON/datapack contracts
 - JSON/datapack Kitchen orders
@@ -24,6 +24,7 @@ Full project documentation lives in [docs/README.md](docs/README.md).
 
 Useful links:
 
+- [0.3.0-alpha Release Notes](docs/RELEASE_NOTES_0.3.0_ALPHA.md)
 - [0.2.0-alpha Release Notes](docs/RELEASE_NOTES_0.2.0_ALPHA.md)
 - [0.1.0-alpha Release Notes](docs/RELEASE_NOTES_0.1.0_ALPHA.md)
 - [Project Roadmap](docs/ROADMAP.md)

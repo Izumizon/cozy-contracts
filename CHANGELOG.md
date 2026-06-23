@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.3.0-alpha
+
+### Changed
+
+- Reworked the Favour Token shop into a settlement supply-bundle market.
+- Replaced weak or random rewards with 39 practical farming, Kitchen, building, decorating, and universal supply entries.
+- Rebalanced direct contract and Kitchen inputs to avoid positive token loops.
+- Updated the Shop tab helper text and bundle presentation.
+
+### Added
+
+- Mouse-wheel scrolling for the Community Board Shop tab.
+- Practical bundles for logs, dirt, stone, sand, glass, clay, bricks, crops, ingredients, dyes, flowers, and other settlement supplies.
+- 0.3.0-alpha release notes.
+
+### Preserved
+
+- Server-authoritative availability validation.
+- Atomic Favour Token payment.
+- Full-inventory reward dropping behavior.
+- Existing contracts, Kitchen orders, daily Kitchen selection, settlements, and Community Board tabs.
+
+### Design
+
+- Shop categories do not depend on nearby block placement.
+- Future category unlocks may use settlement development tracks and Community Projects instead of block-spam signals.
+
 ## 0.2.0-alpha
 
 ### Added

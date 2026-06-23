@@ -2,7 +2,7 @@
 
 ## Current Alpha
 
-Cozy Contracts 0.2.0-alpha has a complete first gameplay loop:
+Cozy Contracts 0.3.0-alpha has a complete first gameplay loop:
 
 ```text
 Open Community Board -> view daily requests -> submit items -> earn Favour Tokens -> buy rewards
@@ -29,7 +29,8 @@ The current alpha also includes the first playable Community Kitchen delivery lo
 * Shift-right-click held-item submission
 * Command-based submission
 * Debug commands for boards, contracts, Kitchen orders, shops, and settlements
-* Basic Favour Token reward shop
+* Scrollable Favour Token settlement supply market
+* Practical farming, Kitchen, building, and decorating bundles
 * Category-ready shop item data
 * Category-ready contract data
 * Category-aware shop stock foundation
@@ -75,7 +76,7 @@ Do not build the full village system now, but do not code the alpha in a way tha
 
 ### 1. MVP Release Testing
 
-Verify the 0.2.0-alpha candidate in normal play conditions.
+Verify the 0.3.0-alpha candidate in normal play conditions.
 
 Goals:
 
@@ -86,6 +87,8 @@ Goals:
 * test request completion and reward delivery
 * test Kitchen deliveries and daily caps
 * test shop purchases with normal and full inventories
+* verify supply bundle prices cannot create positive contract or Kitchen token loops
+* verify Shop tab scrolling and Buy button alignment
 
 ### 2. Final Documentation And Release Notes
 
@@ -144,13 +147,14 @@ After the alpha, likely next work includes:
 * resident meal deliveries
 * Resident Profiles and Taste Preferences
 * district-aware contracts and shops
+* settlement development track and Community Project shop unlocks
 * Prosperity and Storehouse support
 * Village Bond and Community Projects
 * Village Network and Capital Villages
 
 ## Future Features
 
-These are planned future systems, not part of the 0.2.0-alpha release.
+These are planned future systems, not part of the 0.3.0-alpha release.
 
 ### Districts
 
@@ -167,6 +171,8 @@ Villages can grow through multiple districts, such as:
 * Fishing District
 
 Districts should affect contracts, shop stock, services, rewards, future Community Projects, and future Prosperity support.
+
+Shop categories should not be unlocked by placing nearby composters, smokers, flowers, or other signal blocks around the Community Board. Future stock unlocks should come from deliberate settlement development tracks and Community Projects so the system rewards progression rather than block spam.
 
 ### Advanced Community Kitchen And Standing Orders
 
