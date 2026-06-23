@@ -1,0 +1,16 @@
+{
+  "title": "Worker's Breakfast Break",
+  "requester": "Mill Workers",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:breakfast_plate",
+    "count": 3,
+    "display": "Breakfast Plates"
+  },
+  "support_display": "Prepared plates for workers taking an early break by the mill.",
+  "reward_tokens": 7,
+  "daily_limit": 2,
+  "weight": 9,
+  "required_mods": ["createfood"]
+}

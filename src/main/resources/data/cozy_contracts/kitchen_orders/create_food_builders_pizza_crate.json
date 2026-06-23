@@ -1,0 +1,16 @@
+{
+  "title": "Builder's Pizza Crate",
+  "requester": "Builder Crew",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:bacon_pizza",
+    "count": 1,
+    "display": "Bacon Pizza"
+  },
+  "support_display": "A hearty shared pizza for the crew repairing village roofs.",
+  "reward_tokens": 8,
+  "daily_limit": 2,
+  "weight": 8,
+  "required_mods": ["createfood"]
+}

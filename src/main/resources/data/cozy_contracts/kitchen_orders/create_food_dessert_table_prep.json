@@ -1,0 +1,16 @@
+{
+  "title": "Dessert Table Prep",
+  "requester": "Festival Planner",
+  "type": "feast_prep",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:chocolate_cream_frosted_cupcake",
+    "count": 8,
+    "display": "Chocolate Cream Frosted Cupcakes"
+  },
+  "support_display": "Frosted cupcakes for a welcoming village celebration table.",
+  "reward_tokens": 13,
+  "daily_limit": 1,
+  "weight": 3,
+  "required_mods": ["createfood"]
+}

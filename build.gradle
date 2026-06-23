@@ -164,6 +164,8 @@ dependencies {
             .get()) {
         runtimeOnly fg.deobf("curse.maven:create-food-959439:7769170")
         runtimeOnly fg.deobf("curse.maven:create-328085:7178761")
+        // Create: Food 1.1.13a references Farmer's Delight at runtime.
+        runtimeOnly fg.deobf("curse.maven:farmers-delight-398521:6917255")
     }
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository

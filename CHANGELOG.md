@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.0-alpha
+
+### Added
+
+- 10 optional Create: Food Community Kitchen orders
+- Daily Menu breakfast and dessert orders
+- Standing Order lunch, worker meal, and kitchen prep orders
+- Low-limit Feast Prep dessert orders
+- 0.2.0-alpha release notes
+
+### Compatibility
+
+- Kept Create and Create: Food optional with no Java imports or hard dependency
+- Completed the enableCreateFood development runtime with Farmer's Delight
+- Gated every new order with required_mods: ["createfood"]
+- Kept vanilla, Farmer's Delight, and existing Create: Food board content unchanged
+
+
 ## 0.1.0-alpha - Release Candidate
 
 ### Added

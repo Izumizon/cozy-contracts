@@ -4,7 +4,7 @@ Cozy Contracts is a cozy Forge 1.20.1 Minecraft mod where villages post daily co
 
 ## Status
 
-0.1.0-alpha release candidate. Cozy Contracts is playable, but still in early development.
+0.2.0-alpha. Cozy Contracts is playable, but still in early development.
 
 ## Highlights
 
@@ -15,26 +15,28 @@ Cozy Contracts is a cozy Forge 1.20.1 Minecraft mod where villages post daily co
 - JSON/datapack contracts
 - JSON/datapack Kitchen orders
 - Optional Farmer's Delight contracts and Kitchen orders
-- Optional Create: Food board contracts
+- Optional Create: Food board contracts and Kitchen orders
 - Standalone play with no optional food mods required
 
 ## Documentation
 
-Full project documentation lives in [`docs/README.md`](docs/README.md).
+Full project documentation lives in [docs/README.md](docs/README.md).
 
 Useful links:
 
-- [`docs/RELEASE_NOTES_0.1.0_ALPHA.md`](docs/RELEASE_NOTES_0.1.0_ALPHA.md)
-- [`docs/ROADMAP.md`](docs/ROADMAP.md)
-- [`docs/CONTRACT_FORMAT.md`](docs/CONTRACT_FORMAT.md)
-- [`docs/KITCHEN_ORDER_FORMAT.md`](docs/KITCHEN_ORDER_FORMAT.md)
-- [`docs/VILLAGE_SYSTEM_DESIGN.md`](docs/VILLAGE_SYSTEM_DESIGN.md)
+- [0.2.0-alpha Release Notes](docs/RELEASE_NOTES_0.2.0_ALPHA.md)
+- [0.1.0-alpha Release Notes](docs/RELEASE_NOTES_0.1.0_ALPHA.md)
+- [Project Roadmap](docs/ROADMAP.md)
+- [Contract JSON Format](docs/CONTRACT_FORMAT.md)
+- [Kitchen Order JSON Format](docs/KITCHEN_ORDER_FORMAT.md)
+- [Village System Design](docs/VILLAGE_SYSTEM_DESIGN.md)
 
 ## Development
 
 Java 17 is required.
 
-```powershell
+~~~powershell
 .\gradlew.bat clean build
 .\gradlew.bat runClient
-```
+.\gradlew.bat runClient -PenableCreateFood=true
+~~~

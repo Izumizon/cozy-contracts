@@ -1,0 +1,16 @@
+{
+  "title": "Pizza Lunchbox",
+  "requester": "Field Crew",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:cheese_pizza_slice",
+    "count": 6,
+    "display": "Cheese Pizza Slices"
+  },
+  "support_display": "Packed pizza slices for villagers working beyond the square.",
+  "reward_tokens": 7,
+  "daily_limit": 2,
+  "weight": 10,
+  "required_mods": ["createfood"]
+}

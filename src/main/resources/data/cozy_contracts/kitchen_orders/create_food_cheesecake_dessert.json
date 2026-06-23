@@ -1,0 +1,16 @@
+{
+  "title": "Cheesecake Dessert",
+  "requester": "Tea Room Host",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:cheesecake_slice",
+    "count": 4,
+    "display": "Cheesecake Slices"
+  },
+  "support_display": "Creamy slices for a quiet dessert service by the hearth.",
+  "reward_tokens": 6,
+  "daily_limit": 2,
+  "weight": 10,
+  "required_mods": ["createfood"]
+}

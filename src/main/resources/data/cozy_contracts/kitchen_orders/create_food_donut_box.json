@@ -1,0 +1,16 @@
+{
+  "title": "Donut Box",
+  "requester": "Village Bakery",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:chocolate_glazed_donut",
+    "count": 6,
+    "display": "Chocolate Glazed Donuts"
+  },
+  "support_display": "A cheerful dessert box for the afternoon tea table.",
+  "reward_tokens": 6,
+  "daily_limit": 2,
+  "weight": 11,
+  "required_mods": ["createfood"]
+}

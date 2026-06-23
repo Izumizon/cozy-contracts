@@ -1,0 +1,16 @@
+{
+  "title": "Waffle Breakfast Tray",
+  "requester": "Village Innkeeper",
+  "type": "daily_menu",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:waffle",
+    "count": 4,
+    "display": "Waffles"
+  },
+  "support_display": "A warm breakfast tray for early risers at the village inn.",
+  "reward_tokens": 6,
+  "daily_limit": 2,
+  "weight": 13,
+  "required_mods": ["createfood"]
+}

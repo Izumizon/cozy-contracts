@@ -116,9 +116,9 @@ Tag requirements are supported by the data model and delivery matching. Tag IDs 
 "required_mods": ["farmersdelight"]
 ```
 
-Orders with missing required mods are skipped safely. This is intended for future Farmer's Delight, Create: Food, and other food mod Kitchen orders.
+Orders with missing required mods are skipped safely. This supports the built-in Farmer's Delight and Create: Food Kitchen orders while keeping optional food mods optional.
 
-Optional modded Kitchen orders should include `required_mods` so standalone Cozy Contracts worlds can still load safely. Farmer's Delight Kitchen orders already use this format. Create: Food Kitchen orders can use the same format in a later compatibility pass.
+Optional modded Kitchen orders should include `required_mods` so standalone Cozy Contracts worlds can still load safely. Farmer's Delight orders use `["farmersdelight"]`, and Create: Food orders use `["createfood"]`.
 
 ## Validation
 

@@ -2,13 +2,13 @@
 
 ## Current Alpha
 
-Cozy Contracts 0.1.0-alpha has a complete first gameplay loop:
+Cozy Contracts 0.2.0-alpha has a complete first gameplay loop:
 
 ```text
 Open Community Board -> view daily requests -> submit items -> earn Favour Tokens -> buy rewards
 ```
 
-The current alpha also includes the first playable Community Kitchen delivery loop. This is still early and intentionally simple, but basic Daily Menu and Standing Order style Kitchen deliveries now exist.
+The current alpha also includes the first playable Community Kitchen delivery loop. This is still early and intentionally simple, with vanilla, Farmer's Delight, and optional Create: Food orders using the same JSON order system.
 
 ## Current Alpha Features
 
@@ -18,6 +18,7 @@ The current alpha also includes the first playable Community Kitchen delivery lo
 * 14 built-in vanilla JSON contracts
 * Optional Farmer's Delight board contracts
 * Optional Create: Food board contracts
+* Optional Create: Food Kitchen orders
 * Three active daily contracts per board
 * Weighted daily contract selection
 * Persistent active contract IDs on the Community Board block entity
@@ -74,7 +75,7 @@ Do not build the full village system now, but do not code the alpha in a way tha
 
 ### 1. MVP Release Testing
 
-Verify the 0.1.0-alpha candidate in normal play conditions.
+Verify the 0.2.0-alpha candidate in normal play conditions.
 
 Goals:
 
@@ -138,7 +139,6 @@ Recommended checks:
 
 After the alpha, likely next work includes:
 
-* Create: Food Kitchen orders
 * advanced Community Kitchen progression
 * advanced Standing Orders
 * resident meal deliveries
@@ -150,7 +150,7 @@ After the alpha, likely next work includes:
 
 ## Future Features
 
-These are planned future systems, not part of the 0.1.0-alpha release.
+These are planned future systems, not part of the 0.2.0-alpha release.
 
 ### Districts
 
@@ -180,7 +180,6 @@ Possible future features:
 * advanced Standing Orders
 * Kitchen identity
 * future Prosperity support
-* Create: Food Kitchen orders
 * deeper Farmer's Delight Kitchen support
 
 ### Resident Profiles And Taste Preferences

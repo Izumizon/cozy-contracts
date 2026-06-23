@@ -1,0 +1,16 @@
+{
+  "title": "Chocolate Treat Prep",
+  "requester": "Village Confectioner",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:chocolate_chips",
+    "count": 12,
+    "display": "Chocolate Chips"
+  },
+  "support_display": "A small pantry restock for the next batch of village sweets.",
+  "reward_tokens": 2,
+  "daily_limit": 3,
+  "weight": 4,
+  "required_mods": ["createfood"]
+}

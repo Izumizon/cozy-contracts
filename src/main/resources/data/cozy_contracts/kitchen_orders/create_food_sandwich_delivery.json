@@ -1,0 +1,16 @@
+{
+  "title": "Sandwich Delivery",
+  "requester": "Market Porters",
+  "type": "standing_order",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:bacon_sandwich",
+    "count": 4,
+    "display": "Bacon Sandwiches"
+  },
+  "support_display": "Handy lunches for porters carrying baskets through the market.",
+  "reward_tokens": 7,
+  "daily_limit": 2,
+  "weight": 10,
+  "required_mods": ["createfood"]
+}

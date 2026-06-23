@@ -1,0 +1,16 @@
+{
+  "title": "Village Feast Sweets",
+  "requester": "Village Host",
+  "type": "feast_prep",
+  "requirement": {
+    "type": "item",
+    "id": "createfood:apple_cheesecake",
+    "count": 2,
+    "display": "Apple Cheesecakes"
+  },
+  "support_display": "Apple cheesecakes to finish the village feast on a sweet note.",
+  "reward_tokens": 15,
+  "daily_limit": 1,
+  "weight": 2,
+  "required_mods": ["createfood"]
+}
