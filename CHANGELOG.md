@@ -12,6 +12,7 @@
 ### Added
 
 - Mouse-wheel scrolling for the Community Board Shop tab.
+- Shop category filter tabs for All, Village, Farming, Kitchen, Builder, and Decor stock.
 - Practical bundles for logs, dirt, stone, sand, glass, clay, bricks, crops, ingredients, dyes, flowers, and other settlement supplies.
 - 0.3.0-alpha release notes.
 

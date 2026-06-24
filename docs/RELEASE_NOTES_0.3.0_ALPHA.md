@@ -16,6 +16,8 @@ Cozy Contracts 0.3.0-alpha reworks the Favour Token shop into a practical settle
 
 - Kept the existing Community Board Shop tab.
 - Added mouse-wheel scrolling for the larger stock list.
+- Added All, Village, Farming, Kitchen, Builder, and Decor filter tabs using existing shop category metadata.
+- Changing filters resets the Shop list to the top.
 - Kept the two-column Community Board style.
 - Kept bundle counts visible in item names.
 - Added the helper line: `Spend Favour Tokens on settlement supplies.`
@@ -38,6 +40,8 @@ Shop categories are not controlled by placing composters, smokers, flowers, or o
 ## Testing Checklist
 
 - Open the Community Board Shop tab and scroll through the full stock list.
+- Confirm each category tab shows the expected supply group and All shows all 39 entries.
+- Confirm changing categories resets scrolling to the top.
 - Confirm Buy buttons remain aligned with visible rows.
 - Purchase a normal supply bundle.
 - Confirm the exact Favour Token cost is removed.

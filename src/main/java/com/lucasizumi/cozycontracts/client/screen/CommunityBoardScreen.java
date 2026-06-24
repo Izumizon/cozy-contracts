@@ -5,6 +5,7 @@ import com.lucasizumi.cozycontracts.network.packet.DeliverKitchenOrderPacket;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
 import com.lucasizumi.cozycontracts.network.packet.PurchaseShopItemPacket;
 import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
+import com.lucasizumi.cozycontracts.shop.ShopCategory;
 import com.lucasizumi.cozycontracts.shop.ShopItem;
 import com.lucasizumi.cozycontracts.shop.ShopStockService;
 import net.minecraft.client.gui.GuiGraphics;
@@ -25,6 +26,8 @@ public class CommunityBoardScreen extends Screen {
     private static final int SHOP_ENTRY_HEIGHT = 39;
     private static final int SHOP_CARD_HEIGHT = 32;
     private static final int SHOP_SCROLL_STEP = 18;
+    private static final int SHOP_FILTER_WIDTH = 54;
+    private static final int SHOP_FILTER_GAP = 4;
     private static final int KITCHEN_CARD_HEIGHT = 34;
     private static final int KITCHEN_CARD_GAP = 4;
     private static final int KITCHEN_SECTION_GAP = 12;
@@ -35,6 +38,7 @@ public class CommunityBoardScreen extends Screen {
     private final List<OpenCommunityBoardScreenPacket.ContractEntry> contracts;
     private final List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders;
     private View activeView;
+    private ShopFilter shopFilter = ShopFilter.ALL;
     private int shopScrollOffset;
     private int kitchenScrollOffset;
 
@@ -169,9 +173,8 @@ public class CommunityBoardScreen extends Screen {
     }
 
     private void addShopButtons(int left, int top) {
-        List<ShopItem> shopItems = ShopStockService.getShopItemsForBoard(
-                minecraft.level,
-                boardPos);
+        addShopFilterButtons(left, top);
+        List<ShopItem> shopItems = getFilteredShopItems();
         int contentTop = getShopContentTop(top);
         int contentBottom = getShopContentBottom(top);
 
@@ -195,6 +198,49 @@ public class CommunityBoardScreen extends Screen {
                     .bounds(columnX + 126, entryY + 7, 34, 20)
                     .build());
         }
+    }
+
+    private void addShopFilterButtons(int left, int top) {
+        ShopFilter[] filters = ShopFilter.values();
+        int totalWidth = filters.length * SHOP_FILTER_WIDTH
+                + (filters.length - 1) * SHOP_FILTER_GAP;
+        int startX = left + (PANEL_WIDTH - totalWidth) / 2;
+
+        for (int index = 0; index < filters.length; index++) {
+            ShopFilter filter = filters[index];
+            Button filterButton = Button.builder(
+                            Component.literal(filter.label),
+                            button -> switchShopFilter(filter))
+                    .bounds(
+                            startX + index * (SHOP_FILTER_WIDTH + SHOP_FILTER_GAP),
+                            top + 64,
+                            SHOP_FILTER_WIDTH,
+                            16)
+                    .build();
+            filterButton.active = shopFilter != filter;
+            addRenderableWidget(filterButton);
+        }
+    }
+
+    private void switchShopFilter(ShopFilter filter) {
+        if (shopFilter != filter) {
+            shopFilter = filter;
+            shopScrollOffset = 0;
+            rebuildViewWidgets();
+        }
+    }
+
+    private List<ShopItem> getFilteredShopItems() {
+        List<ShopItem> visibleItems = ShopStockService.getShopItemsForBoard(
+                minecraft.level,
+                boardPos);
+        if (shopFilter.category == null) {
+            return visibleItems;
+        }
+
+        return visibleItems.stream()
+                .filter(item -> item.getCategories().contains(shopFilter.category))
+                .toList();
     }
 
     @Override
@@ -269,9 +315,7 @@ public class CommunityBoardScreen extends Screen {
                 top + 51,
                 0xFFE6D5B8);
 
-        List<ShopItem> shopItems = ShopStockService.getShopItemsForBoard(
-                minecraft.level,
-                boardPos);
+        List<ShopItem> shopItems = getFilteredShopItems();
         int contentTop = getShopContentTop(top);
         int contentBottom = getShopContentBottom(top);
 
@@ -645,7 +689,7 @@ public class CommunityBoardScreen extends Screen {
     }
 
     private int getShopContentTop(int top) {
-        return top + 70;
+        return top + 86;
     }
 
     private int getShopContentBottom(int top) {
@@ -653,7 +697,7 @@ public class CommunityBoardScreen extends Screen {
     }
 
     private int getShopContentHeight() {
-        int itemCount = ShopStockService.getShopItemsForBoard(minecraft.level, boardPos).size();
+        int itemCount = getFilteredShopItems().size();
         int rowCount = (itemCount + 1) / 2;
         return rowCount == 0 ? 0 : (rowCount - 1) * SHOP_ENTRY_HEIGHT + SHOP_CARD_HEIGHT;
     }
@@ -793,5 +837,22 @@ public class CommunityBoardScreen extends Screen {
         REQUESTS,
         SHOP,
         KITCHEN
+    }
+
+    private enum ShopFilter {
+        ALL("All", null),
+        VILLAGE("Village", ShopCategory.UNIVERSAL),
+        FARMING("Farming", ShopCategory.FARMING),
+        KITCHEN("Kitchen", ShopCategory.KITCHEN),
+        BUILDER("Builder", ShopCategory.BUILDER),
+        DECOR("Decor", ShopCategory.DECORATOR);
+
+        private final String label;
+        private final ShopCategory category;
+
+        ShopFilter(String label, ShopCategory category) {
+            this.label = label;
+            this.category = category;
+        }
     }
 }
