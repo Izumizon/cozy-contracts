@@ -3,6 +3,7 @@ package com.lucasizumi.cozycontracts.client.screen;
 import com.lucasizumi.cozycontracts.network.ModNetworking;
 import com.lucasizumi.cozycontracts.network.packet.AssignCommunityProjectPacket;
 import com.lucasizumi.cozycontracts.network.packet.DeliverKitchenOrderPacket;
+import com.lucasizumi.cozycontracts.network.packet.DeliverProjectSiteOrderPacket;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
 import com.lucasizumi.cozycontracts.network.packet.PurchaseShopItemPacket;
 import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
@@ -36,6 +37,9 @@ public class CommunityBoardScreen extends Screen {
     private static final int KITCHEN_SCROLL_STEP = 18;
     private static final int PROJECT_CARD_HEIGHT = 62;
     private static final int PROJECT_CARD_GAP = 6;
+    private static final int PROJECT_SITE_ORDER_HEIGHT = 30;
+    private static final int PROJECT_SITE_ORDER_GAP = 4;
+    private static final int PROJECT_SITE_ORDER_HEADER_HEIGHT = 14;
     private static final int PROJECT_SCROLL_STEP = 18;
 
     private final BlockPos boardPos;
@@ -61,7 +65,7 @@ public class CommunityBoardScreen extends Screen {
                 contracts,
                 kitchenOrders,
                 List.of(),
-                new OpenCommunityBoardScreenPacket.ImprovementEntry(0, 0, 0, 0, 0, 0),
+                new OpenCommunityBoardScreenPacket.ImprovementEntry(0, 0, 0, 0, 0, 0, 0),
                 View.REQUESTS);
     }
 
@@ -452,7 +456,7 @@ public class CommunityBoardScreen extends Screen {
     private void addProjectButtons(int left, int top) {
         int contentTop = getProjectContentTop(top);
         int contentBottom = getProjectContentBottom(top);
-        int entryY = contentTop + 36 - projectScrollOffset;
+        int entryY = contentTop + 48 - projectScrollOffset;
 
         for (OpenCommunityBoardScreenPacket.ProjectEntry project : projects) {
             if (entryY >= contentTop && entryY + PROJECT_CARD_HEIGHT <= contentBottom) {
@@ -475,7 +479,25 @@ public class CommunityBoardScreen extends Screen {
                 }
             }
 
-            entryY += PROJECT_CARD_HEIGHT + PROJECT_CARD_GAP;
+            if (project.completed() && !project.siteOrders().isEmpty()) {
+                int orderY = entryY + PROJECT_CARD_HEIGHT + PROJECT_SITE_ORDER_HEADER_HEIGHT;
+                for (OpenCommunityBoardScreenPacket.ProjectSiteOrderEntry order : project.siteOrders()) {
+                    if (orderY >= contentTop && orderY + PROJECT_SITE_ORDER_HEIGHT <= contentBottom) {
+                        addRenderableWidget(Button.builder(
+                                        Component.literal("Deliver"),
+                                        button -> ModNetworking.sendToServer(
+                                                new DeliverProjectSiteOrderPacket(
+                                                        boardPos,
+                                                        project.id(),
+                                                        order.id())))
+                                .bounds(left + PANEL_WIDTH - 82, orderY + 5, 62, 20)
+                                .build());
+                    }
+                    orderY += PROJECT_SITE_ORDER_HEIGHT + PROJECT_SITE_ORDER_GAP;
+                }
+            }
+
+            entryY += getProjectEntryHeight(project) + PROJECT_CARD_GAP;
         }
     }
 
@@ -504,7 +526,9 @@ public class CommunityBoardScreen extends Screen {
                         + " | Builder "
                         + improvements.builder()
                         + " | Decor "
-                        + improvements.decor(),
+                        + improvements.decor()
+                        + " | Kitchen "
+                        + improvements.kitchen(),
                 left + 14,
                 contentTop + 2 - projectScrollOffset,
                 0xFFFFD38A,
@@ -526,7 +550,27 @@ public class CommunityBoardScreen extends Screen {
         int entryY = contentTop + 48 - projectScrollOffset;
         for (OpenCommunityBoardScreenPacket.ProjectEntry project : projects) {
             renderProjectCard(graphics, left + 12, entryY, PANEL_WIDTH - 24, project);
-            entryY += PROJECT_CARD_HEIGHT + PROJECT_CARD_GAP;
+            if (project.completed() && !project.siteOrders().isEmpty()) {
+                int headerY = entryY + PROJECT_CARD_HEIGHT + 4;
+                graphics.drawString(
+                        font,
+                        "Project Site Orders",
+                        left + 20,
+                        headerY,
+                        0xFFFFD38A,
+                        false);
+                int orderY = headerY + PROJECT_SITE_ORDER_HEADER_HEIGHT;
+                for (OpenCommunityBoardScreenPacket.ProjectSiteOrderEntry order : project.siteOrders()) {
+                    renderProjectSiteOrderCard(
+                            graphics,
+                            left + 20,
+                            orderY,
+                            PANEL_WIDTH - 40,
+                            order);
+                    orderY += PROJECT_SITE_ORDER_HEIGHT + PROJECT_SITE_ORDER_GAP;
+                }
+            }
+            entryY += getProjectEntryHeight(project) + PROJECT_CARD_GAP;
         }
         graphics.disableScissor();
 
@@ -583,6 +627,44 @@ public class CommunityBoardScreen extends Screen {
                 x + 6,
                 y + 39,
                 detailColor,
+                false);
+    }
+
+    private void renderProjectSiteOrderCard(
+            GuiGraphics graphics,
+            int x,
+            int y,
+            int width,
+            OpenCommunityBoardScreenPacket.ProjectSiteOrderEntry order) {
+        graphics.fill(
+                x,
+                y - 2,
+                x + width,
+                y + PROJECT_SITE_ORDER_HEIGHT,
+                order.type().equals("Catering") ? 0x6043332A : 0x60382F24);
+
+        int textWidth = width - 78;
+        String title = order.title() + " [" + order.type() + "]" + (order.modded() ? " [Modded]" : "");
+        graphics.drawString(
+                font,
+                trimToWidth(title, textWidth),
+                x + 6,
+                y + 1,
+                0xFFFFD38A,
+                false);
+        graphics.drawString(
+                font,
+                trimToWidth(order.requirementText(), textWidth),
+                x + 6,
+                y + 11,
+                0xFFE5DED2,
+                false);
+        graphics.drawString(
+                font,
+                "+" + order.rewardTokens() + " FT",
+                x + 6,
+                y + 21,
+                0xFFFFC85C,
                 false);
     }
 
@@ -963,7 +1045,21 @@ public class CommunityBoardScreen extends Screen {
     }
 
     private int getProjectContentHeight() {
-        return 42 + projects.size() * (PROJECT_CARD_HEIGHT + PROJECT_CARD_GAP);
+        int height = 42;
+        for (OpenCommunityBoardScreenPacket.ProjectEntry project : projects) {
+            height += getProjectEntryHeight(project) + PROJECT_CARD_GAP;
+        }
+        return height;
+    }
+
+    private int getProjectEntryHeight(OpenCommunityBoardScreenPacket.ProjectEntry project) {
+        int height = PROJECT_CARD_HEIGHT;
+        if (project.completed() && !project.siteOrders().isEmpty()) {
+            height += PROJECT_SITE_ORDER_HEADER_HEIGHT
+                    + project.siteOrders().size()
+                    * (PROJECT_SITE_ORDER_HEIGHT + PROJECT_SITE_ORDER_GAP);
+        }
+        return height;
     }
 
     private int getMaxProjectScroll(int top) {

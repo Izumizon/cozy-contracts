@@ -58,6 +58,19 @@ public final class CommunityProjectValidator {
             if (!scan.hasLightSource) {
                 missing.add("Builder's Yard still needs a light source nearby.");
             }
+        } else if (project.getId().equals(CommunityProjectRegistry.COMMUNITY_PANTRY)) {
+            if (!scan.hasCookingBlock) {
+                missing.add("Community Pantry still needs a cooking block such as a smoker, furnace, or campfire.");
+            }
+            if (!scan.hasStorageBlock) {
+                missing.add("Community Pantry still needs storage such as a chest or barrel.");
+            }
+            if (!scan.hasPreparationBlock) {
+                missing.add("Community Pantry still needs a preparation block such as a crafting table.");
+            }
+            if (!scan.hasLightSource) {
+                missing.add("Community Pantry still needs a light source nearby.");
+            }
         }
 
         return missing.isEmpty()
@@ -89,6 +102,11 @@ public final class CommunityProjectValidator {
                     result.hasLightSource |= state.getLightEmission(level, current) > 0;
                     result.hasWorkBlock |= block == Blocks.CRAFTING_TABLE
                             || block == Blocks.STONECUTTER;
+                    result.hasPreparationBlock |= block == Blocks.CRAFTING_TABLE;
+                    result.hasCookingBlock |= block == Blocks.SMOKER
+                            || block == Blocks.FURNACE
+                            || block == Blocks.CAMPFIRE
+                            || block == Blocks.SOUL_CAMPFIRE;
                     result.hasStorageBlock |= block == Blocks.CHEST
                             || block == Blocks.TRAPPED_CHEST
                             || block == Blocks.BARREL;
@@ -115,6 +133,8 @@ public final class CommunityProjectValidator {
         private boolean hasNaturalDecoration;
         private boolean hasLightSource;
         private boolean hasWorkBlock;
+        private boolean hasPreparationBlock;
+        private boolean hasCookingBlock;
         private boolean hasStorageBlock;
         private boolean hasBuildingMaterials;
     }

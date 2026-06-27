@@ -1,14 +1,12 @@
 package com.lucasizumi.cozycontracts.projects;
 
-public enum CommunityImprovementType {
-    FARMING("Farming"),
-    BUILDER("Builder"),
-    DECOR("Decor"),
-    KITCHEN("Kitchen");
+public enum ProjectSiteOrderType {
+    STANDING("Standing"),
+    CATERING("Catering");
 
     private final String displayName;
 
-    CommunityImprovementType(String displayName) {
+    ProjectSiteOrderType(String displayName) {
         this.displayName = displayName;
     }
 

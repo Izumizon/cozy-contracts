@@ -969,18 +969,57 @@ Screenshots will be added after in-game testing.
 
 Test project assignment, validation, marker breaking, completion persistence, and shared settlement progress in-game, then decide whether to polish completed project sites or continue toward deeper settlement development tracks.
 
+## Milestone 30 - Project Site Orders Lite and Community Pantry
+
+### Goal
+
+Give completed Project Sites a first layer of optional local gameplay value without changing the main Community Board contract weighting or adding full settlement systems.
+
+### What was implemented
+
+* Added Community Pantry as a fourth starter Community Project.
+* Added Kitchen as a Community Improvement type.
+* Added loose Community Pantry validation for a cooking block, storage block, preparation block, and light source.
+* Added repeatable Standing Site Orders for Village Fields, Garden Corner, Builder's Yard, and Community Pantry.
+* Added Catering Orders Lite for Community Pantry, with support for multiple requirements.
+* Added optional Farmer's Delight and Create: Food site orders using safe mod-loaded checks and item IDs only.
+* Added Project Site order rows and Deliver buttons inside the existing Community Board Projects tab.
+* Added server-side Project Site order delivery with full-inventory requirement checks, atomic multi-requirement validation, item consumption, and Favour Token rewards.
+* Updated `/cozycontracts debug projects` and `/cc debug projects` to show available site orders for completed Project Sites.
+
+### Why it mattered
+
+Completed Project Sites now do something useful after registration. The main board stays general, while players can choose focused farming, garden, builder, or pantry work by completing and keeping a local Project Site. This supports the settlement fantasy without making normal daily contracts more likely to match a specific category.
+
+### Challenges / fixes
+
+* Kept site orders repeatable but modestly rewarded so they feel useful without becoming a token-printing loop.
+* Kept Catering Orders separate from Kitchen order JSON so multi-requirement support did not change the existing Kitchen data format.
+* Prioritised optional modded pantry and catering orders when Farmer's Delight or Create: Food are installed, while preserving vanilla fallback content.
+* Kept completed improvements settlement-level. Removing a completed Project Site marker does not undo the Registered Improvement, but local site orders require the physical completed site anchor.
+* Did not add Prosperity, Storehouse, residents, Taste Preferences, project upgrades, shop unlocks, or main board contract weighting changes.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Playtest Community Pantry validation, repeatable Project Site deliveries, Catering Orders, optional food mod prioritisation, and save/reload behavior around completed Project Site anchors.
+
 ## Current Status
 
-Cozy Contracts 0.4.0-alpha has a complete first gameplay loop, a playable Community Kitchen loop, a settlement supply shop, and Buildable Community Projects Foundation Lite. Players can complete data-driven contracts, earn Favour Tokens, buy practical settlement supply bundles, deliver Kitchen orders, and register starter player-built improvements through the Community Board. Optional Farmer's Delight and Create: Food content can extend the board and Kitchen registries, while deterministic daily Kitchen selection keeps each board's active set manageable.
+Cozy Contracts 0.4.0-alpha has a complete first gameplay loop, a playable Community Kitchen loop, a settlement supply shop, Buildable Community Projects Foundation Lite, and Project Site Orders Lite. Players can complete data-driven contracts, earn Favour Tokens, buy practical settlement supply bundles, deliver Kitchen orders, register starter player-built improvements, and use completed Project Sites for optional focused local orders. Optional Farmer's Delight and Create: Food content can extend the board, Kitchen, and Pantry order pools, while deterministic daily Kitchen selection keeps each board's active set manageable.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
 1. Test Project Marker crafting, placement, shape, and occlusion.
-2. Test assigning and completing Village Fields, Garden Corner, and Builder's Yard with separate markers.
-3. Test active marker breaking, completed Project Site breaking, missing-requirement guidance, and save/reload persistence.
-4. Confirm nearby boards sharing a settlement show the same Registered Improvements and completed project site state.
-5. Regression test Requests, Shop category tabs, Kitchen daily selection, and optional mod setups.
-6. Prepare the 0.4.0-alpha release.
-7. Later: deeper Community Projects, settlement development tracks, residents, taste preferences, Prosperity, Storehouse, Village Bond, and Village Network.
+2. Test assigning and completing Village Fields, Garden Corner, Builder's Yard, and Community Pantry with separate markers.
+3. Test repeatable Project Site Orders and multi-requirement Catering Orders.
+4. Test active marker breaking, completed Project Site breaking, missing-requirement guidance, and save/reload persistence.
+5. Confirm nearby boards sharing a settlement show the same Registered Improvements and completed project site state.
+6. Regression test Requests, Shop category tabs, Kitchen daily selection, and optional mod setups.
+7. Prepare the 0.4.0-alpha release.
+8. Later: deeper Community Projects, settlement development tracks, residents, taste preferences, Prosperity, Storehouse, Village Bond, and Village Network.

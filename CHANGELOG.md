@@ -7,9 +7,11 @@
 - Added Buildable Community Projects Foundation Lite.
 - Added the Project Marker block and recipe.
 - Added a fourth Community Board tab: Projects.
-- Added three starter projects: Village Fields, Garden Corner, and Builder's Yard.
-- Added loose validation around Project Markers for farmland/crops/water, garden decoration/light, and builder yard supplies.
-- Added settlement-level completed project tracking and Community Improvement counts for Farming, Builder, and Decor.
+- Added four starter projects: Village Fields, Garden Corner, Builder's Yard, and Community Pantry.
+- Added loose validation around Project Markers for farmland/crops/water, garden decoration/light, builder yard supplies, and pantry support blocks.
+- Added settlement-level completed project tracking and Community Improvement counts for Farming, Builder, Decor, and Kitchen.
+- Added Project Site Orders Lite for completed Project Sites.
+- Added repeatable Standing Site Orders and Community Pantry Catering Orders Lite.
 - Added `/cc debug projects` and `/cozycontracts debug projects`.
 - Added 0.4.0-alpha release notes.
 

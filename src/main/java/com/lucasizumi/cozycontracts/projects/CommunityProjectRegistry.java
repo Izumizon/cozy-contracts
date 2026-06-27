@@ -15,6 +15,8 @@ public final class CommunityProjectRegistry {
             ResourceLocation.parse(CozyContracts.MOD_ID + ":garden_corner");
     public static final ResourceLocation BUILDERS_YARD =
             ResourceLocation.parse(CozyContracts.MOD_ID + ":builders_yard");
+    public static final ResourceLocation COMMUNITY_PANTRY =
+            ResourceLocation.parse(CozyContracts.MOD_ID + ":community_pantry");
 
     private static final List<CommunityProject> STARTER_PROJECTS = List.of(
             new CommunityProject(
@@ -34,7 +36,13 @@ public final class CommunityProjectRegistry {
                     "Builder's Yard",
                     CommunityImprovementType.BUILDER,
                     "Set up a small yard for construction supplies and future building plans.",
-                    "Builder's Yard completed! The settlement now has its first Builder improvement. This space can grow with future projects."));
+                    "Builder's Yard completed! The settlement now has its first Builder improvement. This space can grow with future projects."),
+            new CommunityProject(
+                    COMMUNITY_PANTRY,
+                    "Community Pantry",
+                    CommunityImprovementType.KITCHEN,
+                    "Set up a shared pantry so the settlement has a place to prepare and store simple meals.",
+                    "Community Pantry completed! The settlement now has its first Kitchen improvement. The pantry can now accept cooking and catering orders."));
     private static final Map<ResourceLocation, CommunityProject> PROJECTS_BY_ID = buildProjectsById();
 
     private CommunityProjectRegistry() {

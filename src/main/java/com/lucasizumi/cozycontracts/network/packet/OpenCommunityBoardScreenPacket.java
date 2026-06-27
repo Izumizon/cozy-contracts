@@ -122,10 +122,12 @@ public record OpenCommunityBoardScreenPacket(
             BlockPos markerPos,
             boolean completed,
             boolean ready,
-            List<String> missingRequirements) {
+            List<String> missingRequirements,
+            List<ProjectSiteOrderEntry> siteOrders) {
 
         public ProjectEntry {
             missingRequirements = List.copyOf(missingRequirements);
+            siteOrders = List.copyOf(siteOrders);
         }
 
         private static void encode(FriendlyByteBuf buffer, ProjectEntry entry) {
@@ -140,6 +142,7 @@ public record OpenCommunityBoardScreenPacket(
             buffer.writeBoolean(entry.completed());
             buffer.writeBoolean(entry.ready());
             buffer.writeCollection(entry.missingRequirements(), FriendlyByteBuf::writeUtf);
+            buffer.writeCollection(entry.siteOrders(), ProjectSiteOrderEntry::encode);
         }
 
         private static ProjectEntry decode(FriendlyByteBuf buffer) {
@@ -151,6 +154,7 @@ public record OpenCommunityBoardScreenPacket(
             boolean completed = buffer.readBoolean();
             boolean ready = buffer.readBoolean();
             List<String> missingRequirements = buffer.readList(FriendlyByteBuf::readUtf);
+            List<ProjectSiteOrderEntry> siteOrders = buffer.readList(ProjectSiteOrderEntry::decode);
             return new ProjectEntry(
                     id,
                     title,
@@ -159,7 +163,36 @@ public record OpenCommunityBoardScreenPacket(
                     markerPos,
                     completed,
                     ready,
-                    missingRequirements);
+                    missingRequirements,
+                    siteOrders);
+        }
+    }
+
+    public record ProjectSiteOrderEntry(
+            ResourceLocation id,
+            String title,
+            String type,
+            String requirementText,
+            int rewardTokens,
+            boolean modded) {
+
+        private static void encode(FriendlyByteBuf buffer, ProjectSiteOrderEntry entry) {
+            buffer.writeResourceLocation(entry.id());
+            buffer.writeUtf(entry.title());
+            buffer.writeUtf(entry.type());
+            buffer.writeUtf(entry.requirementText());
+            buffer.writeVarInt(entry.rewardTokens());
+            buffer.writeBoolean(entry.modded());
+        }
+
+        private static ProjectSiteOrderEntry decode(FriendlyByteBuf buffer) {
+            return new ProjectSiteOrderEntry(
+                    buffer.readResourceLocation(),
+                    buffer.readUtf(),
+                    buffer.readUtf(),
+                    buffer.readUtf(),
+                    buffer.readVarInt(),
+                    buffer.readBoolean());
         }
     }
 
@@ -167,6 +200,7 @@ public record OpenCommunityBoardScreenPacket(
             int farming,
             int builder,
             int decor,
+            int kitchen,
             int unassignedMarkers,
             int activeMarkers,
             int completedSites) {
@@ -175,6 +209,7 @@ public record OpenCommunityBoardScreenPacket(
             buffer.writeVarInt(entry.farming());
             buffer.writeVarInt(entry.builder());
             buffer.writeVarInt(entry.decor());
+            buffer.writeVarInt(entry.kitchen());
             buffer.writeVarInt(entry.unassignedMarkers());
             buffer.writeVarInt(entry.activeMarkers());
             buffer.writeVarInt(entry.completedSites());
@@ -182,12 +217,13 @@ public record OpenCommunityBoardScreenPacket(
 
         private static ImprovementEntry decode(FriendlyByteBuf buffer) {
             return new ImprovementEntry(
-                    buffer.readVarInt(),
-                    buffer.readVarInt(),
-                    buffer.readVarInt(),
-                    buffer.readVarInt(),
-                    buffer.readVarInt(),
-                    buffer.readVarInt());
+                buffer.readVarInt(),
+                buffer.readVarInt(),
+                buffer.readVarInt(),
+                buffer.readVarInt(),
+                buffer.readVarInt(),
+                buffer.readVarInt(),
+                buffer.readVarInt());
         }
     }
 }

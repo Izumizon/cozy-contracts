@@ -8,7 +8,7 @@ Cozy Contracts 0.4.0-alpha has a complete first gameplay loop:
 Open Community Board -> view daily requests -> submit items -> earn Favour Tokens -> buy rewards
 ```
 
-The current alpha also includes the first playable Community Kitchen delivery loop and Buildable Community Projects Foundation Lite. Projects are intentionally simple: players place Project Markers, build around them, and validate loose requirements through the Community Board. Completed projects become Registered Improvements, while completed markers may remain as Project Sites for future upgrade/support systems.
+The current alpha also includes the first playable Community Kitchen delivery loop, Buildable Community Projects Foundation Lite, and Project Site Orders Lite. Projects are intentionally simple: players place Project Markers, build around them, and validate loose requirements through the Community Board. Completed projects become Registered Improvements, while completed markers may remain as Project Sites that provide optional focused local orders.
 
 ## Current Alpha Features
 
@@ -37,10 +37,12 @@ The current alpha also includes the first playable Community Kitchen delivery lo
 * Settlement Foundation Lite
 * Project Marker block
 * Community Board Projects tab
-* Three starter buildable Community Projects
+* Four starter buildable Community Projects
 * Settlement-level completed project persistence
-* Visible Farming, Builder, and Decor Community Improvement counts
+* Visible Farming, Builder, Decor, and Kitchen Community Improvement counts
 * Project Marker lifecycle states for unassigned markers, active project markers, and completed Project Sites
+* Repeatable Project Site Orders for completed project sites
+* Community Pantry and Catering Orders Lite
 * Community Kitchen tab
 * Basic Community Kitchen deliveries
 * Basic Standing Orders as Kitchen order types
@@ -280,6 +282,15 @@ Current lifecycle terms:
 * Project Site: an optional completed marker anchor that may support future upgrades or project families
 
 Breaking a completed Project Site should not undo the settlement's Registered Improvement.
+
+Project Site Orders Lite gives completed Project Sites a first local purpose:
+
+* Village Fields can accept focused farming deliveries
+* Garden Corner can accept garden and decoration deliveries
+* Builder's Yard can accept building material deliveries
+* Community Pantry can accept cooking deliveries and Catering Orders
+
+These orders are repeatable and intentionally modest. They should reward useful local work without changing main board contract weighting or becoming the best way to generate Favour Tokens.
 
 Future project types may include:
 

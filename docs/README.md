@@ -39,7 +39,9 @@ Cozy Contracts can run standalone with no optional food mods. Optional content i
 - Favour Token item and scrollable settlement supply-bundle shop
 - Project Marker block
 - Buildable Community Projects Foundation Lite
-- Community Improvements display for Farming, Builder, and Decor progress
+- Project Site Orders Lite for completed project sites
+- Community Pantry project and Catering Orders Lite
+- Community Improvements display for Farming, Builder, Decor, and Kitchen progress
 - Full-inventory request submission from the GUI and commands
 - Shift-right-click held-item hand-in
 - Persistent active and completed board state

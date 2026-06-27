@@ -14,6 +14,8 @@ import com.lucasizumi.cozycontracts.projects.CommunityProject;
 import com.lucasizumi.cozycontracts.projects.CommunityProjectAssignment;
 import com.lucasizumi.cozycontracts.projects.CommunityProjectRegistry;
 import com.lucasizumi.cozycontracts.projects.CommunityProjectService;
+import com.lucasizumi.cozycontracts.projects.ProjectSiteOrder;
+import com.lucasizumi.cozycontracts.projects.ProjectSiteOrderRegistry;
 import com.lucasizumi.cozycontracts.projects.ProjectValidationResult;
 import com.lucasizumi.cozycontracts.settlement.Settlement;
 import com.lucasizumi.cozycontracts.settlement.SettlementService;
@@ -372,7 +374,9 @@ public final class CozyContractsCommands {
                         + ", Builder "
                         + settlement.getCommunityImprovementCount(CommunityImprovementType.BUILDER)
                         + ", Decor "
-                        + settlement.getCommunityImprovementCount(CommunityImprovementType.DECOR)));
+                        + settlement.getCommunityImprovementCount(CommunityImprovementType.DECOR)
+                        + ", Kitchen "
+                        + settlement.getCommunityImprovementCount(CommunityImprovementType.KITCHEN)));
         player.sendSystemMessage(Component.literal(
                 "Completed projects: " + settlement.getCompletedProjectIds()));
         player.sendSystemMessage(Component.literal(
@@ -407,6 +411,25 @@ public final class CozyContractsCommands {
                             + (assignment == null ? "<none>" : assignment.markerPos().toShortString())
                             + " | projectSite="
                             + (completedSite == null ? "<none>" : completedSite.toShortString())));
+            if (completedSite != null) {
+                List<ProjectSiteOrder> siteOrders =
+                        ProjectSiteOrderRegistry.getAvailableOrdersForProject(project.getId());
+                player.sendSystemMessage(Component.literal(
+                        "  availableSiteOrders=" + siteOrders.size()));
+                for (ProjectSiteOrder order : siteOrders) {
+                    player.sendSystemMessage(Component.literal(
+                            "  - "
+                                    + order.getId()
+                                    + " | "
+                                    + order.getType().getDisplayName()
+                                    + " | requires="
+                                    + order.getRequirementPreview()
+                                    + " | reward="
+                                    + order.getRewardTokens()
+                                    + " | modded="
+                                    + order.isModded()));
+                }
+            }
             if (assignment != null && !settlement.isProjectCompleted(project.getId())) {
                 ProjectValidationResult validation =
                         CommunityProjectService.validateAssignment(level, assignment, project);

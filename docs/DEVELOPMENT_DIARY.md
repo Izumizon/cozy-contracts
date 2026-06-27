@@ -693,4 +693,21 @@ Project Markers identify where a build is located. The board assigns and validat
 What I learned:  
 World-building systems need trust in the player's creativity. The mod should ask for meaningful features, not control the whole shape of the build.
 
+### June 2026 - Project Site Orders Lite
+
+What changed:
+Completed Project Sites gained optional local orders, and Community Pantry was added as the first Kitchen improvement project.
+
+Why the change was needed:
+Completed sites should feel useful after registration without making the main Community Board less general.
+
+Technical/design challenge:
+The system needed repeatable focused work without turning into Prosperity, Storehouse, residents, project upgrades, or main board category weighting.
+
+Solution:
+The Projects tab now exposes modest Standing Site Orders for completed sites. Community Pantry adds Catering Orders Lite, which can require multiple food items and can prefer optional food mod dishes when those mods are installed.
+
+What I learned:
+Local settlement systems work best when the player chooses where to engage with them. The main board can stay broad while completed sites create focused reasons to revisit the places the player built.
+
 ## End of Development Diary

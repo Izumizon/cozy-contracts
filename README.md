@@ -14,6 +14,7 @@ Cozy Contracts is a cozy Forge 1.20.1 Minecraft mod where villages post daily co
 - Community Kitchen deliveries
 - Buildable Community Projects Foundation Lite
 - Project Marker block for player-built settlement improvements
+- Project Site Orders Lite and Community Pantry
 - JSON/datapack contracts
 - JSON/datapack Kitchen orders
 - Optional Farmer's Delight contracts and Kitchen orders

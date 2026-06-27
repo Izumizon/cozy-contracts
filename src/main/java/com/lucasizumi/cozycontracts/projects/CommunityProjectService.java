@@ -40,6 +40,7 @@ public final class CommunityProjectService {
                 settlement.getCommunityImprovementCount(CommunityImprovementType.FARMING),
                 settlement.getCommunityImprovementCount(CommunityImprovementType.BUILDER),
                 settlement.getCommunityImprovementCount(CommunityImprovementType.DECOR),
+                settlement.getCommunityImprovementCount(CommunityImprovementType.KITCHEN),
                 markerCounts.unassigned(),
                 markerCounts.active(),
                 markerCounts.completedSites());
@@ -199,7 +200,7 @@ public final class CommunityProjectService {
                         .filter(entry -> entry.getValue().equals(markerPos))
                         .findFirst();
         if (completedSite.isPresent()) {
-            return "This project has been registered with the settlement. This marker can stay as a project site or be removed safely.";
+            return "This project has been registered with the settlement. Use the Community Board Projects tab for local site orders, or remove this marker safely.";
         }
 
         return "Unassigned Project Marker. Use the Community Board Projects tab to assign a Community Project.";
@@ -246,7 +247,18 @@ public final class CommunityProjectService {
                         : assignment == null ? null : assignment.markerPos(),
                 completed,
                 ready,
-                missingRequirements);
+                missingRequirements,
+                completed && completedSite != null
+                        ? ProjectSiteOrderRegistry.getAvailableOrdersForProject(project.getId()).stream()
+                        .map(order -> new OpenCommunityBoardScreenPacket.ProjectSiteOrderEntry(
+                                order.getId(),
+                                order.getTitle(),
+                                order.getType().getDisplayName(),
+                                order.getRequirementPreview(),
+                                order.getRewardTokens(),
+                                order.isModded()))
+                        .toList()
+                        : List.of());
     }
 
     private static Optional<BlockPos> findNearestUnassignedMarker(
@@ -325,7 +337,9 @@ public final class CommunityProjectService {
                 + ", Builder "
                 + improvements.getOrDefault(CommunityImprovementType.BUILDER, 0)
                 + ", Decor "
-                + improvements.getOrDefault(CommunityImprovementType.DECOR, 0);
+                + improvements.getOrDefault(CommunityImprovementType.DECOR, 0)
+                + ", Kitchen "
+                + improvements.getOrDefault(CommunityImprovementType.KITCHEN, 0);
     }
 
     private record MarkerCounts(

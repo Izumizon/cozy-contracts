@@ -323,8 +323,24 @@ The first starter projects are:
 | Village Fields | Farming | farmland, planted crops, water |
 | Garden Corner | Decor | flowers, natural decoration, cozy light |
 | Builder's Yard | Builder | work block, storage, building materials, light |
+| Community Pantry | Kitchen | cooking block, storage, preparation block, light |
 
-These Registered Improvements are visible progress only for now. They do not yet change shop stock, contract weighting, Prosperity, or district behavior.
+Project Site Orders Lite gives completed Project Sites an optional local use while keeping the main Community Board general. A completed site can expose repeatable focused work based on what was built there:
+
+| Project Site | Local Order Focus |
+| --- | --- |
+| Village Fields | farming deliveries |
+| Garden Corner | garden and decoration deliveries |
+| Builder's Yard | building material deliveries |
+| Community Pantry | cooking deliveries and Catering Orders |
+
+Standing Site Orders are repeatable and should pay modest Favour Token rewards. They should feel useful for players who want focused settlement work, but they should not become a high-value token loop.
+
+Catering Orders Lite are larger Community Pantry orders with multiple food requirements. They can pay better because they require preparation, but they are still part of the lightweight 0.4.0-alpha foundation. The current implementation can stay Java-defined until a later JSON/datapack format is designed.
+
+Optional food mod orders can be prioritised when Farmer's Delight or Create: Food are installed, but vanilla site orders should remain available as basic fallback content. These optional orders must not create hard Java dependencies on food mods.
+
+These Registered Improvements do not yet change main board contract weighting, Prosperity, district behavior, or shop unlocks.
 
 Future versions can expand Community Projects into project chains, larger builds, completed-site upgrades, assisted construction, house validation, settlement development tracks, and shop unlocks.
 

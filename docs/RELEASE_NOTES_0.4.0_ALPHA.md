@@ -1,18 +1,21 @@
 # Cozy Contracts 0.4.0-alpha Release Notes
 
-0.4.0-alpha adds Buildable Community Projects Foundation Lite. This is the first step toward settlement improvements that players build in the world instead of completing through abstract item donations.
+0.4.0-alpha adds Buildable Community Projects Foundation Lite and Project Site Orders Lite. This is the first step toward settlement improvements that players build in the world instead of completing through abstract item donations.
 
 ## Highlights
 
 - Added Project Marker block and recipe.
 - Added a Projects tab to the Community Board.
-- Added three starter buildable projects:
+- Added four starter buildable projects:
   - Village Fields
   - Garden Corner
   - Builder's Yard
+  - Community Pantry
 - Added loose validation around Project Markers.
 - Added settlement-level completed project persistence.
-- Added visible Community Improvement counts for Farming, Builder, and Decor.
+- Added visible Community Improvement counts for Farming, Builder, Decor, and Kitchen.
+- Added repeatable Standing Site Orders for completed Project Sites.
+- Added Community Pantry Catering Orders Lite with multiple requirements.
 - Added debug output for markers, assignments, validation, completed projects, and improvement counts.
 
 ## How Projects Work
@@ -60,6 +63,30 @@ Loosely checks for:
 - building materials such as logs, stone, bricks, or glass
 - a light source
 
+### Community Pantry
+
+Adds one Kitchen improvement.
+
+Loosely checks for:
+
+- a cooking block such as a smoker, furnace, or campfire
+- a storage block such as a chest or barrel
+- a preparation block such as a crafting table
+- a light source
+
+## Project Site Orders Lite
+
+Completed Project Sites can now expose optional focused local orders in the Projects tab.
+
+- Village Fields offers farming deliveries.
+- Garden Corner offers garden and decoration deliveries.
+- Builder's Yard offers building material deliveries.
+- Community Pantry offers cooking deliveries and Catering Orders.
+
+Standing Site Orders are repeatable and pay modest Favour Token rewards. Catering Orders require multiple foods or dishes and pay better because they require more preparation.
+
+Optional Farmer's Delight and Create: Food pantry orders can appear when those mods are installed. Vanilla site orders remain the fallback/basic content, and Cozy Contracts still does not require those optional mods.
+
 ## What This Does Not Add Yet
 
 - abstract material-donation projects
@@ -78,6 +105,7 @@ Loosely checks for:
 - project chains or repeatable projects
 - JSON project loading
 - shop unlocks
+- Prosperity or Storehouse support from site orders
 
 ## Compatibility
 
@@ -85,4 +113,4 @@ Existing Requests, Shop, and Kitchen systems are unchanged. Optional Farmer's De
 
 ## Known Limitations
 
-Community Projects are visible progress only in this alpha. Farming, Builder, and Decor improvement counts do not yet unlock shop stock, alter contract weighting, or provide Prosperity bonuses.
+Community Projects are still intentionally light in this alpha. Farming, Builder, Decor, and Kitchen improvement counts do not yet unlock shop stock, alter main board contract weighting, or provide Prosperity bonuses. Project Site Orders Lite gives completed sites repeatable local work, not full project upgrades or settlement development tracks.
