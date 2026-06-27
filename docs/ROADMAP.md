@@ -2,13 +2,13 @@
 
 ## Current Alpha
 
-Cozy Contracts 0.3.0-alpha has a complete first gameplay loop:
+Cozy Contracts 0.4.0-alpha has a complete first gameplay loop:
 
 ```text
 Open Community Board -> view daily requests -> submit items -> earn Favour Tokens -> buy rewards
 ```
 
-The current alpha also includes the first playable Community Kitchen delivery loop. This is still early and intentionally simple, with vanilla, Farmer's Delight, and optional Create: Food orders using the same JSON order system.
+The current alpha also includes the first playable Community Kitchen delivery loop and Buildable Community Projects Foundation Lite. Projects are intentionally simple: players place Project Markers, build around them, and validate loose requirements through the Community Board.
 
 ## Current Alpha Features
 
@@ -35,6 +35,11 @@ The current alpha also includes the first playable Community Kitchen delivery lo
 * Category-ready contract data
 * Category-aware shop stock foundation
 * Settlement Foundation Lite
+* Project Marker block
+* Community Board Projects tab
+* Three starter buildable Community Projects
+* Settlement-level completed project persistence
+* Visible Farming, Builder, and Decor Community Improvement counts
 * Community Kitchen tab
 * Basic Community Kitchen deliveries
 * Basic Standing Orders as Kitchen order types
@@ -74,9 +79,23 @@ Do not build the full village system now, but do not code the alpha in a way tha
 
 ## Next Steps
 
-### 1. MVP Release Testing
+### 1. 0.4.0-alpha Project Testing
 
-Verify the 0.3.0-alpha candidate in normal play conditions.
+Verify the first buildable Community Projects in normal play conditions.
+
+Goals:
+
+* craft and place Project Markers
+* assign Village Fields, Garden Corner, and Builder's Yard
+* confirm helpful missing-requirement messages
+* complete each starter project after building nearby features
+* test save/reload persistence
+* verify nearby boards sharing a settlement show the same completed projects
+* verify Requests, Shop, Kitchen, and category filters still work
+
+### 2. MVP Release Testing
+
+Verify the 0.4.0-alpha candidate in normal play conditions.
 
 Goals:
 
@@ -90,7 +109,7 @@ Goals:
 * verify supply bundle prices cannot create positive contract or Kitchen token loops
 * verify Shop tab scrolling and Buy button alignment
 
-### 2. Final Documentation And Release Notes
+### 3. Final Documentation And Release Notes
 
 Prepare the release-facing documentation for players and pack makers.
 
@@ -102,7 +121,7 @@ Goals:
 * verify optional mod support wording
 * make sure future systems are clearly marked as future
 
-### 3. Fresh Forge Instance Testing
+### 4. Fresh Forge Instance Testing
 
 Test the built jar outside the development workspace.
 
@@ -113,7 +132,7 @@ Recommended setups:
 * Forge 1.20.1 with Create and Create: Food
 * Forge 1.20.1 with Farmer's Delight, Create, Create: Food, and JEI
 
-### 4. GitHub Alpha Release
+### 5. GitHub Alpha Release
 
 Prepare the GitHub release page and attach the alpha jar.
 
@@ -126,7 +145,7 @@ Recommended checks:
 * optional dependency notes
 * screenshots or short clips if available
 
-### 5. Modrinth / CurseForge Alpha Release
+### 6. Modrinth / CurseForge Alpha Release
 
 Publish on mod platforms if desired.
 
@@ -138,7 +157,7 @@ Recommended checks:
 * feature summary
 * alpha status clearly visible
 
-### 6. Later Systems
+### 7. Later Systems
 
 After the alpha, likely next work includes:
 
@@ -147,14 +166,15 @@ After the alpha, likely next work includes:
 * resident meal deliveries
 * Resident Profiles and Taste Preferences
 * district-aware contracts and shops
-* settlement development track and Community Project shop unlocks
+* deeper Community Projects, project chains, and settlement development tracks
+* Livestock Crates as farming and village-building utility tools
 * Prosperity and Storehouse support
 * Village Bond and Community Projects
 * Village Network and Capital Villages
 
 ## Future Features
 
-These are planned future systems, not part of the 0.3.0-alpha release.
+These are planned future systems, not part of the 0.4.0-alpha foundation.
 
 ### Districts
 
@@ -247,7 +267,7 @@ It can later unlock:
 
 ### Community Projects
 
-Community Projects should become the main way villages grow. Players should choose where growth happens.
+Community Projects now have a first Foundation Lite implementation with Project Markers, loose validation, and visible Community Improvements. Future versions should expand this into the main way villages grow while keeping player control over where growth happens.
 
 Future project types may include:
 
@@ -260,6 +280,40 @@ Future project types may include:
 * workshops
 * community hearths
 * festival grounds
+
+Future Community Projects may add project chains, larger builds, settlement development tracks, assisted construction, and shop unlocks. They should still avoid judging beauty or forcing exact blueprints.
+
+Animal Pen, Community Barn, Rancher's Yard, and Farmhouse projects can later unlock or upgrade farming utility features such as Livestock Crates. Livestock Crates should come after the Project Marker lifecycle and buildable Community Projects foundation are stable.
+
+### Livestock Crates
+
+Livestock Crates are a planned future farming and village-building convenience feature, not part of the current 0.4.0-alpha foundation.
+
+They should be cozy animal transport tools for farms, barns, animal pens, and settlement growth. They should not become a universal mob-capture or combat tool.
+
+Future crate progression may include:
+
+* Basic Livestock Crate: small/common farm animals
+* Iron-Banded Livestock Crate: medium livestock
+* Reinforced Livestock Crate: larger passive animals
+* Netherite-Banded Livestock Crate: endgame large passive or neutral livestock support, while still blocking wardens, bosses, and hostile mobs by default
+
+Early versions should support fewer animals properly rather than many animals badly. Suggested early support includes cows, sheep, pigs, chickens, rabbits, and goats if their data can be handled safely.
+
+Livestock Crates should preserve supported animal data such as type, health, age, custom name, variants, colours, and other relevant saved data where applicable. Capture and release must be server-side and atomic to avoid duplication or deletion bugs.
+
+Blocked by default:
+
+* villagers and wandering traders
+* wardens
+* hostile mobs
+* bosses
+* iron golems
+* mobs with passengers
+* inventory-carrying mobs until specifically supported
+* tamed pets until ownership handling is designed
+
+Future datapack or entity tag support can let modpack makers classify compatible modded livestock. Stronger crates can connect to Favour Tokens, farming progression, settlement growth, and future projects such as Animal Pen, Community Barn, Rancher's Yard, or Farmhouse.
 
 ### Manual And Assisted Building
 
@@ -308,7 +362,8 @@ Do not add these yet:
 * Resident Memories
 * Village Registry
 * Village Bond progression
-* Community Projects
+* advanced Community Project chains
+* Livestock Crates
 * Village Network
 * Capital Villages
 * work crews

@@ -42,7 +42,7 @@ The Community Board is the player-facing block and interface.
 
 The settlement is the larger system behind the board.
 
-A Community Board should not permanently be treated as the entire village. Long term, a board should point to settlement data. The settlement should store contracts, shop state, districts, Prosperity, Village Bond, projects, resident information, Community Supplies, and village network links.
+A Community Board should not permanently be treated as the entire village. Long term, a board should point to settlement data. The settlement should store contracts, shop state, Community Projects, Community Improvements, districts, Prosperity, Village Bond, resident information, Community Supplies, and village network links.
 
 Future architecture should move toward:
 
@@ -198,6 +198,57 @@ Example district behaviour:
 | Hunter | mob drops, bows, leather, string |
 | Fishing | fish, kelp, barrels, water-related goods |
 
+## Livestock Crates
+
+Livestock Crates are a future farming and village-building utility feature.
+
+They should be framed as cozy animal transport tools for farms, barns, animal pens, and settlement growth. They are not intended to be a generic mob-capture item, a combat tool, or a universal capture system.
+
+The first implementation should support fewer animals properly rather than many animals badly. Suggested early supported animals include:
+
+* cow
+* sheep
+* pig
+* chicken
+* rabbit
+* goat, if safe
+
+Supported animals should preserve important entity data where applicable, including:
+
+* entity type
+* health
+* age
+* custom name
+* variants and colours
+* other relevant saved data needed to restore the animal safely
+
+Capture and release must be server-side and atomic. A failed capture should not delete the animal, and a failed release should not duplicate or lose the stored animal.
+
+Livestock Crates should not capture these by default:
+
+* hostile mobs
+* bosses
+* wardens
+* villagers
+* wandering traders
+* iron golems
+* mobs with passengers
+* inventory-carrying mobs until specifically supported
+* tamed pets until ownership handling is designed
+
+Future crate progression can include:
+
+| Crate | Future Role |
+| --- | --- |
+| Basic Livestock Crate | small/common farm animals |
+| Iron-Banded Livestock Crate | medium livestock |
+| Reinforced Livestock Crate | larger passive animals |
+| Netherite-Banded Livestock Crate | endgame large passive or neutral livestock support, while still blocking hostile mobs, bosses, and wardens by default |
+
+Future datapack or entity tag support can let modpack makers classify compatible modded animals. This should be opt-in and careful, because modded animals may have extra data that must be preserved.
+
+Livestock Crates should connect to Favour Tokens, farming progression, and settlement growth. Stronger crates may later be unlocked through farming projects such as Animal Pen, Community Barn, Rancher's Yard, or Farmhouse. This feature should be added after the Project Marker lifecycle and buildable Community Projects foundation are stable.
+
 ## Contracts and Districts
 
 The current contract system already has categories. This should become the foundation for district-based request selection.
@@ -236,6 +287,34 @@ Requests
 ```
 
 Each unlocked district could have its own small set of requests.
+
+## Buildable Community Projects
+
+Buildable Community Projects are the first step toward villages growing through player-built improvements instead of abstract item donations.
+
+The 0.4.0-alpha implementation is intentionally light:
+
+* players place Project Markers
+* the Community Board Projects tab assigns starter projects to markers
+* players build around the marker in the world
+* validation checks loose functional requirements
+* completed projects become settlement-level Community Improvements
+
+Validation should guide, not judge. The system should say what is still missing, such as "Village Fields still needs planted crops nearby." It should not insult the build, rate beauty, demand exact symmetry, or require strict blueprints.
+
+Projects should not consume placed blocks. They should not auto-build structures or randomly place blocks in the player's settlement. The player remains in control of layout, style, and decoration.
+
+The first starter projects are:
+
+| Project | Improvement | Loose Requirements |
+| --- | --- | --- |
+| Village Fields | Farming | farmland, planted crops, water |
+| Garden Corner | Decor | flowers, natural decoration, cozy light |
+| Builder's Yard | Builder | work block, storage, building materials, light |
+
+These improvements are visible progress only for now. They do not yet change shop stock, contract weighting, Prosperity, or district behavior.
+
+Future versions can expand Community Projects into project chains, larger builds, assisted construction, house validation, settlement development tracks, and shop unlocks.
 
 ## Community Kitchen
 
@@ -386,6 +465,20 @@ Important rules:
 * Do not reduce core village function when meals are missing.
 * Loved meals can provide small temporary district or Prosperity bonuses.
 * Food systems should reward attention without creating chores.
+
+## Community Improvements
+
+Community Improvements are lightweight settlement progress counts created by completed Community Projects.
+
+The first visible improvement types are:
+
+* Farming
+* Builder
+* Decor
+
+Community Improvements are not full districts yet. They are a bridge between player-built projects and future district/progression systems.
+
+Future systems may use improvements to influence shop stock, contract weighting, Prosperity support, village services, and larger project requirements. For now, they exist so completed builds persist and can be shared by nearby Community Boards connected to the same settlement.
 
 ## Community Supplies and Storehouse
 
@@ -759,9 +852,10 @@ Future versions may include:
 * Prosperity
 * Community Supplies
 * Storehouse
-* Project Markers
+* Livestock Crates
+* deeper Project Marker assignment
 * Village Bond
-* Community Projects
+* expanded Community Projects
 * work crews
 * Village Network
 * Capital Villages
@@ -781,9 +875,10 @@ Current recommended order:
 2. Test release jar in a fresh Forge instance.
 3. Release 0.1.0-alpha.
 4. Later: Create: Food Kitchen orders.
-5. Later: district-aware contracts and shops.
-6. Later: Resident Profiles and Taste Preferences.
-7. Later: Prosperity, Storehouse, Village Bond, Community Projects, and Village Network.
+5. Later: expanded Community Projects and settlement development tracks.
+6. Later: district-aware contracts and shops.
+7. Later: Resident Profiles and Taste Preferences.
+8. Later: Prosperity, Storehouse, Village Bond, and Village Network.
 
 ## Non-Goals for Now
 
@@ -800,7 +895,8 @@ Do not implement these yet:
 * full Prosperity
 * Storehouse
 * Village Bond
-* Community Projects
+* advanced Community Project chains
+* Livestock Crates
 * Village Network
 * Capital Villages
 * work crews
