@@ -4,6 +4,7 @@ import com.lucasizumi.cozycontracts.network.ModNetworking;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
 import com.lucasizumi.cozycontracts.block.entity.CommunityBoardBlockEntity;
 import com.lucasizumi.cozycontracts.kitchen.KitchenBoardService;
+import com.lucasizumi.cozycontracts.projects.CommunityProjectService;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -53,8 +54,19 @@ public final class CommunityBoardScreenService {
                                 order.getDailyLimit()))
                         .toList();
 
+        List<OpenCommunityBoardScreenPacket.ProjectEntry> projectEntries =
+                CommunityProjectService.getProjectEntriesForBoard(serverLevel, boardPos);
+        OpenCommunityBoardScreenPacket.ImprovementEntry improvementEntry =
+                CommunityProjectService.getImprovementEntryForBoard(serverLevel, boardPos);
+
         ModNetworking.sendToPlayer(
                 player,
-                new OpenCommunityBoardScreenPacket(boardPos, day, entries, kitchenEntries));
+                new OpenCommunityBoardScreenPacket(
+                        boardPos,
+                        day,
+                        entries,
+                        kitchenEntries,
+                        projectEntries,
+                        improvementEntry));
     }
 }

@@ -9,6 +9,12 @@ import com.lucasizumi.cozycontracts.contracts.ContractSubmissionService;
 import com.lucasizumi.cozycontracts.kitchen.KitchenBoardService;
 import com.lucasizumi.cozycontracts.kitchen.KitchenOrder;
 import com.lucasizumi.cozycontracts.kitchen.KitchenOrderRegistry;
+import com.lucasizumi.cozycontracts.projects.CommunityImprovementType;
+import com.lucasizumi.cozycontracts.projects.CommunityProject;
+import com.lucasizumi.cozycontracts.projects.CommunityProjectAssignment;
+import com.lucasizumi.cozycontracts.projects.CommunityProjectRegistry;
+import com.lucasizumi.cozycontracts.projects.CommunityProjectService;
+import com.lucasizumi.cozycontracts.projects.ProjectValidationResult;
 import com.lucasizumi.cozycontracts.settlement.Settlement;
 import com.lucasizumi.cozycontracts.settlement.SettlementService;
 import com.lucasizumi.cozycontracts.shop.ShopCategory;
@@ -69,6 +75,8 @@ public final class CozyContractsCommands {
                                 .executes(context -> debugShop(context.getSource())))
                         .then(Commands.literal("kitchen")
                                 .executes(context -> debugKitchen(context.getSource())))
+                        .then(Commands.literal("projects")
+                                .executes(context -> debugProjects(context.getSource())))
                         .then(Commands.literal("settlement")
                                 .executes(context -> debugSettlement(context.getSource())))
                         .then(Commands.literal("contract")
@@ -338,6 +346,81 @@ public final class CozyContractsCommands {
         }
     }
 
+    private static int debugProjects(CommandSourceStack source) {
+        ServerPlayer player = getPlayer(source);
+        if (player == null) {
+            return 0;
+        }
+
+        BlockPos boardPos = requireTargetedBoard(
+                source,
+                player,
+                "Look at a Community Board to debug Community Projects.");
+        if (boardPos == null) {
+            return 0;
+        }
+
+        ServerLevel level = player.serverLevel();
+        Settlement settlement = SettlementService.getOrCreateSettlementForBoard(level, boardPos);
+        List<BlockPos> nearbyMarkers = findNearbyProjectMarkers(level, settlement.getCenter(), 64);
+
+        player.sendSystemMessage(Component.literal("Community Projects Debug"));
+        player.sendSystemMessage(Component.literal("Settlement ID: " + settlement.getId()));
+        player.sendSystemMessage(Component.literal(
+                "Community Improvements: Farming "
+                        + settlement.getCommunityImprovementCount(CommunityImprovementType.FARMING)
+                        + ", Builder "
+                        + settlement.getCommunityImprovementCount(CommunityImprovementType.BUILDER)
+                        + ", Decor "
+                        + settlement.getCommunityImprovementCount(CommunityImprovementType.DECOR)));
+        player.sendSystemMessage(Component.literal(
+                "Completed projects: " + settlement.getCompletedProjectIds()));
+        player.sendSystemMessage(Component.literal(
+                "Active project assignments: " + settlement.getActiveProjectAssignments()));
+        player.sendSystemMessage(Component.literal(
+                "Completed Project Sites: " + settlement.getCompletedProjectSites()));
+        player.sendSystemMessage(Component.literal(
+                "Nearby Project Markers: " + nearbyMarkers.size()));
+        for (BlockPos marker : nearbyMarkers.stream().limit(8).toList()) {
+            String markerState = "unassigned";
+            if (settlement.getCompletedProjectSites().containsValue(marker)) {
+                markerState = "completed site";
+            } else if (settlement.hasMarkerAssigned(marker)) {
+                markerState = "active";
+            }
+            player.sendSystemMessage(Component.literal(
+                    "- Marker: " + marker.toShortString() + " | " + markerState));
+        }
+
+        for (CommunityProject project : CommunityProjectRegistry.getStarterProjects()) {
+            CommunityProjectAssignment assignment =
+                    settlement.getProjectAssignment(project.getId()).orElse(null);
+            BlockPos completedSite =
+                    settlement.getCompletedProjectSite(project.getId()).orElse(null);
+            player.sendSystemMessage(Component.literal(
+                    project.getId()
+                            + " | "
+                            + project.getTitle()
+                            + " | completed="
+                            + settlement.isProjectCompleted(project.getId())
+                            + " | marker="
+                            + (assignment == null ? "<none>" : assignment.markerPos().toShortString())
+                            + " | projectSite="
+                            + (completedSite == null ? "<none>" : completedSite.toShortString())));
+            if (assignment != null && !settlement.isProjectCompleted(project.getId())) {
+                ProjectValidationResult validation =
+                        CommunityProjectService.validateAssignment(level, assignment, project);
+                player.sendSystemMessage(Component.literal(
+                        "  validationReady=" + validation.ready()));
+                for (String missing : validation.missingRequirements()) {
+                    player.sendSystemMessage(Component.literal("  - " + missing));
+                }
+            }
+        }
+
+        return 1;
+    }
+
     private static int debugBoard(CommandSourceStack source) {
         ServerPlayer player = getPlayer(source);
         if (player == null) {
@@ -477,5 +560,27 @@ public final class CozyContractsCommands {
         double y = first.getY() - second.getY();
         double z = first.getZ() - second.getZ();
         return Math.sqrt(x * x + y * y + z * z);
+    }
+
+    private static List<BlockPos> findNearbyProjectMarkers(
+            ServerLevel level,
+            BlockPos center,
+            int radius) {
+        java.util.ArrayList<BlockPos> markers = new java.util.ArrayList<>();
+        int yRadius = 24;
+
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -yRadius; y <= yRadius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    BlockPos pos = center.offset(x, y, z);
+                    if (center.distSqr(pos) <= radius * radius
+                            && level.getBlockState(pos).is(com.lucasizumi.cozycontracts.registry.ModBlocks.PROJECT_MARKER.get())) {
+                        markers.add(pos.immutable());
+                    }
+                }
+            }
+        }
+
+        return markers;
     }
 }

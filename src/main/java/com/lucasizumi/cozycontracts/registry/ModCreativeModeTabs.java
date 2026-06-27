@@ -19,6 +19,7 @@ public final class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.FAVOUR_TOKEN.get());
                         output.accept(ModBlocks.COMMUNITY_BOARD.get());
+                        output.accept(ModBlocks.PROJECT_MARKER.get());
                     })
                     .build());
 

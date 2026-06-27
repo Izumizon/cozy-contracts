@@ -19,6 +19,10 @@ public final class ModItems {
             ITEMS.register("community_board",
                     () -> new BlockItem(ModBlocks.COMMUNITY_BOARD.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> PROJECT_MARKER =
+            ITEMS.register("project_marker",
+                    () -> new BlockItem(ModBlocks.PROJECT_MARKER.get(), new Item.Properties()));
+
     private ModItems() {
     }
 

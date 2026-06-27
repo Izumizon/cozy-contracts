@@ -1,6 +1,6 @@
 # Cozy Contracts Development Log
 
-Cozy Contracts is a Forge 1.20.1 Minecraft mod focused on cozy village requests, daily contracts, Favour Tokens, and future cooking and village progression systems. This log follows the project from its initial Forge setup through the current 0.3.0-alpha milestone.
+Cozy Contracts is a Forge 1.20.1 Minecraft mod focused on cozy village requests, daily contracts, Favour Tokens, and future cooking and village progression systems. This log follows the project from its initial Forge setup through the current 0.4.0-alpha milestone.
 
 ## Milestone 1 — Project Setup and Forge Foundation
 
@@ -926,17 +926,61 @@ Screenshots will be added after in-game testing.
 
 Playtest supply prices, scrolling, purchase delivery, and full-inventory drops for the 0.3.0-alpha release.
 
+## Milestone 29 - Buildable Community Projects Foundation Lite
+
+### Goal
+
+Add the first player-built Community Projects foundation so settlement improvements come from builds in the world, not abstract material donations.
+
+### What was implemented
+
+* Added a Project Marker block and block item.
+* Added a simple Project Marker recipe.
+* Added a fourth Community Board tab: Requests, Shop, Kitchen, and Projects.
+* Added three starter projects: Village Fields, Garden Corner, and Builder's Yard.
+* Added settlement-level project assignments, completed project IDs, and Community Improvement counts.
+* Added loose validation around the assigned Project Marker.
+* Polished the Project Marker lifecycle so unassigned markers, active project markers, and completed Project Sites are treated separately.
+* Completed projects now remain Registered Improvements even if the physical marker is later removed.
+* Completed markers can remain in the world as Project Sites for future upgrades or support.
+* Breaking an active incomplete marker cancels that active assignment without deleting any completed settlement progress.
+* Added helpful missing-requirement messages instead of strict invalid-build wording.
+* Added Assign and Validate buttons in the Projects tab.
+* Added `/cozycontracts debug projects` and `/cc debug projects`.
+* Preserved existing request, shop, Kitchen, settlement lookup, and optional mod behavior.
+
+### Why it mattered
+
+This milestone gives the settlement system its first visible building progression. Players can now place a marker, shape a small improvement in the world, and register it as settlement progress through the Community Board. The system keeps player control over layout and decoration while creating a foundation for future districts, shop unlocks, Prosperity, and larger projects.
+
+### Challenges / fixes
+
+* Kept validation loose and functional instead of enforcing exact blueprints.
+* Stored completed projects and Community Improvements at settlement level so nearby boards share progress.
+* Kept completed project records separate from completed Project Site anchors.
+* Kept Project Markers simple with no GUI, no ticking scans, and no automatic completion.
+* Did not consume placed blocks, charge Favour Tokens, auto-build structures, or add project chains.
+
+### Screenshots
+
+Screenshots will be added after in-game testing.
+
+### Next step
+
+Test project assignment, validation, marker breaking, completion persistence, and shared settlement progress in-game, then decide whether to polish completed project sites or continue toward deeper settlement development tracks.
+
 ## Current Status
 
-Cozy Contracts 0.3.0-alpha has a complete first gameplay loop and a light settlement identity foundation. Players can complete data-driven contracts, earn Favour Tokens, and spend them on practical settlement supply bundles through the Community Board shop. Optional Farmer's Delight and Create: Food content can extend the board and Kitchen registries, while deterministic daily Kitchen selection keeps each board's active set manageable.
+Cozy Contracts 0.4.0-alpha has a complete first gameplay loop, a playable Community Kitchen loop, a settlement supply shop, and Buildable Community Projects Foundation Lite. Players can complete data-driven contracts, earn Favour Tokens, buy practical settlement supply bundles, deliver Kitchen orders, and register starter player-built improvements through the Community Board. Optional Farmer's Delight and Create: Food content can extend the board and Kitchen registries, while deterministic daily Kitchen selection keeps each board's active set manageable.
 
 The long-term design direction now frames the Community Board as the main interface to a broader settlement system with districts, themed shops, Community Kitchen support, Standing Orders, Resident Profiles, Taste Preferences, Community Supplies, Prosperity, Village Bond, Community Projects, and village networks.
 
 ## Next Planned Work
 
-1. Test Shop tab scrolling and Buy button alignment.
-2. Test supply purchases with normal and full inventories.
-3. Audit supply prices against contract and Kitchen rewards.
-4. Test Requests, Kitchen daily selection, save/reload, and optional mod setups.
-5. Prepare the 0.3.0-alpha release.
-6. Later: settlement development tracks, Community Project stock unlocks, residents, taste preferences, Prosperity, Storehouse, Village Bond, and Village Network.
+1. Test Project Marker crafting, placement, shape, and occlusion.
+2. Test assigning and completing Village Fields, Garden Corner, and Builder's Yard with separate markers.
+3. Test active marker breaking, completed Project Site breaking, missing-requirement guidance, and save/reload persistence.
+4. Confirm nearby boards sharing a settlement show the same Registered Improvements and completed project site state.
+5. Regression test Requests, Shop category tabs, Kitchen daily selection, and optional mod setups.
+6. Prepare the 0.4.0-alpha release.
+7. Later: deeper Community Projects, settlement development tracks, residents, taste preferences, Prosperity, Storehouse, Village Bond, and Village Network.

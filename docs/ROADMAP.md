@@ -8,7 +8,7 @@ Cozy Contracts 0.4.0-alpha has a complete first gameplay loop:
 Open Community Board -> view daily requests -> submit items -> earn Favour Tokens -> buy rewards
 ```
 
-The current alpha also includes the first playable Community Kitchen delivery loop and Buildable Community Projects Foundation Lite. Projects are intentionally simple: players place Project Markers, build around them, and validate loose requirements through the Community Board.
+The current alpha also includes the first playable Community Kitchen delivery loop and Buildable Community Projects Foundation Lite. Projects are intentionally simple: players place Project Markers, build around them, and validate loose requirements through the Community Board. Completed projects become Registered Improvements, while completed markers may remain as Project Sites for future upgrade/support systems.
 
 ## Current Alpha Features
 
@@ -40,6 +40,7 @@ The current alpha also includes the first playable Community Kitchen delivery lo
 * Three starter buildable Community Projects
 * Settlement-level completed project persistence
 * Visible Farming, Builder, and Decor Community Improvement counts
+* Project Marker lifecycle states for unassigned markers, active project markers, and completed Project Sites
 * Community Kitchen tab
 * Basic Community Kitchen deliveries
 * Basic Standing Orders as Kitchen order types
@@ -87,6 +88,8 @@ Goals:
 
 * craft and place Project Markers
 * assign Village Fields, Garden Corner, and Builder's Yard
+* verify each project uses a separate unassigned marker
+* break active and completed markers to confirm lifecycle behavior
 * confirm helpful missing-requirement messages
 * complete each starter project after building nearby features
 * test save/reload persistence
@@ -267,7 +270,16 @@ It can later unlock:
 
 ### Community Projects
 
-Community Projects now have a first Foundation Lite implementation with Project Markers, loose validation, and visible Community Improvements. Future versions should expand this into the main way villages grow while keeping player control over where growth happens.
+Community Projects now have a first Foundation Lite implementation with Project Markers, loose validation, visible Community Improvements, and a clearer marker lifecycle. Future versions should expand this into the main way villages grow while keeping player control over where growth happens.
+
+Current lifecycle terms:
+
+* Project Marker: a temporary planning stake or location anchor
+* Community Project: a build goal assigned to a marker
+* Registered Improvement: the permanent settlement-level record after completion
+* Project Site: an optional completed marker anchor that may support future upgrades or project families
+
+Breaking a completed Project Site should not undo the settlement's Registered Improvement.
 
 Future project types may include:
 
@@ -281,7 +293,7 @@ Future project types may include:
 * community hearths
 * festival grounds
 
-Future Community Projects may add project chains, larger builds, settlement development tracks, assisted construction, and shop unlocks. They should still avoid judging beauty or forcing exact blueprints.
+Future Community Projects may add project chains, larger builds, settlement development tracks, completed-site upgrades, assisted construction, and shop unlocks. They should still avoid judging beauty or forcing exact blueprints.
 
 Animal Pen, Community Barn, Rancher's Yard, and Farmhouse projects can later unlock or upgrade farming utility features such as Livestock Crates. Livestock Crates should come after the Project Marker lifecycle and buildable Community Projects foundation are stable.
 

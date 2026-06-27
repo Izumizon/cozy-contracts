@@ -13,7 +13,7 @@ The project started as a simple bounty board idea. The first version only needed
 
 Over time, Cozy Contracts evolved into a settlement-focused community economy mod. The Community Board became the main interface. Favour Tokens became the village economy. The shop changed from a generic reward list into a settlement supply-bundle market. The Community Kitchen became a separate cooking loop. Settlement Foundation Lite introduced the idea that the board is the interface, but the settlement is the system behind it.
 
-The current design is moving toward villages that grow through player effort rather than abstract menus. Buildable Community Projects are an important part of that direction. Project Markers are planning tools, not completed projects by themselves. The player still needs to build in the world, then register the finished work as a Community Improvement for the settlement.
+The current design is moving toward villages that grow through player effort rather than abstract menus. Buildable Community Projects are an important part of that direction. Project Markers are planning tools, not completed projects by themselves. The player still needs to build in the world, then register the finished work as a Registered Improvement for the settlement. A completed marker can remain as a Project Site, but the settlement progress lives in saved settlement data.
 
 The long-term version of Cozy Contracts may include project families, residents, taste preferences, Prosperity, Storehouse support, Village Bond, districts, Village Network, Livestock Crates, and deeper optional food-mod compatibility. The challenge is keeping the current alpha focused while making sure the architecture does not block those future systems.
 
@@ -52,7 +52,7 @@ Favour Tokens are the central economy item. They are earned through contracts an
 
 Settlement Foundation Lite stores the first layer of settlement identity. Nearby boards can resolve to the same settlement, which prevents each board from becoming a separate reward farm. This also prepares the project for settlement-level progress such as Community Improvements.
 
-Project Marker and Community Project foundations are the newest direction. A marker identifies where a build is located, while settlement saved data stores active assignments, completed project IDs, and lightweight improvement counts.
+Project Marker and Community Project foundations are the newest direction. A marker identifies where a build is located, while settlement saved data stores active assignments, completed project IDs, completed site locations, and lightweight improvement counts.
 
 ## 4. Design Philosophy
 
@@ -126,7 +126,7 @@ This keeps Community Projects grounded in the world.
 
 An assigned Project Marker is not the same as a completed settlement improvement. The active marker is temporary work-in-progress. The completed project is settlement-level progress.
 
-Keeping these separate prevents the system from confusing "I placed a marker" with "I built something useful."
+Keeping these separate prevents the system from confusing "I placed a marker" with "I built something useful." It also lets completed markers become optional Project Sites without making the settlement lose progress if the physical marker is later removed.
 
 ### Balancing Player Freedom with Validation
 
@@ -212,6 +212,7 @@ The validation message should say what is still missing, not tell the player the
 - Starter projects: Village Fields, Garden Corner, Builder's Yard
 - Loose validation around a marker
 - Settlement-level completed project IDs
+- Completed Project Site location tracking
 - Farming, Builder, and Decor Community Improvement counts
 
 ## 7. What I Learned
@@ -236,7 +237,7 @@ Finally, I learned to separate MVP systems from future systems. It is tempting t
 
 Future improvements may include:
 
-- Project Marker lifecycle polish
+- Project Marker lifecycle polish and completed-site presentation
 - clearer completed project sites
 - project plaques or completion markers
 - project families such as farms, gardens, kitchens, yards, houses, barns, mines, and wells
@@ -678,7 +679,7 @@ A good reward shop should reinforce the main fantasy of the mod.
 ### June 2026 - Buildable Community Projects Foundation Lite
 
 What changed:  
-Project Markers, a Projects tab, starter projects, loose validation, and Community Improvements were added as 0.4.0-alpha work-in-progress.
+Project Markers, a Projects tab, starter projects, loose validation, Registered Improvements, and completed Project Sites were added as 0.4.0-alpha work-in-progress.
 
 Why the change was needed:  
 The mod needed a first step toward villages growing through player-built world improvements.
@@ -687,7 +688,7 @@ Technical/design challenge:
 The system had to avoid abstract item donations, auto-building, strict blueprints, and harsh validation.
 
 Solution:  
-Project Markers identify where a build is located. The board assigns and validates projects. Completion registers settlement-level improvements.
+Project Markers identify where a build is located. The board assigns and validates projects. Completion registers settlement-level improvements and can leave the marker behind as a Project Site. Breaking that site later should not undo the settlement record.
 
 What I learned:  
 World-building systems need trust in the player's creativity. The mod should ask for meaningful features, not control the whole shape of the build.

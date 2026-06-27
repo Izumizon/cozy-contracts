@@ -2,6 +2,7 @@ package com.lucasizumi.cozycontracts.registry;
 
 import com.lucasizumi.cozycontracts.CozyContracts;
 import com.lucasizumi.cozycontracts.block.CommunityBoardBlock;
+import com.lucasizumi.cozycontracts.block.ProjectMarkerBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -19,6 +20,13 @@ public final class ModBlocks {
             BLOCKS.register("community_board", () -> new CommunityBoardBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.WOOD)
                     .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)));
+
+    public static final RegistryObject<Block> PROJECT_MARKER =
+            BLOCKS.register("project_marker", () -> new ProjectMarkerBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.WOOD)
+                    .strength(1.0F, 2.0F)
+                    .noOcclusion()
                     .sound(SoundType.WOOD)));
 
     private ModBlocks() {

@@ -1,5 +1,6 @@
 {
   "item.cozy_contracts.favour_token": "Favour Token",
   "block.cozy_contracts.community_board": "Community Board",
+  "block.cozy_contracts.project_marker": "Project Marker",
   "itemGroup.cozy_contracts": "Cozy Contracts"
 }

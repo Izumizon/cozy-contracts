@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.4.0-alpha
+
+### Added
+
+- Added Buildable Community Projects Foundation Lite.
+- Added the Project Marker block and recipe.
+- Added a fourth Community Board tab: Projects.
+- Added three starter projects: Village Fields, Garden Corner, and Builder's Yard.
+- Added loose validation around Project Markers for farmland/crops/water, garden decoration/light, and builder yard supplies.
+- Added settlement-level completed project tracking and Community Improvement counts for Farming, Builder, and Decor.
+- Added `/cc debug projects` and `/cozycontracts debug projects`.
+- Added 0.4.0-alpha release notes.
+
+### Preserved
+
+- Existing Requests, Shop, and Kitchen behavior.
+- Existing contract, Kitchen order, shop, settlement lookup, and optional mod loading rules.
+- Player control over building layout; projects do not auto-build structures, consume placed blocks, or use token costs.
+
 ## 0.3.0-alpha
 
 ### Changed

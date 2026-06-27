@@ -13,11 +13,14 @@ public record OpenCommunityBoardScreenPacket(
         BlockPos boardPos,
         long day,
         List<ContractEntry> contracts,
-        List<KitchenOrderEntry> kitchenOrders) {
+        List<KitchenOrderEntry> kitchenOrders,
+        List<ProjectEntry> projects,
+        ImprovementEntry improvements) {
 
     public OpenCommunityBoardScreenPacket {
         contracts = List.copyOf(contracts);
         kitchenOrders = List.copyOf(kitchenOrders);
+        projects = List.copyOf(projects);
     }
 
     public static void encode(
@@ -27,6 +30,8 @@ public record OpenCommunityBoardScreenPacket(
         buffer.writeVarLong(packet.day());
         buffer.writeCollection(packet.contracts(), ContractEntry::encode);
         buffer.writeCollection(packet.kitchenOrders(), KitchenOrderEntry::encode);
+        buffer.writeCollection(packet.projects(), ProjectEntry::encode);
+        ImprovementEntry.encode(buffer, packet.improvements());
     }
 
     public static OpenCommunityBoardScreenPacket decode(FriendlyByteBuf buffer) {
@@ -34,7 +39,9 @@ public record OpenCommunityBoardScreenPacket(
                 buffer.readBlockPos(),
                 buffer.readVarLong(),
                 buffer.readList(ContractEntry::decode),
-                buffer.readList(KitchenOrderEntry::decode));
+                buffer.readList(KitchenOrderEntry::decode),
+                buffer.readList(ProjectEntry::decode),
+                ImprovementEntry.decode(buffer));
     }
 
     public static void handle(
@@ -101,6 +108,83 @@ public record OpenCommunityBoardScreenPacket(
                     buffer.readUtf(),
                     buffer.readUtf(),
                     buffer.readUtf(),
+                    buffer.readVarInt(),
+                    buffer.readVarInt(),
+                    buffer.readVarInt());
+        }
+    }
+
+    public record ProjectEntry(
+            ResourceLocation id,
+            String title,
+            String improvementType,
+            String description,
+            BlockPos markerPos,
+            boolean completed,
+            boolean ready,
+            List<String> missingRequirements) {
+
+        public ProjectEntry {
+            missingRequirements = List.copyOf(missingRequirements);
+        }
+
+        private static void encode(FriendlyByteBuf buffer, ProjectEntry entry) {
+            buffer.writeResourceLocation(entry.id());
+            buffer.writeUtf(entry.title());
+            buffer.writeUtf(entry.improvementType());
+            buffer.writeUtf(entry.description());
+            buffer.writeBoolean(entry.markerPos() != null);
+            if (entry.markerPos() != null) {
+                buffer.writeBlockPos(entry.markerPos());
+            }
+            buffer.writeBoolean(entry.completed());
+            buffer.writeBoolean(entry.ready());
+            buffer.writeCollection(entry.missingRequirements(), FriendlyByteBuf::writeUtf);
+        }
+
+        private static ProjectEntry decode(FriendlyByteBuf buffer) {
+            ResourceLocation id = buffer.readResourceLocation();
+            String title = buffer.readUtf();
+            String improvementType = buffer.readUtf();
+            String description = buffer.readUtf();
+            BlockPos markerPos = buffer.readBoolean() ? buffer.readBlockPos() : null;
+            boolean completed = buffer.readBoolean();
+            boolean ready = buffer.readBoolean();
+            List<String> missingRequirements = buffer.readList(FriendlyByteBuf::readUtf);
+            return new ProjectEntry(
+                    id,
+                    title,
+                    improvementType,
+                    description,
+                    markerPos,
+                    completed,
+                    ready,
+                    missingRequirements);
+        }
+    }
+
+    public record ImprovementEntry(
+            int farming,
+            int builder,
+            int decor,
+            int unassignedMarkers,
+            int activeMarkers,
+            int completedSites) {
+
+        private static void encode(FriendlyByteBuf buffer, ImprovementEntry entry) {
+            buffer.writeVarInt(entry.farming());
+            buffer.writeVarInt(entry.builder());
+            buffer.writeVarInt(entry.decor());
+            buffer.writeVarInt(entry.unassignedMarkers());
+            buffer.writeVarInt(entry.activeMarkers());
+            buffer.writeVarInt(entry.completedSites());
+        }
+
+        private static ImprovementEntry decode(FriendlyByteBuf buffer) {
+            return new ImprovementEntry(
+                    buffer.readVarInt(),
+                    buffer.readVarInt(),
+                    buffer.readVarInt(),
                     buffer.readVarInt(),
                     buffer.readVarInt(),
                     buffer.readVarInt());

@@ -298,11 +298,23 @@ The 0.4.0-alpha implementation is intentionally light:
 * the Community Board Projects tab assigns starter projects to markers
 * players build around the marker in the world
 * validation checks loose functional requirements
-* completed projects become settlement-level Community Improvements
+* completed projects become settlement-level Registered Improvements
+* completed markers may remain as Project Sites for future upgrades or support
 
 Validation should guide, not judge. The system should say what is still missing, such as "Village Fields still needs planted crops nearby." It should not insult the build, rate beauty, demand exact symmetry, or require strict blueprints.
 
 Projects should not consume placed blocks. They should not auto-build structures or randomly place blocks in the player's settlement. The player remains in control of layout, style, and decoration.
+
+Project Marker lifecycle terms:
+
+| State | Meaning |
+| --- | --- |
+| Unassigned Marker | a planning stake available for a new project |
+| Active Project Marker | a marker tied to one in-progress project |
+| Registered Improvement | the permanent settlement record created when a project is completed |
+| Completed Project Site | an optional world anchor left behind after completion |
+
+Completed project records should remain settlement-level. If a completed marker is broken later, the physical Project Site is removed but the Registered Improvement remains. If an active incomplete marker is broken, that active project assignment should be cancelled so the project can be assigned again elsewhere.
 
 The first starter projects are:
 
@@ -312,9 +324,9 @@ The first starter projects are:
 | Garden Corner | Decor | flowers, natural decoration, cozy light |
 | Builder's Yard | Builder | work block, storage, building materials, light |
 
-These improvements are visible progress only for now. They do not yet change shop stock, contract weighting, Prosperity, or district behavior.
+These Registered Improvements are visible progress only for now. They do not yet change shop stock, contract weighting, Prosperity, or district behavior.
 
-Future versions can expand Community Projects into project chains, larger builds, assisted construction, house validation, settlement development tracks, and shop unlocks.
+Future versions can expand Community Projects into project chains, larger builds, completed-site upgrades, assisted construction, house validation, settlement development tracks, and shop unlocks.
 
 ## Community Kitchen
 
@@ -468,7 +480,7 @@ Important rules:
 
 ## Community Improvements
 
-Community Improvements are lightweight settlement progress counts created by completed Community Projects.
+Community Improvements are lightweight Registered Improvement counts created by completed Community Projects.
 
 The first visible improvement types are:
 
@@ -478,7 +490,7 @@ The first visible improvement types are:
 
 Community Improvements are not full districts yet. They are a bridge between player-built projects and future district/progression systems.
 
-Future systems may use improvements to influence shop stock, contract weighting, Prosperity support, village services, and larger project requirements. For now, they exist so completed builds persist and can be shared by nearby Community Boards connected to the same settlement.
+Future systems may use improvements and completed Project Sites to influence shop stock, contract weighting, Prosperity support, village services, upgrades, and larger project requirements. For now, they exist so completed builds persist and can be shared by nearby Community Boards connected to the same settlement.
 
 ## Community Supplies and Storehouse
 

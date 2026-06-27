@@ -1,10 +1,12 @@
 package com.lucasizumi.cozycontracts.client.screen;
 
 import com.lucasizumi.cozycontracts.network.ModNetworking;
+import com.lucasizumi.cozycontracts.network.packet.AssignCommunityProjectPacket;
 import com.lucasizumi.cozycontracts.network.packet.DeliverKitchenOrderPacket;
 import com.lucasizumi.cozycontracts.network.packet.OpenCommunityBoardScreenPacket;
 import com.lucasizumi.cozycontracts.network.packet.PurchaseShopItemPacket;
 import com.lucasizumi.cozycontracts.network.packet.SubmitCommunityBoardContractPacket;
+import com.lucasizumi.cozycontracts.network.packet.ValidateCommunityProjectPacket;
 import com.lucasizumi.cozycontracts.shop.ShopCategory;
 import com.lucasizumi.cozycontracts.shop.ShopItem;
 import com.lucasizumi.cozycontracts.shop.ShopStockService;
@@ -32,22 +34,35 @@ public class CommunityBoardScreen extends Screen {
     private static final int KITCHEN_CARD_GAP = 4;
     private static final int KITCHEN_SECTION_GAP = 12;
     private static final int KITCHEN_SCROLL_STEP = 18;
+    private static final int PROJECT_CARD_HEIGHT = 62;
+    private static final int PROJECT_CARD_GAP = 6;
+    private static final int PROJECT_SCROLL_STEP = 18;
 
     private final BlockPos boardPos;
     private final long day;
     private final List<OpenCommunityBoardScreenPacket.ContractEntry> contracts;
     private final List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders;
+    private final List<OpenCommunityBoardScreenPacket.ProjectEntry> projects;
+    private final OpenCommunityBoardScreenPacket.ImprovementEntry improvements;
     private View activeView;
     private ShopFilter shopFilter = ShopFilter.ALL;
     private int shopScrollOffset;
     private int kitchenScrollOffset;
+    private int projectScrollOffset;
 
     public CommunityBoardScreen(
             BlockPos boardPos,
             long day,
             List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
             List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders) {
-        this(boardPos, day, contracts, kitchenOrders, View.REQUESTS);
+        this(
+                boardPos,
+                day,
+                contracts,
+                kitchenOrders,
+                List.of(),
+                new OpenCommunityBoardScreenPacket.ImprovementEntry(0, 0, 0, 0, 0, 0),
+                View.REQUESTS);
     }
 
     public CommunityBoardScreen(
@@ -55,8 +70,10 @@ public class CommunityBoardScreen extends Screen {
             long day,
             List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
             List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
+            List<OpenCommunityBoardScreenPacket.ProjectEntry> projects,
+            OpenCommunityBoardScreenPacket.ImprovementEntry improvements,
             View activeView) {
-        this(boardPos, day, contracts, kitchenOrders, activeView, 0, 0);
+        this(boardPos, day, contracts, kitchenOrders, projects, improvements, activeView, 0, 0, 0);
     }
 
     public CommunityBoardScreen(
@@ -64,27 +81,23 @@ public class CommunityBoardScreen extends Screen {
             long day,
             List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
             List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
-            View activeView,
-            int kitchenScrollOffset) {
-        this(boardPos, day, contracts, kitchenOrders, activeView, 0, kitchenScrollOffset);
-    }
-
-    public CommunityBoardScreen(
-            BlockPos boardPos,
-            long day,
-            List<OpenCommunityBoardScreenPacket.ContractEntry> contracts,
-            List<OpenCommunityBoardScreenPacket.KitchenOrderEntry> kitchenOrders,
+            List<OpenCommunityBoardScreenPacket.ProjectEntry> projects,
+            OpenCommunityBoardScreenPacket.ImprovementEntry improvements,
             View activeView,
             int shopScrollOffset,
-            int kitchenScrollOffset) {
+            int kitchenScrollOffset,
+            int projectScrollOffset) {
         super(Component.literal("Community Board"));
         this.boardPos = boardPos;
         this.day = day;
         this.contracts = List.copyOf(contracts);
         this.kitchenOrders = List.copyOf(kitchenOrders);
+        this.projects = List.copyOf(projects);
+        this.improvements = improvements;
         this.activeView = activeView;
         this.shopScrollOffset = shopScrollOffset;
         this.kitchenScrollOffset = kitchenScrollOffset;
+        this.projectScrollOffset = projectScrollOffset;
     }
 
     public BlockPos getBoardPos() {
@@ -103,6 +116,10 @@ public class CommunityBoardScreen extends Screen {
         return shopScrollOffset;
     }
 
+    public int getProjectScrollOffset() {
+        return projectScrollOffset;
+    }
+
     @Override
     protected void init() {
         rebuildViewWidgets();
@@ -114,11 +131,12 @@ public class CommunityBoardScreen extends Screen {
         int top = (height - PANEL_HEIGHT) / 2;
         clampShopScroll(top);
         clampKitchenScroll(top);
+        clampProjectScroll(top);
 
         Button requestsTab = Button.builder(
                         Component.literal("Requests"),
                         button -> switchView(View.REQUESTS))
-                .bounds(width / 2 - 153, top + 26, 96, 20)
+                .bounds(width / 2 - 184, top + 26, 86, 20)
                 .build();
         requestsTab.active = activeView != View.REQUESTS;
         addRenderableWidget(requestsTab);
@@ -126,7 +144,7 @@ public class CommunityBoardScreen extends Screen {
         Button shopTab = Button.builder(
                         Component.literal("Shop"),
                         button -> switchView(View.SHOP))
-                .bounds(width / 2 - 48, top + 26, 96, 20)
+                .bounds(width / 2 - 92, top + 26, 86, 20)
                 .build();
         shopTab.active = activeView != View.SHOP;
         addRenderableWidget(shopTab);
@@ -134,17 +152,27 @@ public class CommunityBoardScreen extends Screen {
         Button kitchenTab = Button.builder(
                         Component.literal("Kitchen"),
                         button -> switchView(View.KITCHEN))
-                .bounds(width / 2 + 57, top + 26, 96, 20)
+                .bounds(width / 2, top + 26, 86, 20)
                 .build();
         kitchenTab.active = activeView != View.KITCHEN;
         addRenderableWidget(kitchenTab);
+
+        Button projectsTab = Button.builder(
+                        Component.literal("Projects"),
+                        button -> switchView(View.PROJECTS))
+                .bounds(width / 2 + 92, top + 26, 86, 20)
+                .build();
+        projectsTab.active = activeView != View.PROJECTS;
+        addRenderableWidget(projectsTab);
 
         if (activeView == View.REQUESTS) {
             addRequestButtons(left, top);
         } else if (activeView == View.SHOP) {
             addShopButtons(left, top);
-        } else {
+        } else if (activeView == View.KITCHEN) {
             addKitchenButtons(left, top);
+        } else {
+            addProjectButtons(left, top);
         }
     }
 
@@ -257,8 +285,10 @@ public class CommunityBoardScreen extends Screen {
             renderRequests(graphics, left, top);
         } else if (activeView == View.SHOP) {
             renderShop(graphics, left, top);
-        } else {
+        } else if (activeView == View.KITCHEN) {
             renderKitchen(graphics, left, top);
+        } else {
+            renderProjects(graphics, left, top);
         }
 
         graphics.drawString(
@@ -417,6 +447,177 @@ public class CommunityBoardScreen extends Screen {
                 width / 2,
                 top + PANEL_HEIGHT - 22,
                 0xFFC8BBA8);
+    }
+
+    private void addProjectButtons(int left, int top) {
+        int contentTop = getProjectContentTop(top);
+        int contentBottom = getProjectContentBottom(top);
+        int entryY = contentTop + 36 - projectScrollOffset;
+
+        for (OpenCommunityBoardScreenPacket.ProjectEntry project : projects) {
+            if (entryY >= contentTop && entryY + PROJECT_CARD_HEIGHT <= contentBottom) {
+                if (!project.completed()) {
+                    if (project.markerPos() == null) {
+                        addRenderableWidget(Button.builder(
+                                        Component.literal("Assign"),
+                                        button -> ModNetworking.sendToServer(
+                                                new AssignCommunityProjectPacket(boardPos, project.id())))
+                                .bounds(left + PANEL_WIDTH - 74, entryY + 19, 60, 20)
+                                .build());
+                    } else {
+                        addRenderableWidget(Button.builder(
+                                        Component.literal("Validate"),
+                                        button -> ModNetworking.sendToServer(
+                                                new ValidateCommunityProjectPacket(boardPos, project.id())))
+                                .bounds(left + PANEL_WIDTH - 80, entryY + 19, 66, 20)
+                                .build());
+                    }
+                }
+            }
+
+            entryY += PROJECT_CARD_HEIGHT + PROJECT_CARD_GAP;
+        }
+    }
+
+    private void renderProjects(GuiGraphics graphics, int left, int top) {
+        graphics.drawCenteredString(
+                font,
+                "Community Projects",
+                width / 2,
+                top + 50,
+                0xFFE6D5B8);
+        graphics.drawCenteredString(
+                font,
+                "Build around Project Markers, then validate here.",
+                width / 2,
+                top + 61,
+                0xFFC8BBA8);
+
+        int contentTop = getProjectContentTop(top);
+        int contentBottom = getProjectContentBottom(top);
+        graphics.enableScissor(left + 8, contentTop - 4, left + PANEL_WIDTH - 8, contentBottom);
+
+        graphics.drawString(
+                font,
+                "Registered Improvements: Farming "
+                        + improvements.farming()
+                        + " | Builder "
+                        + improvements.builder()
+                        + " | Decor "
+                        + improvements.decor(),
+                left + 14,
+                contentTop + 2 - projectScrollOffset,
+                0xFFFFD38A,
+                false);
+        graphics.drawString(
+                font,
+                "Markers: "
+                        + improvements.unassignedMarkers()
+                        + " unassigned | "
+                        + improvements.activeMarkers()
+                        + " active | "
+                        + improvements.completedSites()
+                        + " project sites",
+                left + 14,
+                contentTop + 14 - projectScrollOffset,
+                0xFFC8BBA8,
+                false);
+
+        int entryY = contentTop + 48 - projectScrollOffset;
+        for (OpenCommunityBoardScreenPacket.ProjectEntry project : projects) {
+            renderProjectCard(graphics, left + 12, entryY, PANEL_WIDTH - 24, project);
+            entryY += PROJECT_CARD_HEIGHT + PROJECT_CARD_GAP;
+        }
+        graphics.disableScissor();
+
+        graphics.drawCenteredString(
+                font,
+                "Projects do not consume placed blocks.",
+                width / 2,
+                top + PANEL_HEIGHT - 22,
+                0xFFC8BBA8);
+    }
+
+    private void renderProjectCard(
+            GuiGraphics graphics,
+            int x,
+            int y,
+            int width,
+            OpenCommunityBoardScreenPacket.ProjectEntry project) {
+        graphics.fill(
+                x,
+                y - 3,
+                x + width,
+                y + PROJECT_CARD_HEIGHT,
+                project.completed() ? 0x60302D29 : 0x604B3925);
+
+        int textWidth = width - 92;
+        int titleColor = project.completed() ? 0xFF88847D : 0xFFFFD38A;
+        int detailColor = project.completed() ? 0xFF85817B : 0xFFE5DED2;
+        int statusColor = project.completed() ? 0xFF77736D : 0xFFFFC85C;
+
+        graphics.drawString(
+                font,
+                trimToWidth(project.title() + " [" + project.improvementType() + "]", textWidth),
+                x + 6,
+                y,
+                titleColor,
+                false);
+        graphics.drawString(
+                font,
+                trimToWidth(project.description(), textWidth),
+                x + 6,
+                y + 11,
+                detailColor,
+                false);
+        graphics.drawString(
+                font,
+                trimToWidth(formatProjectStatus(project), textWidth),
+                x + 6,
+                y + 25,
+                statusColor,
+                false);
+        graphics.drawString(
+                font,
+                trimToWidth(formatProjectMissingLine(project), textWidth),
+                x + 6,
+                y + 39,
+                detailColor,
+                false);
+    }
+
+    private String formatProjectStatus(OpenCommunityBoardScreenPacket.ProjectEntry project) {
+        if (project.completed()) {
+            return "[Registered Improvement] Completed for this settlement.";
+        }
+
+        if (project.markerPos() == null) {
+            return "[Available] Place a Project Marker, then assign.";
+        }
+
+        return "[Assigned] Marker: " + project.markerPos().toShortString();
+    }
+
+    private String formatProjectMissingLine(OpenCommunityBoardScreenPacket.ProjectEntry project) {
+        if (project.completed()) {
+            return project.markerPos() == null
+                    ? "Project Site removed safely. Progress remains."
+                    : "Project Site: " + project.markerPos().toShortString();
+        }
+
+        if (project.markerPos() == null) {
+            return "Validation starts after assignment.";
+        }
+
+        if (project.ready()) {
+            return "Ready to complete. Press Validate.";
+        }
+
+        if (project.missingRequirements().isEmpty()) {
+            return "Use Validate to check the build.";
+        }
+
+        return project.missingRequirements().get(0);
     }
 
     private int renderKitchenSection(
@@ -715,6 +916,14 @@ public class CommunityBoardScreen extends Screen {
         return top + PANEL_HEIGHT - 36;
     }
 
+    private int getProjectContentTop(int top) {
+        return top + 76;
+    }
+
+    private int getProjectContentBottom(int top) {
+        return top + PANEL_HEIGHT - 36;
+    }
+
     private int countKitchenOrders(String type) {
         int count = 0;
         for (OpenCommunityBoardScreenPacket.KitchenOrderEntry order : kitchenOrders) {
@@ -753,6 +962,19 @@ public class CommunityBoardScreen extends Screen {
         kitchenScrollOffset = Math.max(0, Math.min(getMaxKitchenScroll(top), kitchenScrollOffset));
     }
 
+    private int getProjectContentHeight() {
+        return 42 + projects.size() * (PROJECT_CARD_HEIGHT + PROJECT_CARD_GAP);
+    }
+
+    private int getMaxProjectScroll(int top) {
+        int visibleHeight = getProjectContentBottom(top) - getProjectContentTop(top);
+        return Math.max(0, getProjectContentHeight() - visibleHeight);
+    }
+
+    private void clampProjectScroll(int top) {
+        projectScrollOffset = Math.max(0, Math.min(getMaxProjectScroll(top), projectScrollOffset));
+    }
+
     private boolean isInKitchenScrollArea(double mouseX, double mouseY) {
         int left = (width - PANEL_WIDTH) / 2;
         int top = (height - PANEL_HEIGHT) / 2;
@@ -773,6 +995,16 @@ public class CommunityBoardScreen extends Screen {
                 && mouseY <= getShopContentBottom(top);
     }
 
+    private boolean isInProjectScrollArea(double mouseX, double mouseY) {
+        int left = (width - PANEL_WIDTH) / 2;
+        int top = (height - PANEL_HEIGHT) / 2;
+        return activeView == View.PROJECTS
+                && mouseX >= left + 8
+                && mouseX <= left + PANEL_WIDTH - 8
+                && mouseY >= getProjectContentTop(top) - 4
+                && mouseY <= getProjectContentBottom(top);
+    }
+
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollDelta) {
         if (isInShopScrollArea(mouseX, mouseY)) {
@@ -787,6 +1019,14 @@ public class CommunityBoardScreen extends Screen {
             int top = (height - PANEL_HEIGHT) / 2;
             kitchenScrollOffset -= (int) (scrollDelta * KITCHEN_SCROLL_STEP);
             clampKitchenScroll(top);
+            rebuildViewWidgets();
+            return true;
+        }
+
+        if (isInProjectScrollArea(mouseX, mouseY)) {
+            int top = (height - PANEL_HEIGHT) / 2;
+            projectScrollOffset -= (int) (scrollDelta * PROJECT_SCROLL_STEP);
+            clampProjectScroll(top);
             rebuildViewWidgets();
             return true;
         }
@@ -836,7 +1076,8 @@ public class CommunityBoardScreen extends Screen {
     public enum View {
         REQUESTS,
         SHOP,
-        KITCHEN
+        KITCHEN,
+        PROJECTS
     }
 
     private enum ShopFilter {

@@ -1,6 +1,7 @@
 package com.lucasizumi.cozycontracts;
 
 import com.lucasizumi.cozycontracts.block.CommunityBoardBlock;
+import com.lucasizumi.cozycontracts.block.ProjectMarkerBlock;
 import com.lucasizumi.cozycontracts.command.CozyContractsCommands;
 import com.lucasizumi.cozycontracts.contracts.loading.JsonContractReloadListener;
 import com.lucasizumi.cozycontracts.kitchen.loading.JsonKitchenOrderReloadListener;
@@ -28,6 +29,7 @@ public class CozyContracts {
         ModNetworking.register();
 
         MinecraftForge.EVENT_BUS.addListener(CommunityBoardBlock::onRightClickBlock);
+        MinecraftForge.EVENT_BUS.addListener(ProjectMarkerBlock::onBreak);
         MinecraftForge.EVENT_BUS.addListener(CozyContractsCommands::register);
         MinecraftForge.EVENT_BUS.addListener(JsonContractReloadListener::register);
         MinecraftForge.EVENT_BUS.addListener(JsonKitchenOrderReloadListener::register);

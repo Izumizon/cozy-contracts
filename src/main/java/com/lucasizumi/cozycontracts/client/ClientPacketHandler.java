@@ -16,12 +16,14 @@ public final class ClientPacketHandler {
         CommunityBoardScreen.View activeView = CommunityBoardScreen.View.REQUESTS;
         int shopScrollOffset = 0;
         int kitchenScrollOffset = 0;
+        int projectScrollOffset = 0;
 
         if (minecraft.screen instanceof CommunityBoardScreen currentScreen
                 && currentScreen.getBoardPos().equals(packet.boardPos())) {
             activeView = currentScreen.getActiveView();
             shopScrollOffset = currentScreen.getShopScrollOffset();
             kitchenScrollOffset = currentScreen.getKitchenScrollOffset();
+            projectScrollOffset = currentScreen.getProjectScrollOffset();
         }
 
         minecraft.setScreen(new CommunityBoardScreen(
@@ -29,8 +31,11 @@ public final class ClientPacketHandler {
                 packet.day(),
                 packet.contracts(),
                 packet.kitchenOrders(),
+                packet.projects(),
+                packet.improvements(),
                 activeView,
                 shopScrollOffset,
-                kitchenScrollOffset));
+                kitchenScrollOffset,
+                projectScrollOffset));
     }
 }

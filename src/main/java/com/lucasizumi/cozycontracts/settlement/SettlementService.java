@@ -36,6 +36,10 @@ public final class SettlementService {
         return getData(level).getSettlementCount();
     }
 
+    public static void markSettlementsDirty(ServerLevel level) {
+        getData(level).setDirty();
+    }
+
     private static Settlement createSettlement(ServerLevel level, BlockPos boardPos) {
         Settlement settlement = new Settlement(
                 UUID.randomUUID().toString(),

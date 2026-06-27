@@ -6,7 +6,7 @@ Long term, Cozy Contracts is planned to grow into a settlement-focused community
 
 ## Status
 
-0.3.0-alpha. Cozy Contracts is playable, but still in early development.
+0.4.0-alpha. Cozy Contracts is playable, but still in early development.
 
 ## Alpha Status
 
@@ -37,6 +37,9 @@ Cozy Contracts can run standalone with no optional food mods. Optional content i
 - Community Board block and GUI
 - Three active daily contracts per board
 - Favour Token item and scrollable settlement supply-bundle shop
+- Project Marker block
+- Buildable Community Projects Foundation Lite
+- Community Improvements display for Farming, Builder, and Decor progress
 - Full-inventory request submission from the GUI and commands
 - Shift-right-click held-item hand-in
 - Persistent active and completed board state
@@ -78,7 +81,7 @@ JEI is useful for recipe viewing, but Cozy Contracts does not require it.
 - Settlement Foundation Lite exists, but full districts and settlement progression are not implemented.
 - Shop stock is category-ready, but not filtered by full settlement development tracks yet.
 - Nearby blocks do not unlock shop categories; this avoids rewarding block spam around the Community Board.
-- Advanced Prosperity, Storehouse, Village Bond, Community Projects, and Village Network systems are not implemented yet.
+- Full Prosperity, Storehouse, Village Bond, project chains, houses, residents, and Village Network systems are not implemented yet.
 - Resident Profiles, Taste Preferences, Resident Memories, and Village Registry are future systems.
 
 ## Development Setup
@@ -115,13 +118,14 @@ Optional development runtime helpers can be enabled with Gradle properties. Do n
 - [Kitchen Order JSON Format](KITCHEN_ORDER_FORMAT.md)
 - [Project Roadmap](ROADMAP.md)
 - [Village System Design](VILLAGE_SYSTEM_DESIGN.md)
+- [0.4.0-alpha Release Notes](RELEASE_NOTES_0.4.0_ALPHA.md)
 - [0.3.0-alpha Release Notes](RELEASE_NOTES_0.3.0_ALPHA.md)
 - [0.2.0-alpha Release Notes](RELEASE_NOTES_0.2.0_ALPHA.md)
 - [0.1.0-alpha Release Notes](RELEASE_NOTES_0.1.0_ALPHA.md)
 
 ## Planned Future Systems
 
-- Settlement development tracks and Community Project shop unlocks
+- Settlement development tracks and deeper Community Project unlocks
 - Advanced Community Kitchen and Standing Orders
 - Resident Profiles and Taste Preferences
 - Prosperity and Storehouse support
