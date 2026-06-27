@@ -28,6 +28,7 @@ Useful links:
 - [0.2.0-alpha Release Notes](docs/RELEASE_NOTES_0.2.0_ALPHA.md)
 - [0.1.0-alpha Release Notes](docs/RELEASE_NOTES_0.1.0_ALPHA.md)
 - [Project Roadmap](docs/ROADMAP.md)
+- [Development Diary](docs/DEVELOPMENT_DIARY.md)
 - [Contract JSON Format](docs/CONTRACT_FORMAT.md)
 - [Kitchen Order JSON Format](docs/KITCHEN_ORDER_FORMAT.md)
 - [Village System Design](docs/VILLAGE_SYSTEM_DESIGN.md)

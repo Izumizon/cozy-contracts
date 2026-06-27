@@ -110,6 +110,7 @@ Optional development runtime helpers can be enabled with Gradle properties. Do n
 ## Documentation
 
 - [Development Log](DEVELOPMENT_LOG.md)
+- [Development Diary](DEVELOPMENT_DIARY.md)
 - [Contract JSON Format](CONTRACT_FORMAT.md)
 - [Kitchen Order JSON Format](KITCHEN_ORDER_FORMAT.md)
 - [Project Roadmap](ROADMAP.md)
