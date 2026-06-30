@@ -103,10 +103,7 @@ public final class CommunityProjectValidator {
                     result.hasWorkBlock |= block == Blocks.CRAFTING_TABLE
                             || block == Blocks.STONECUTTER;
                     result.hasPreparationBlock |= block == Blocks.CRAFTING_TABLE;
-                    result.hasCookingBlock |= block == Blocks.SMOKER
-                            || block == Blocks.FURNACE
-                            || block == Blocks.CAMPFIRE
-                            || block == Blocks.SOUL_CAMPFIRE;
+                    result.hasCookingBlock |= isCookingBlock(state);
                     result.hasStorageBlock |= block == Blocks.CHEST
                             || block == Blocks.TRAPPED_CHEST
                             || block == Blocks.BARREL;
@@ -137,5 +134,12 @@ public final class CommunityProjectValidator {
         private boolean hasCookingBlock;
         private boolean hasStorageBlock;
         private boolean hasBuildingMaterials;
+    }
+
+    private static boolean isCookingBlock(BlockState state) {
+        return state.is(Blocks.SMOKER)
+                || state.is(Blocks.FURNACE)
+                || state.is(Blocks.CAMPFIRE)
+                || state.is(Blocks.SOUL_CAMPFIRE);
     }
 }
